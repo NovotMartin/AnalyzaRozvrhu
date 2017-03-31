@@ -54,11 +54,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\stagtimetablerest-master\StagRestLib\StagRestLib.csproj">
-      <Project>{c9134357-8cc2-45a5-bcca-342f9cdcf4aa}</Project>
-      <Name>StagRestLib</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
