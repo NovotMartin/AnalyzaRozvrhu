@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyzaRozvrhu", "AnalyzaRozvrhu\AnalyzaRozvrhu.csproj", "{225CB5F1-AED6-43EC-B1B8-35915D3FD049}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C9134357-8CC2-45A5-BCCA-342F9CDCF4AA} = {C9134357-8CC2-45A5-BCCA-342F9CDCF4AA}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StagRestLib", "..\stagtimetablerest-master\StagRestLib\StagRestLib.csproj", "{C9134357-8CC2-45A5-BCCA-342F9CDCF4AA}"
 EndProject
