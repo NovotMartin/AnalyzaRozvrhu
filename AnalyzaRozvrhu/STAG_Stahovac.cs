@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using StagRestLib;
+
 namespace AnalyzaRozvrhu
 {
     public static class STAG_Stahovac
