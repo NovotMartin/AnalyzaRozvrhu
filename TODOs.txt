@@ -1,0 +1,7 @@
+STAG_Stahovac
+STAG_Nacitac
+
+
+
+ENUM Typy pro fakultu, semestr, studujici nestudujici a pod.
+Otypovat atributy pro deserializaèní tøídy (datetime apod...)
