@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,15 +47,24 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="STAG Classes\STAG_PredmetyByKatedra.cs" />
-    <Compile Include="STAG Classes\STAG_RozvrhByKatedra.cs" />
-    <Compile Include="STAG Classes\STAG_RozvrhByStudent.cs" />
-    <Compile Include="STAG Classes\STAG_StudentiByFakulta.cs" />
-    <Compile Include="STAG_Nacitac.cs" />
-    <Compile Include="STAG_Stahovac.cs" />
+    <Compile Include="STAG Classes\STAG_Database.cs" />
+    <Compile Include="STAG Classes\STAG_Enums.cs" />
+    <Compile Include="STAG Classes\STAG_Predmety.cs" />
+    <Compile Include="STAG Classes\STAG_RozvrhRequestRespond.cs" />
+    <Compile Include="STAG Classes\STAG_RozvrhovaAkce.cs" />
+    <Compile Include="STAG Classes\STAG_Student.cs" />
+    <Compile Include="STAG Classes\STAG_Ucitel.cs" />
+    <Compile Include="STAG_DataCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StagRestLib\StagRestLib.csproj">
+      <Project>{c9134357-8cc2-45a5-bcca-342f9cdcf4aa}</Project>
+      <Name>StagRestLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

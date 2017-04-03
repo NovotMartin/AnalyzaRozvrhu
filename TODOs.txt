@@ -1,7 +1,6 @@
-STAG_Stahovac
-STAG_Nacitac
-
 
 
 ENUM Typy pro fakultu, semestr, studujici nestudujici a pod.
-Otypovat atributy pro deserializaèní tøídy (datetime apod...)
+
+Dodelat moznosti pro STAG_Database
+Dodelat overeni ze jsou zadane spravne udaje pro prihlaseni, zkontrolovat format a poskozeni souboru apod.
