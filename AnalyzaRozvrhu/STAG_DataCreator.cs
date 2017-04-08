@@ -56,7 +56,7 @@ namespace AnalyzaRozvrhu
             Handle_UcitelByRoak(data, serializer);
 
             
-            
+            // dej sem breakpoint a koukni na strukturu
         }
 
         private static void PrepareFolders()
