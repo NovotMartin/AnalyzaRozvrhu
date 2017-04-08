@@ -20,9 +20,27 @@ namespace AnalyzaRozvrhu.STAG_Classes
         [JsonProperty("katedra")]
         public string Katedra { get; set; }
 
+        
+        /// <summary>
+        /// Obsahuje NULL nebo další pracoviště oddělené ,
+        /// </summary>
         [JsonProperty("pracovisteDalsi")]
         public object PracovisteDalsi { get; set; }
-       
+
+
+        // Informace pro Fandu
+        [JsonProperty("jmeno")]
+        public string Jmeno { get; set; }
+
+        [JsonProperty("prijmeni")]
+        public string Prijmeni { get; set; }
+
+        [JsonProperty("titulPred")]
+        public string TitulPred { get; set; }
+
+        [JsonProperty("titulZa")]
+        public string TitulZa { get; set; }
+
     }
 
 }

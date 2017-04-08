@@ -29,6 +29,10 @@ namespace StagRestLib
         public static STAGRequest GetStudentiByFakulta { get { return new STAGRequest("/ws/services/rest/student/getStudentiByFakulta", Method.GET,new STAGRequestToken("fakulta")); } }
         public static STAGRequest GetPredmetyByFakultaFullInfo { get { return new STAGRequest("/ws/services/rest/predmety/getPredmetyByFakultaFullInfo",Method.GET, new STAGRequestToken("fakulta")); } }
         public static STAGRequest GetUcitelInfo { get { return new STAGRequest("/ws/services/rest/ucitel/getUcitelInfo", Method.GET, new STAGRequestToken("ucitIdno")); } }
+        public static STAGRequest GetPredmetInfo { get { return new STAGRequest("/ws/services/rest/predmety/getPredmetInfo", Method.GET, new STAGRequestToken[] { new STAGRequestToken("katedra"), new STAGRequestToken("zkratka") }); } }
+        public static STAGRequest GetHierarchiePracovist { get { return new STAGRequest("/ws/services/rest/ciselniky/getHierarchiePracovist",Method.GET); } }
+
+
     }
 
     /// <summary>

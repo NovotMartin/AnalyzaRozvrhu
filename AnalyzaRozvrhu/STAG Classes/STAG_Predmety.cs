@@ -11,9 +11,15 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
     public class Predmet
     {
+        public Predmet()
+        {
+            // Inicializace promennych
+            VsechnyAkce = new List<RozvrhovaAkce>();
+        }
 
         [JsonProperty("katedra")]
         public string Katedra { get; set; }
+
 
         [JsonProperty("zkratka")]
         public string Zkratka { get; set; }
@@ -24,6 +30,7 @@ namespace AnalyzaRozvrhu.STAG_Classes
         public int Kreditu { get; set; }
 
         
+        // Informace pro správnou rozvrhovanost 
 
         [JsonProperty("jednotekPrednasek")]
         public int JednotekPrednasek { get; set; }
@@ -42,9 +49,29 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
         [JsonProperty("jednotkaSeminare")]
         public string JednotkaSeminare { get; set; }
-             
 
 
+        // Ucitele k predmetu
+        [JsonProperty("prednasejici")]
+        public string Prednasejici { get; set; }
+
+        [JsonProperty("prednasejiciUcitIdno")]
+        public string PrednasejiciUcitIdno { get; set; }
+
+        [JsonProperty("cvicici")]
+        public string Cvicici { get; set; }
+
+        [JsonProperty("cviciciUcitIdno")]
+        public string CviciciUcitIdno { get; set; }
+
+        [JsonProperty("seminarici")]
+        public string Seminarici { get; set; }
+
+        [JsonProperty("seminariciUcitIdno")]
+        public string SeminariciUcitIdno { get; set; }
+
+        // Vsechny rozvrhove akce predmetu ktere najdem v rozvrhách
+        public List<RozvrhovaAkce> VsechnyAkce { get; private set; }
     }
 
     public class PredmetResponse

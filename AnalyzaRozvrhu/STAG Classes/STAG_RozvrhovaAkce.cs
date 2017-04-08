@@ -47,6 +47,9 @@ namespace AnalyzaRozvrhu.STAG_Classes
         [JsonProperty("predmet")]
         public string Predmet { get; set; }
 
+        public Predmet PredmetRef;
+
+
         [JsonProperty("statut")]
         public string Statut { get; set; }
 
