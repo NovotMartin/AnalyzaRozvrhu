@@ -9,7 +9,7 @@ namespace AnalyzaRozvrhu.STAG_Classes
     /// <summary>
     /// Hlavni datovy zdroj pro analyzu
     /// </summary>
-    class STAG_Database
+    public class STAG_Database
     {
         /// <summary>
         /// Fakulta pro kterou stahujeme a načítáme všechny další informace. Obsahuje zkratku (např. PRF, PF ad.) 

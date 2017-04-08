@@ -16,10 +16,16 @@ namespace AnalyzaRozvrhu.STAG_Classes
         [JsonProperty("value")]
         public string DateTime { get; set; }
     }
-
+    /// <summary>
+    /// Reprezentace souboru pro pracoviste
+    /// </summary>
     public class Pracoviste
     {
-
+        /// <summary>
+        /// lvl 1 = univerzit, rektorat 
+        /// lvl 2 = fakulta, knihovna...
+        /// lvl 3 = katedra, oddeleni, studijni...
+        /// </summary>
         [JsonProperty("level")]
         public int Level { get; set; }
 
@@ -35,13 +41,16 @@ namespace AnalyzaRozvrhu.STAG_Classes
         [JsonProperty("typPracoviste")]
         public string TypPracoviste { get; set; }
 
-
+        
         [JsonProperty("typVedouciho")]
         public string TypVedouciho { get; set; }
 
         [JsonProperty("nadrazenePracoviste")]
         public string NadrazenePracoviste { get; set; }
 
+        /// <summary>
+        /// Pokud je null nebo prazdna, je to platne, pokud je tam nejake starsi datum, pracoviste je jiz zrusenne
+        /// </summary>
         [JsonProperty("platnostDo")]
         public PlatnostDo PlatnostDo { get; set; }
     }

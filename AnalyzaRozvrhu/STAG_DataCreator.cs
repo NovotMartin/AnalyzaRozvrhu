@@ -21,13 +21,20 @@ namespace AnalyzaRozvrhu
         const string FolderPath_rozvrhyByStudent = FolderPath_rootFolder + @"\rozvrhyByStudent";
         const string FolderPath_uciteleByID      = FolderPath_rootFolder + @"\uciteleBySTAGid";
         const string FolderPath_PredmetCizi      = FolderPath_rootFolder + @"\predmetyCizi";
+        
 
-        public static void GetData(STAG_Classes.Fakulta fakulta, string staguser, string stagpass)
+        public static STAG_Classes.STAG_Database GetData(STAG_Classes.Fakulta fakulta, string staguser, string stagpass)
         {
-            GetData(fakulta.ToString(), staguser, stagpass);
+            return GetData(fakulta.ToString(), staguser, stagpass);
         }
-
-        public static void GetData(string fakulta, string staguser, string stagpass)
+        /// <summary>
+        /// Vytvorid objekt se STAG Daty
+        /// </summary>
+        /// <param name="fakulta">Fakulta pro kterou delame analyzu</param>
+        /// <param name="staguser">Prihlaseni uzivatele kvuli pristupu k ws</param>
+        /// <param name="stagpass">Heslo uzivatele</param>
+        /// <returns>Objekt s nactenymi daty ze STAG</returns>
+        public static STAG_Classes.STAG_Database GetData(string fakulta, string staguser, string stagpass)
         {
             STAG_Classes.STAG_Database data = new STAG_Classes.STAG_Database(fakulta);
             JsonSerializer serializer = new JsonSerializer();
@@ -55,10 +62,13 @@ namespace AnalyzaRozvrhu
             // Stahne podrobnosti ke vsem ucitelum + deserializuje (pokud existuje, nestahuje) + poresi reference
             Handle_UcitelByRoak(data, serializer);
 
-            
-            // dej sem breakpoint a koukni na strukturu
+
+            return data;
         }
 
+        /// <summary>
+        /// Pripravi adresarovou strukturu pro ukladani STAG souboru
+        /// </summary>
         private static void PrepareFolders()
         {
             // Poresim slozky kam se budou ukladat všechny soubory
@@ -69,6 +79,10 @@ namespace AnalyzaRozvrhu
             System.IO.Directory.CreateDirectory(FolderPath_uciteleByID);
         }
 
+
+
+        // Metody na zpracovani stahovanych souboru
+        #region Handle Methods
         private static void Handle_PredmetyByFakulta(string fakulta, STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
             // Stahnuti json souboru
@@ -94,7 +108,7 @@ namespace AnalyzaRozvrhu
                 {
                     data.PredmetyPodleKateder[pr.Katedra].Add(pr.Zkratka, pr);
                 }
-            }          
+            }
         }
         private static void Handle_UcitelByRoak(STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
@@ -152,7 +166,7 @@ namespace AnalyzaRozvrhu
                 // Kazkou akci pridam do tabulky akci a pridam reference
                 foreach (var roak in tmp)
                 {
-                    Handle_Roak(data, student, roak,serializer);
+                    Handle_Roak(data, student, roak, serializer);
                 }
 
             }
@@ -163,9 +177,9 @@ namespace AnalyzaRozvrhu
 
             // Zkontroluji, jestli uz zavedenou katedru
             if (!data.PredmetyPodleKateder.ContainsKey(roak.Katedra))
-            { 
+            {
                 // Zatim neznam ~ neni z me fakultu... musim stahnout
-                Handle_PredmetInfo(roak.Katedra, roak.Predmet, data, serializer);              
+                Handle_PredmetInfo(roak.Katedra, roak.Predmet, data, serializer);
             }
             if (!data.PredmetyPodleKateder[roak.Katedra].ContainsKey(roak.Predmet))
             {
@@ -178,7 +192,7 @@ namespace AnalyzaRozvrhu
             // Pridam reference roak <=> predmet
             data.PredmetyPodleKateder[roak.Katedra][roak.Predmet].VsechnyAkce.Add(roak);
             roak.PredmetRef = data.PredmetyPodleKateder[roak.Katedra][roak.Predmet];
-            
+
             // Ulozim si akci a ridam reference student => roak
             if (!data.Akce.ContainsKey(roak.RoakIdno))
                 data.Akce.Add(roak.RoakIdno, roak);
@@ -190,7 +204,7 @@ namespace AnalyzaRozvrhu
             // Stahnu predmet kdy jeste neni
             var path = FolderPath_PredmetCizi + @"\" + string.Format("{0}{1}.json", katedra, zkratka);
             Download_PredmetyByZkratka(katedra, zkratka, path);
-            
+
             // Deserializace
             STAG_Classes.Predmet tmppr = null;
             using (StreamReader file = File.OpenText(path))
@@ -206,7 +220,7 @@ namespace AnalyzaRozvrhu
             if (!data.PredmetyPodleKateder[tmppr.Katedra].ContainsKey(tmppr.Zkratka))
             {
                 data.PredmetyPodleKateder[tmppr.Katedra].Add(tmppr.Zkratka, tmppr);
-            }           
+            }
         }
         private static void Handle_Hiearchie(STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
@@ -228,18 +242,19 @@ namespace AnalyzaRozvrhu
 
                 // Vytvorim slovnik pr jeho podradne pracoviste
                 var tmp = new Dictionary<string, STAG_Classes.Pracoviste>();
-                
+
                 // Pridam vsechny pracoviste, ktery ho maji jako nadradne (hledam lvl3)
-                foreach (var podradne in from lvl3 in hiearchie where lvl3.NadrazenePracoviste == nadrazene select lvl3 )
+                foreach (var podradne in from lvl3 in hiearchie where lvl3.NadrazenePracoviste == nadrazene select lvl3)
                     tmp.Add(podradne.Zkratka, podradne);
-                
+
                 // Pridam cele pracoviste s jeho podrazenymi pracovisti
                 data.HiearchiePracovist.Add(pracoviste.Zkratka, tmp);
             }
         }
-
+        #endregion
         
-
+        // Metody na stahovani souboru ze STAG
+        #region Download Methods
         private static void Download_StudentsByFakulta(string fakulta, string path)
         {
             if (!File.Exists(path))
@@ -250,7 +265,7 @@ namespace AnalyzaRozvrhu
                 request.AddToken("outputFormat", "json");
 
                 File.WriteAllText(path, puller.GetResponseContent(request));
-                Debug.WriteLine(string.Format("[Stazeno] StudentsByFakulta({0})",fakulta));
+                Debug.WriteLine(string.Format("[Stazeno] StudentsByFakulta({0})", fakulta));
             }
 
         }
@@ -267,7 +282,7 @@ namespace AnalyzaRozvrhu
                 var content = puller.GetResponseContent(request);
                 File.WriteAllText(path, content);
                 Debug.WriteLine(string.Format("[Stazeno] RozvrhByStudent({0})", osCislo));
-            }          
+            }
 
         }
         private static void Download_RozvrhByKatedra(string katedra, string path)
@@ -316,7 +331,7 @@ namespace AnalyzaRozvrhu
             }
 
         }
-        private static void Download_PredmetyByZkratka(string katedra,string zkratka, string path)
+        private static void Download_PredmetyByZkratka(string katedra, string zkratka, string path)
         {
             if (!File.Exists(path))
             {
@@ -346,6 +361,7 @@ namespace AnalyzaRozvrhu
                 Debug.WriteLine(string.Format("[Stazeno] HierarchiePracovist({0})", "UJEP"));
             }
 
-        }
+        } 
+        #endregion
     }
 }

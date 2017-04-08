@@ -8,7 +8,9 @@ using Newtonsoft.Json.Linq;
 
 namespace AnalyzaRozvrhu.STAG_Classes
 {
-
+    /// <summary>
+    /// Třída pro Ucitele (pracovnika) podle STAG
+    /// </summary>
     public class Ucitel
     {
 
@@ -22,7 +24,7 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
         
         /// <summary>
-        /// Obsahuje NULL nebo další pracoviště oddělené ,
+        /// Obsahuje NULL nebo další pracoviště oddělené , (oddělovačem si nejsem jistý)
         /// </summary>
         [JsonProperty("pracovisteDalsi")]
         public object PracovisteDalsi { get; set; }

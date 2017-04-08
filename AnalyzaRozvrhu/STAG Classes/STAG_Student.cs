@@ -8,7 +8,9 @@ using Newtonsoft.Json.Linq;
 
 namespace AnalyzaRozvrhu.STAG_Classes
 {
-
+    /// <summary>
+    /// Objektova reprezentace studenta
+    /// </summary>
     public class Student
     {
         public Student()
@@ -48,6 +50,21 @@ namespace AnalyzaRozvrhu.STAG_Classes
             return string.Format("'{0}':Rcount({1}),Rocnik({2})",this.OsCislo,this.Rozvrh.Count,this.Rocnik);
         }
         
+
+        /// <summary>
+        /// TODO:
+        /// kolekce SRA studenta, bude se vyuzivat pri zaverecnem rozpoctu
+        /// </summary>
+        public IEnumerable<SRA> RozvrhSRA { get; set; }
+
+        /// <summary>
+        /// TODO!
+        /// Sen doplnit samotne podily kateder na vyuce, tohle se bude (mimo jine pouzivat pri exportu do Excel reportu)
+        /// Key = Katedra
+        /// Value = Procenta <0,100>
+        /// Sum(PodilKatedry.Values) = 100!
+        /// </summary>
+        public Dictionary<string, double> PodilKatedry { get; set; }
     }
 
     public class StudentiResponse

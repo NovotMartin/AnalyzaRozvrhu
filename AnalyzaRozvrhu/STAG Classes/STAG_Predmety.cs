@@ -72,6 +72,36 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
         // Vsechny rozvrhove akce predmetu ktere najdem v rozvrhách
         public List<RozvrhovaAkce> VsechnyAkce { get; private set; }
+
+        /// <summary>
+        /// TODO!
+        /// Prepocitany nebo z tabulky zjisteny pocet hodin za semestr pro přednášku
+        /// </summary>
+        public int HodinZaSemestrPr { get; set; }
+
+        /// <summary>
+        /// TODO!
+        /// Prepocitany nebo z tabulky zjisteny pocet hodin za semestr pro seminar
+        /// </summary>
+        public int HodinZaSemestrSe { get; set; }
+
+        /// <summary>
+        /// TODO!
+        /// Prepocitany nebo z tabulky zjisteny pocet hodin za semestr pro cv
+        /// </summary>
+        public int HodinZaSemestrCv { get; set; }
+
+        /// <summary>
+        /// TODO!
+        /// Sem se doplni podil katedry na výuce key=katedra, value=podíl z intervalu <0,1>
+        /// Soucet podilu = 1!
+        /// </summary>
+        public Dictionary<string,double> PodilKatedry { get; set; }
+
+        /*
+         * TODO!
+         *  DOplnit věci jako průměrný počet na hodině/ Cvičení/ semináři + maximální velikost skupiny (viz. http://physics.ujep.cz/~jskvor/AVD/PredmetyATYP.xlsx)
+         */
     }
 
     public class PredmetResponse

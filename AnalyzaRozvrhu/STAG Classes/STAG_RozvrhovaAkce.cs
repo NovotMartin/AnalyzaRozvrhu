@@ -26,7 +26,9 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
 
 
-
+    /// <summary>
+    /// Zakladni objekt pro Rozvrhovou akci tak, jak ji pouziva STAG
+    /// </summary>
     public class RozvrhovaAkce
     {
         public RozvrhovaAkce()
@@ -128,6 +130,9 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
         [JsonProperty("vsichniUciteleUcitIdno")]
         private string _VsichniUciteleUcitIdno { get; set; }
+        /// <summary>
+        /// Vrati list vsech ucitelu na dane ra
+        /// </summary>
         public List<int> VsichniUciteleUcitIdno { get {
                 List<int> r = new List<int>(1);
 
@@ -142,7 +147,10 @@ namespace AnalyzaRozvrhu.STAG_Classes
         public List<Ucitel> VsichniUcitele { get; set; }
 
 
-
+        /// <summary>
+        /// ToString() pro testovaci vypis
+        /// </summary>
+        /// <returns>testovaci vypis</returns>
         public override string ToString()
         {
             return string.Format("[O{0}-R{1}]{2}<{3}={4}>", this.Obsazeni, this.referenceCount,this.VsichniUciteleUcitIdno.Count>1?"**":"",this.VsichniUciteleUcitIdno.Count,this.VsichniUcitele.Count);

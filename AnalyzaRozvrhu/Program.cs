@@ -10,15 +10,33 @@ namespace AnalyzaRozvrhu
     {
         static void Main(string[] args)
         {
+
+            // Přihlášení
             Console.WriteLine("zadej login:");
             var log = Console.ReadLine();
             Console.WriteLine("zadej heslo:");
             var pass = Console.ReadLine();
 
+            // Vytvoreni databaze
+            var data = STAG_DataCollector.GetData(STAG_Classes.Fakulta.PRF,log,pass);
 
-            STAG_DataCollector.GetData(STAG_Classes.Fakulta.PRF,log,pass);
+            // Zjisteni chybějících informací od kateder
 
-            
+            // Podili ucitelu
+            data.GenerovatDotaznikKatedramXLS("example");
+            data.NacistDotaznikKatedramXLS("example");
+            // Atyp předměty
+                //todo
+
+            // Spojeni společně vyučovaných předmětů apod.
+            data.Preprocess();
+
+            // Vypocet zateze
+            data.Analyzuj();
+
+            // Vygenerovani vystupu
+            data.GenerovatPrehledXLS("hlavnivystup");
+
         }
     }
 }

@@ -54,8 +54,13 @@
     <Compile Include="STAG Classes\STAG_RozvrhRequestRespond.cs" />
     <Compile Include="STAG Classes\STAG_RozvrhovaAkce.cs" />
     <Compile Include="STAG Classes\STAG_Student.cs" />
+    <Compile Include="STAG Classes\STAG_SuperRozvrhovaAkce.cs" />
     <Compile Include="STAG Classes\STAG_Ucitel.cs" />
+    <Compile Include="STAG_DataAnalyzator.cs" />
     <Compile Include="STAG_DataCreator.cs" />
+    <Compile Include="STAG_DataFixer.cs" />
+    <Compile Include="STAG_DataPreprocessor.cs" />
+    <Compile Include="STAG_ReportGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
