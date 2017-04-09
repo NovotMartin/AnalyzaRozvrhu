@@ -93,10 +93,22 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
         /// <summary>
         /// TODO!
-        /// Sem se doplni podil katedry na výuce key=katedra, value=podíl z intervalu <0,1>
+        /// Sem se doplni podil katedry na výuce (Prednaska) key=katedra, value=podíl z intervalu <0,1>
         /// Soucet podilu = 1!
         /// </summary>
-        public Dictionary<string,double> PodilKatedry { get; set; }
+        public Dictionary<string,double> PodilKatedryPrednaska { get; set; }
+        /// <summary>
+        /// TODO!
+        /// Sem se doplni podil katedry na výuce (Cviceni) key=katedra, value=podíl z intervalu <0,1>
+        /// Soucet podilu = 1!
+        /// </summary>
+        public Dictionary<string, double> PodilKatedryCviceni { get; set; }
+        /// <summary>
+        /// TODO!
+        /// Sem se doplni podil katedry na výuce (Seminar) key=katedra, value=podíl z intervalu <0,1>
+        /// Soucet podilu = 1!
+        /// </summary>
+        public Dictionary<string, double> PodilKatedrySeminar { get; set; }
 
         /*
          * TODO!
