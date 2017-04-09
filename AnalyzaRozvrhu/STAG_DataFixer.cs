@@ -26,7 +26,7 @@ namespace AnalyzaRozvrhu
             // TODO
             // Ulozi dotaznik do Excel dokumentu
         }
-
+#region Nacitani dotazniku
         public static void NacistDotaznikKatedramXLS(this STAG_Classes.STAG_Database data, string path)
         {
             // TODO
@@ -36,7 +36,7 @@ namespace AnalyzaRozvrhu
             using (ExcelPackage package = new ExcelPackage(file))
             {
                 STAG_Classes.Predmet predmet;
-                ExcelWorksheets worksheets = package.Workbook.Worksheets; // nacteni ZS
+                ExcelWorksheets worksheets = package.Workbook.Worksheets; 
                 int row = 2; // Soubor zacneme cist od druheho radku. Na prvnim radku jsou popisky sloupců
                 object cellData;
                 List<Tuple<string, string>> ucitele;
@@ -182,6 +182,89 @@ namespace AnalyzaRozvrhu
             else
                 ucitele.Add(new Tuple<string, string>(tmpUc[0], tmpUc[1]));
         }
+#endregion
         // Dodelat metody pro generovani dotazniku kvuli ATYP předmětům
+        public static void  NacistDotazniAtypPredmety(this STAG_Classes.STAG_Database data, string path)
+        {
+
+            Debug.WriteLine("otevírám soubor " + path);
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage package = new ExcelPackage(file))
+            {
+                STAG_Classes.Predmet predmet;
+                ExcelWorksheets worksheets = package.Workbook.Worksheets;
+                int row = 2; // Soubor zacneme cist od druheho radku. Na prvnim radku jsou popisky sloupců
+                object kodPredmetu;
+                foreach (var worksheet in worksheets)
+                {
+                    while((kodPredmetu = worksheet.Cells[row, 1].Value) != null)
+                    {
+                        //nacteni kodu predmetu
+                        var kp = kodPredmetu.ToString().Split('/');
+                        // typ akce pr/cv/se/null  ..... null je jenom v případě expertů z KBI 
+                        var typ = worksheet.Cells[row, 3].Value as string;
+                        
+                        try
+                        {
+                            // pokus o nalezeni predmetu
+                            predmet = data.PredmetyPodleKateder[kp[0]][kp[1]];
+                        }
+                        catch
+                        {
+                            throw new Exception(String.Format("Predmet {0}/{1} neexistuje", kp[0], kp[1]));
+                        }
+
+                        switch (typ)
+                        {
+                            case "Př": predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
+                            case "Cv": predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
+                            case "Se": predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
+                            default:
+                                Debug.Write(string.Format("{0}/{1} =>  pocet akci -> {2}", kp[0], kp[1], predmet.VsechnyAkce.Count()));
+                                /*
+                                
+                                // následující řádky kódu tu jsou hlavně proto, že KBI neumí vyplnit dotazník!!! 
+
+
+                                */
+                                var neco = (from akce in predmet.VsechnyAkce select akce.TypAkceZkr).ToList(); // vytvoreni seznamu vsech typu rozvrhovych akci predmetu
+                                bool stejneAkce = true; 
+                                
+                                if (neco.Count > 1)
+                                {   // kontrola jestli jsou vsechny akce stejneho typu
+                                    for (int i = 1; i < neco.Count; i++)
+                                    {
+                                        if (neco[i - 1] != neco[i] /*&& neco[i] != "" && neco[i-1] != ""*/)
+                                        {                                            
+                                            stejneAkce = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                // pokud jsou vsechny akce stejneho typu provede se ulozeni dat z dotazniku ....... :( nemám rád KBI
+                                if (stejneAkce)
+                                {
+                                    Debug.WriteLine(" OK");
+                                    switch (neco[0])
+                                    {
+                                        case "Př": predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
+                                        case "Cv": predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
+                                        case "Se": predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
+                                        default: throw new Exception("WTF!");
+                                    }
+                                }
+                                else
+                                {
+                                    // pokud nejsou tak ..............
+                                    Debug.WriteLine(" Chyba");
+                                }
+                                break;
+                        }
+                        row++;
+
+                    }                                                     
+                }
+            }
+        }
     }
 }

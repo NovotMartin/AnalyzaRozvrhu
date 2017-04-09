@@ -22,13 +22,14 @@ namespace AnalyzaRozvrhu
 
             // Zjisteni chybějících informací od kateder
 
-            // Podili ucitelu
-
-            
+            // Podili ucitelu    
             data.GenerovatDotaznikKatedramXLS("example");
             // pouzivejte soubor PodilUciteleKatedry.xlsx z http://physics.ujep.cz/~jskvor/AVD/AktualizovanaPodobaPodkladuZKateder/
             data.NacistDotaznikKatedramXLS(@"STAG_DATA\PodilUciteleKatedry.xlsx");
             // Atyp předměty
+
+            //Nacteni dotazniku s Atyp predmety
+            data.NacistDotazniAtypPredmety(@"STAG_DATA\PredmetyATYP.xlsx");
                 //todo
 
             // Spojeni společně vyučovaných předmětů apod.
