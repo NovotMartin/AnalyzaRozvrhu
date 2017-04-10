@@ -187,17 +187,22 @@ namespace AnalyzaRozvrhu
                 Handle_PredmetInfo(roak.Katedra, roak.Predmet, data, serializer);
             }
 
-            // vvvvv   REFERENCE   vvvvvv
-
-            // Pridam reference roak <=> predmet
-            data.PredmetyPodleKateder[roak.Katedra][roak.Predmet].VsechnyAkce.Add(roak);
-            roak.PredmetRef = data.PredmetyPodleKateder[roak.Katedra][roak.Predmet];
+            // vvvvv   REFERENCE   vvvvvv           
 
             // Ulozim si akci a ridam reference student => roak
             if (!data.Akce.ContainsKey(roak.RoakIdno))
+            {
                 data.Akce.Add(roak.RoakIdno, roak);
+
+                // Pridam reference roak <=> predmet
+                data.PredmetyPodleKateder[roak.Katedra][roak.Predmet].VsechnyAkce.Add(roak);
+                roak.PredmetRef = data.PredmetyPodleKateder[roak.Katedra][roak.Predmet];
+            }
+
             student.Rozvrh.Add(data.Akce[roak.RoakIdno]);
             data.Akce[roak.RoakIdno].referenceCount++;
+
+            
         }
         private static void Handle_PredmetInfo(string katedra, string zkratka, STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
