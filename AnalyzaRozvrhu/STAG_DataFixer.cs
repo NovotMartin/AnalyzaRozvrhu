@@ -26,6 +26,7 @@ namespace AnalyzaRozvrhu
             // TODO
             // Ulozi dotaznik do Excel dokumentu
         }
+     
 #region Nacitani dotazniku
         public static void NacistDotaznikKatedramXLS(this STAG_Classes.STAG_Database data, string path)
         {
@@ -186,7 +187,7 @@ namespace AnalyzaRozvrhu
         // Dodelat metody pro generovani dotazniku kvuli ATYP předmětům
         public static void  NacistDotazniAtypPredmety(this STAG_Classes.STAG_Database data, string path)
         {
-
+            List<Tuple<string, string>> chybnePredmety = new List<Tuple<string, string>>();
             Debug.WriteLine("otevírám soubor " + path);
             FileInfo file = new FileInfo(path);
             using (ExcelPackage package = new ExcelPackage(file))
@@ -213,14 +214,22 @@ namespace AnalyzaRozvrhu
                         {
                             throw new Exception(String.Format("Predmet {0}/{1} neexistuje", kp[0], kp[1]));
                         }
-
+                       
                         switch (typ)
-                        {
-                            case "Př": predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
-                            case "Cv": predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
-                            case "Se": predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
-                            default:
-                                Debug.Write(string.Format("{0}/{1} =>  pocet akci -> {2}", kp[0], kp[1], predmet.VsechnyAkce.Count()));
+                        {                            
+                            case "Př": predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                                if (worksheet.Cells[row, 6].Value != null)
+                                    predmet.VelikostSkupinyPr = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                break;
+                            case "Cv": predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                                if (worksheet.Cells[row, 6].Value != null)
+                                    predmet.VelikostSkupinyCv = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                break;
+                            case "Se": predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                                if (worksheet.Cells[row, 6].Value != null)
+                                    predmet.VelikostSkupinySe = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                break;
+                            default:                               
                                 /*
                                 
                                 // následující řádky kódu tu jsou hlavně proto, že KBI neumí vyplnit dotazník!!! 
@@ -244,19 +253,31 @@ namespace AnalyzaRozvrhu
                                 // pokud jsou vsechny akce stejneho typu provede se ulozeni dat z dotazniku ....... :( nemám rád KBI
                                 if (stejneAkce)
                                 {
-                                    Debug.WriteLine(" OK");
+                                    Debug.Write(string.Format("[Chyba ve vstupnim souboru] {0}/{1} =>  pocet akci -> {2}", kp[0], kp[1], predmet.VsechnyAkce.Count()));
+                                    Debug.WriteLine("  Povedlo se opravit");
                                     switch (neco[0])
                                     {
-                                        case "Př": predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
-                                        case "Cv": predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
-                                        case "Se": predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value); break;
+                                        case "Př": predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                                            if (worksheet.Cells[row, 6].Value != null)
+                                                predmet.VelikostSkupinyPr = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                            break;
+                                        case "Cv": predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                                            if (worksheet.Cells[row, 6].Value != null)
+                                                predmet.VelikostSkupinyCv = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                            ; break;
+                                        case "Se": predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                                            if (worksheet.Cells[row, 6].Value != null)
+                                                predmet.VelikostSkupinySe = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                            break;
                                         default: throw new Exception("WTF!");
                                     }
                                 }
                                 else
                                 {
                                     // pokud nejsou tak ..............
-                                    Debug.WriteLine(" Chyba");
+                                    Debug.Write(string.Format("[Chyba ve vstupnim souboru] {0}/{1} =>  pocet akci -> {2}", kp[0], kp[1], predmet.VsechnyAkce.Count()));
+                                    Debug.WriteLine(" Nepovedlo se opravit");
+                                    chybnePredmety.Add(new Tuple<string, string>(kp[0], kp[1]));
                                 }
                                 break;
                         }
@@ -265,6 +286,8 @@ namespace AnalyzaRozvrhu
                     }                                                     
                 }
             }
+            if (chybnePredmety.Count != 0)
+                throw new STAG_Exception_InvalidTypeOfCourses(chybnePredmety);
         }
     }
 }

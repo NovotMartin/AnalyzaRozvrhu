@@ -63,6 +63,7 @@
     <Compile Include="STAG_DataCreator.cs" />
     <Compile Include="STAG_DataFixer.cs" />
     <Compile Include="STAG_DataPreprocessor.cs" />
+    <Compile Include="STAG_Exception.cs" />
     <Compile Include="STAG_ReportGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

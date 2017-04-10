@@ -90,6 +90,18 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// Prepocitany nebo z tabulky zjisteny pocet hodin za semestr pro cv
         /// </summary>
         public int HodinZaSemestrCv { get; set; }
+        /// <summary>
+        /// Maximální velikost skupiny na Pr pokud null tak se myx velikost skupiny dopocita 
+        /// </summary>
+        public int? VelikostSkupinyPr { get; set; }
+        /// <summary>
+        /// Maximální velikost skupiny na Cv pokud null tak se myx velikost skupiny dopocita 
+        /// </summary>
+        public int? VelikostSkupinyCv { get; set; }
+        /// <summary>
+        /// Maximální velikost skupiny na Se pokud null tak se myx velikost skupiny dopocita 
+        /// </summary>
+        public int? VelikostSkupinySe { get; set; }
 
         /// <summary>
         /// TODO!
