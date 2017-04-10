@@ -187,7 +187,7 @@ namespace AnalyzaRozvrhu
         // Dodelat metody pro generovani dotazniku kvuli ATYP předmětům
         public static void  NacistDotazniAtypPredmety(this STAG_Classes.STAG_Database data, string path)
         {
-
+            List<Tuple<string, string>> chybnePredmety = new List<Tuple<string, string>>();
             Debug.WriteLine("otevírám soubor " + path);
             FileInfo file = new FileInfo(path);
             using (ExcelPackage package = new ExcelPackage(file))
@@ -277,6 +277,7 @@ namespace AnalyzaRozvrhu
                                     // pokud nejsou tak ..............
                                     Debug.Write(string.Format("[Chyba ve vstupnim souboru] {0}/{1} =>  pocet akci -> {2}", kp[0], kp[1], predmet.VsechnyAkce.Count()));
                                     Debug.WriteLine(" Nepovedlo se opravit");
+                                    chybnePredmety.Add(new Tuple<string, string>(kp[0], kp[1]));
                                 }
                                 break;
                         }
@@ -285,6 +286,8 @@ namespace AnalyzaRozvrhu
                     }                                                     
                 }
             }
+            if (chybnePredmety.Count != 0)
+                throw new STAG_Exception_InvalidTypeOfCourses(chybnePredmety);
         }
     }
 }

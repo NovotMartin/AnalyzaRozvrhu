@@ -29,7 +29,16 @@ namespace AnalyzaRozvrhu
             // Atyp předměty
 
             //Nacteni dotazniku s Atyp predmety
-            data.NacistDotazniAtypPredmety(@"STAG_DATA\PredmetyATYP.xlsx");
+            try
+            {
+                data.NacistDotazniAtypPredmety(@"STAG_DATA\PredmetyATYP.xlsx");
+            }
+            catch(STAG_Exception_InvalidTypeOfCourses e)
+            {
+                //TODO
+                // tady bude reakce na vyvolanou vyjimku
+            }
+            
                 //todo
 
             // Spojeni společně vyučovaných předmětů apod.
