@@ -29,7 +29,12 @@ namespace AnalyzaRozvrhu.STAG_Classes
         [JsonProperty("kreditu")]
         public int Kreditu { get; set; }
 
-        
+        /// <summary>
+        /// Název předmětu - např "Analýza a vizualizace dat"
+        /// </summary>
+        [JsonProperty("nazev")]
+        public string Nazev { get; set; }
+
         // Informace pro správnou rozvrhovanost 
 
         [JsonProperty("jednotekPrednasek")]
@@ -72,6 +77,9 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
         // Vsechny rozvrhove akce predmetu ktere najdem v rozvrhách
         public List<RozvrhovaAkce> VsechnyAkce { get; private set; }
+
+
+         
 
         /// <summary>
         /// TODO!
