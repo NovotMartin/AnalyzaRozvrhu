@@ -15,7 +15,7 @@ namespace AnalyzaRozvrhu
             Console.WriteLine("zadej login:");
             var log = Console.ReadLine();
             Console.WriteLine("zadej heslo:");
-            var pass = Console.ReadLine();
+            var pass = GetPass();
 
             // Vytvoreni databaze
             var data = STAG_DataCollector.GetData(STAG_Classes.Fakulta.PRF,log,pass);
@@ -48,8 +48,46 @@ namespace AnalyzaRozvrhu
             data.Analyzuj();
 
             // Vygenerovani vystupu
-            data.GenerovatPrehledXLS("hlavnivystup");
+            data.GenerovatPrehledXLS("hlavnivystup.xlsx");
 
+        }
+
+        /// <summary>
+        /// Skryti hesla pri psani, abychom se nemuseli bat to pouzivat na verejnosti.
+        /// Ja jsem se bal - Jiri Kramar
+        /// </summary>
+        /// <returns>Heslo</returns>
+        static string GetPass()
+        {
+            StringBuilder sb = new StringBuilder();
+            ConsoleKeyInfo key = Console.ReadKey(true);
+
+            while (key.Key != ConsoleKey.Enter)
+            {
+                switch (key.Key)
+                {
+                    case ConsoleKey.Backspace:
+                        if (sb.Length > 0)
+                        {
+                            Console.CursorLeft--;
+                            Console.Write(" ");
+                            Console.CursorLeft--;
+                            sb.Remove(sb.Length - 1, 1);
+                        }                        
+                        break;
+                    case ConsoleKey.Escape:
+                        // nuthing
+                        break;
+                    default:
+                        Console.Write("*");
+                        sb.Append(key.KeyChar);
+                        break;
+                }
+
+                key = Console.ReadKey(true);
+            }
+
+            return sb.ToString();
         }
     }
 }
