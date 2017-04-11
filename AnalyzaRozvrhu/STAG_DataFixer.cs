@@ -9,6 +9,7 @@ using System.IO;
 
 namespace AnalyzaRozvrhu
 {
+    
     public static class STAG_DataFixer
     {
        /* Dictionary<string, int> podilKatedryPrednaska;
@@ -19,12 +20,79 @@ namespace AnalyzaRozvrhu
          * Generovat dotazniky kvuli podilu katedry
          * Generovat dotazniky kvuli skuktecne rozvrhovanosti
          */
+        class PredmetVDotazniku
+        {
+           public STAG_Classes.Predmet predmet;
+           public List<STAG_Classes.Ucitel> ucitele;
+           public string typAkce; 
+        } 
 
         public static void GenerovatDotaznikKatedramXLS(this STAG_Classes.STAG_Database data, string path)
         {
-
+            Debug.WriteLine("Generovani dotazniku ......");
+            Debug.WriteLine("Probiha hledani predmetu");
+            List<PredmetVDotazniku> spolecnePredmety = new List<PredmetVDotazniku>();
+            List<STAG_Classes.Ucitel> neco = new List<STAG_Classes.Ucitel>();          
             // TODO
-            // Ulozi dotaznik do Excel dokumentu
+            foreach(var katedra in data.PredmetyPodleKateder)
+            {
+                foreach(var predmet in katedra.Value)
+                {
+                    foreach(var akce in predmet.Value.VsechnyAkce)
+                    {                      
+                        neco =  (from ucitel in akce.VsichniUcitele where !(ucitel.Katedra == predmet.Value.Katedra || (ucitel.PracovisteDalsi != null && ucitel.PracovisteDalsi.ToString().Split(',').Contains(predmet.Value.Katedra))) select ucitel).ToList();
+                        if (neco.Count != 0)
+                        {
+                            Debug.Write(string.Format("{0}/{1} => {2} \n", predmet.Value.Katedra, predmet.Value.Zkratka, akce.TypAkceZkr));
+                            spolecnePredmety.Add(new PredmetVDotazniku()
+                            {
+                                predmet = predmet.Value,
+                                ucitele = neco,
+                                typAkce = akce.TypAkceZkr
+                            });
+                        }                          
+                    }                 
+                }
+            }
+            Debug.WriteLine("Probiha vytvareni souboru");
+            // generování excel souboru
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+                file = new FileInfo(path);
+            }
+            using(ExcelPackage package = new ExcelPackage(file))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Predmety");
+
+                worksheet.Cells[1, 1].Value = "podíl pracoviště učitele \n(v procentech)";
+                worksheet.Cells[1, 2].Value = "pracoviště učitelů";
+                worksheet.Cells[1, 3].Value = "jména učitelů pracoviště";
+                worksheet.Cells[1, 4].Value = "kód";
+                worksheet.Cells[1, 5].Value = "název předmětu";
+                worksheet.Cells[1, 6].Value = "typ";
+                StringBuilder sb;
+                for(int i = 2; i < spolecnePredmety.Count + 2; i++)
+                {
+                    sb = new StringBuilder();
+                    // worksheet.Cells[i, 1].Value = "";
+                    worksheet.Cells[i, 2].Value = spolecnePredmety[i - 2].ucitele[0].Katedra;
+
+                    foreach(var ucitel in spolecnePredmety[i - 2].ucitele)
+                    {
+                        sb.Append(string.Format("{0} {1}, ", ucitel.Prijmeni, ucitel.Jmeno));
+                    }
+                    worksheet.Cells[i, 3].Value = sb.ToString();
+                    worksheet.Cells[i, 4].Value = string.Format("{0}/{1}",spolecnePredmety[i-2].predmet.Katedra, spolecnePredmety[i - 2].predmet.Zkratka);
+                    worksheet.Cells[i, 5].Value = spolecnePredmety[i - 2].predmet.Nazev;
+                    worksheet.Cells[i, 6].Value = spolecnePredmety[i-2].typAkce;
+                }
+                worksheet.Cells.AutoFitColumns(5);
+                package.Save();
+            }
+            Debug.WriteLine("Dotaznik " + path + " vytvoren!");
+
         }
      
 #region Nacitani dotazniku
@@ -264,7 +332,7 @@ namespace AnalyzaRozvrhu
                                         case "Cv": predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value);
                                             if (worksheet.Cells[row, 6].Value != null)
                                                 predmet.VelikostSkupinyCv = Convert.ToInt32(worksheet.Cells[row, 6].Value);
-                                            ; break;
+                                            break;
                                         case "Se": predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value);
                                             if (worksheet.Cells[row, 6].Value != null)
                                                 predmet.VelikostSkupinySe = Convert.ToInt32(worksheet.Cells[row, 6].Value);
@@ -282,7 +350,6 @@ namespace AnalyzaRozvrhu
                                 break;
                         }
                         row++;
-
                     }                                                     
                 }
             }
