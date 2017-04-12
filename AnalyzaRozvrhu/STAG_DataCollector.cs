@@ -10,6 +10,13 @@ using System.Linq;
 
 namespace AnalyzaRozvrhu
 {
+    /// <summary>
+    /// Třída určená ke stahování STAG dat a vytvoření "databáze"
+    /// </summary>
+    /// <remarks>
+    /// Tato třída slouží k vytvoření datové struktury ze STAG dat. Pro stahování se využívá HttpClient. Soubory se ukládají do složky <c>FolderPath_rootFolder</c>. 
+    /// Pokud jsou zde potřebné soubory obsažené, nestahují se nové. Při podivném chování doporučuji  celou tuto složku smazat aby se stáhli nové.
+    /// </remarks>
     public static class STAG_DataCollector
     {
         // Pripravim HttpClienta        
@@ -21,8 +28,14 @@ namespace AnalyzaRozvrhu
         const string FolderPath_rozvrhyByStudent = FolderPath_rootFolder + @"\rozvrhyByStudent";
         const string FolderPath_uciteleByID      = FolderPath_rootFolder + @"\uciteleBySTAGid";
         const string FolderPath_PredmetCizi      = FolderPath_rootFolder + @"\predmetyCizi";
-        
 
+        /// <summary>
+        /// Vytvorid objekt se STAG Daty
+        /// </summary>
+        /// <param name="fakulta">Fakulta pro kterou delame analyzu.</param>
+        /// <param name="staguser">Stag přihlášení uživatele pro přístup k webovým službám</param>
+        /// <param name="stagpass">Stag heslo uzivatele</param>
+        /// <returns>Objekt s nactenymi daty ze STAG</returns>
         public static STAG_Classes.STAG_Database GetData(STAG_Classes.Fakulta fakulta, string staguser, string stagpass)
         {
             return GetData(fakulta.ToString(), staguser, stagpass);
@@ -31,9 +44,9 @@ namespace AnalyzaRozvrhu
         /// Vytvorid objekt se STAG Daty
         /// </summary>
         /// <param name="fakulta">Fakulta pro kterou delame analyzu</param>
-        /// <param name="staguser">Prihlaseni uzivatele kvuli pristupu k ws</param>
-        /// <param name="stagpass">Heslo uzivatele</param>
-        /// <returns>Objekt s nactenymi daty ze STAG</returns>
+        /// <param name="staguser">Stag přihlášení uživatele pro přístup k webovým službám</param>
+        /// <param name="stagpass">Stag heslo uzivatele</param>
+        /// <returns>Objek t s nactenymi daty ze STAG</returns>
         public static STAG_Classes.STAG_Database GetData(string fakulta, string staguser, string stagpass)
         {
             STAG_Classes.STAG_Database data = new STAG_Classes.STAG_Database(fakulta);
@@ -63,12 +76,16 @@ namespace AnalyzaRozvrhu
             Handle_UcitelByRoak(data, serializer);
 
 
+            // !!!  Někam sem dej breakpoint a prohlídni si co je v data
             return data;
         }
 
         /// <summary>
         /// Pripravi adresarovou strukturu pro ukladani STAG souboru
         /// </summary>
+        /// <remarks> 
+        /// V pracovní složce vytvoří (pokud neexistuje) adresářovou strukturu. Do té se budou stahovat všechny data ze STAGu
+        /// </remarks>
         private static void PrepareFolders()
         {
             // Poresim slozky kam se budou ukladat všechny soubory
@@ -83,6 +100,13 @@ namespace AnalyzaRozvrhu
 
         // Metody na zpracovani stahovanych souboru
         #region Handle Methods
+        /// <summary>
+        /// Obstará stáhnutí a následné zpracování souboru predmetyByFakultaFullInfo.json
+        /// </summary>
+        /// <param name="fakulta">Aktuálně analyzovaná fakulta</param>
+        /// <param name="data">Objekt databáze kam se data zařadí</param>
+        /// <param name="serializer">NewtonSoft JSON serializer pro deserializaci staženého souboru</param>
+        /// <remarks>Soubor se pojmenuje např. jako predmetyFakultaPRF.json</remarks>
         private static void Handle_PredmetyByFakulta(string fakulta, STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
             // Stahnuti json souboru
@@ -94,7 +118,7 @@ namespace AnalyzaRozvrhu
             using (StreamReader file = File.OpenText(pathpredmety))
                 tmppr = ((List<STAG_Classes.PredmetResponse>)serializer.Deserialize(file, typeof(List<STAG_Classes.PredmetResponse>)))[0];
 
-            // Kazdy predmet si ulozim
+            // Kazdy predmet si ulozim a zaradim
             foreach (var pr in tmppr.PredmetInfo)
             {
                 // Existuje uz katedra s timhle kodem? Kdyz ne, pridam
@@ -110,12 +134,21 @@ namespace AnalyzaRozvrhu
                 }
             }
         }
+        /// <summary>
+        /// Obstará stáhnutí a následné zpracování souboru UcitelInfo(by ucit id).json
+        /// </summary>
+        /// <param name="data">Objekt databáze kam se data zařadí</param>
+        /// <param name="serializer">NewtonSoft JSON serializer pro deserializaci staženého souboru</param>
+        /// <remarks>Soubor se pojmenuje jako UcitelID.json</remarks>
         private static void Handle_UcitelByRoak(STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
+            // Pro každou akci ze studentských rozvrhů...
             foreach (var akce in data.Akce)
             {
+                // Pro každého učitele z akce... 
                 foreach (var ucitelID in akce.Value.VsichniUciteleUcitIdno)
                 {
+                    // Pokud toho učitele ještě neznám -> stáhnu a zařadím
                     if (!data.Ucitele.ContainsKey(ucitelID))
                     {
                         // Stazeni ucitele
@@ -125,16 +158,24 @@ namespace AnalyzaRozvrhu
                         STAG_Classes.Ucitel tmp = null;
                         using (StreamReader file = File.OpenText(tmppath))
                             tmp = ((List<STAG_Classes.Ucitel>)serializer.Deserialize(file, typeof(List<STAG_Classes.Ucitel>)))[0];
-                        // Pridani do slovniku
+                        // Pridani do slovniku všech učitelů
                         data.Ucitele.Add(ucitelID, tmp);
                     }
 
-                    // Pridani reference
+                    // Pridani reference    akce <=> učitel
                     akce.Value.VsichniUcitele.Add(data.Ucitele[ucitelID]);
                     data.Ucitele[ucitelID].referenceCount++;
                 }
             }
         }
+        /// <summary>
+        /// Obstará stáhnutí a následné zpracování souboru studentiByFakulta.json
+        /// </summary>
+        /// <param name="fakulta">Aktuálně analyzovaná fakulta</param>
+        /// <param name="data">Objekt databáze kam se data zařadí</param>
+        /// <param name="serializer">NewtonSoft JSON serializer pro deserializaci staženého souboru</param>
+        /// <remarks> Obstará stažený seznamu všech a vytvoří z nich seznam v databázi. Parametrem pro studenty je podmínka "S" ~ studuje.
+        /// Soubor se bude jmenovat např. StudentyByFakltaPRF.json</remarks>
         private static void Handle_StudentByFakulta(string fakulta, STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
             string studentspath = FolderPath_rootFolder + @"\StudentiByFakulta" + fakulta + ".json";
@@ -142,17 +183,24 @@ namespace AnalyzaRozvrhu
             using (StreamReader file = File.OpenText(studentspath)) //Deserializace
                 data.Students = ((List<STAG_Classes.StudentiResponse>)serializer.Deserialize(file, typeof(List<STAG_Classes.StudentiResponse>)))[0].Student.ToList();
         }
+        /// <summary>
+        /// Obstará stáhnutí a následné zpracování rozvrhů pro každého studenta fakulty
+        /// </summary>
+        /// <param name="data">Objekt databáze kam se data zařadí</param>
+        /// <param name="serializer">NewtonSoft JSON serializer pro deserializaci staženého souboru</param>
+        /// <remarks>Soubor se pojmenuje jako OsobniCisloStudenta.json</remarks>
         private static void Handle_StudentsRoak(STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
+            // Pro každého studenta fakulty...
             foreach (var student in data.Students)
             {
-                // Stahnu rozvrh studenta
+                // Pokud ještě není stažený rozvrh studenta, stáhnu ho
                 string tmppath = FolderPath_rozvrhyByStudent + @"\" + student.OsCislo + ".json";
                 Download_RozvrhByStudent(student.OsCislo, tmppath);
 
                 // Sem si ulozim rozvrhove akce studenta
                 List<STAG_Classes.RozvrhovaAkce> tmp = null;
-                // Deserializace
+                // Deserializace (mohou nastat komplikace pokud se tam vyskytnou nějakcí divní studenti )
                 try
                 {
                     using (StreamReader file = File.OpenText(tmppath))
@@ -163,7 +211,7 @@ namespace AnalyzaRozvrhu
                     // Pokud narazim na nejaky divny soubor, preskocim
                     continue;
                 }
-                // Kazkou akci pridam do tabulky akci a pridam reference
+                // Každou rozvrhovou akci zpracuji (přidám reference ad.)
                 foreach (var roak in tmp)
                 {
                     Handle_Roak(data, student, roak, serializer);
@@ -171,16 +219,23 @@ namespace AnalyzaRozvrhu
 
             }
         }
+        /// <summary>
+        /// Bstará zprávně zařazení a přidání referencí mezi rozvrhovou akcí a souvisejícími objekty 
+        /// </summary>
+        /// <param name="data">Objekt databáze kam se data zařadí</param>
+        /// <param name="student">Objekt studenta jehož se rozvrhová akce týká</param>
+        /// <param name="roak">Zpracovávaná akce studenta</param>
+        /// <param name="serializer">NewtonSoft JSON serializer pro deserializaci staženého souboru</param>
         private static void Handle_Roak(STAG_Classes.STAG_Database data, STAG_Classes.Student student, STAG_Classes.RozvrhovaAkce roak, JsonSerializer serializer)
         {
-            // Zaradi rozvrhovou akci a prida vsemozne reference
-
-            // Zkontroluji, jestli uz zavedenou katedru
+            // Zajistím aby mi nechyběl předmět této rozvrhové akce
+            // Zkontroluji, jestli už znám katedru toho předmětu
             if (!data.PredmetyPodleKateder.ContainsKey(roak.Katedra))
             {
-                // Zatim neznam ~ neni z me fakultu... musim stahnout
+                // Zatim neznam ~ neni z me fakultu... musim stahnout (nebyl obsažen v predmetyByFakultaFullInfo)
                 Handle_PredmetInfo(roak.Katedra, roak.Predmet, data, serializer);
             }
+            // Zkontroluji, jestli už ten předmět znám
             if (!data.PredmetyPodleKateder[roak.Katedra].ContainsKey(roak.Predmet))
             {
                 // Nezman predmet... musim stahnout
@@ -199,11 +254,21 @@ namespace AnalyzaRozvrhu
                 roak.PredmetRef = data.PredmetyPodleKateder[roak.Katedra][roak.Predmet];
             }
 
+            // Přidám akci do rozvrhu studenta
             student.Rozvrh.Add(data.Akce[roak.RoakIdno]);
+            // Pro zajímavost zjišťuji kolik studentů skutečně ukazuje na tuto akci (porovnání obsazenosti vs. referencí)
             data.Akce[roak.RoakIdno].referenceCount++;
 
             
         }
+        /// <summary>
+        /// Obstará stažení a zařazení předmětu ze souboru PredmetInfo.json
+        /// </summary>
+        /// <param name="katedra">Zkratka pracoviště předmětu (např. KI)</param>
+        /// <param name="zkratka">Zkratka (kód) předmětu (např AVD)</param>
+        /// <param name="data">Objekt databáze kam se data zařadí</param>
+        /// <param name="serializer">NewtonSoft JSON serializer pro deserializaci staženého souboru</param>
+        /// <remarks>Soubor se pojmenuje jako KatedraKod.json</remarks>
         private static void Handle_PredmetInfo(string katedra, string zkratka, STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
             // Stahnu predmet kdy jeste neni
@@ -227,6 +292,11 @@ namespace AnalyzaRozvrhu
                 data.PredmetyPodleKateder[tmppr.Katedra].Add(tmppr.Zkratka, tmppr);
             }
         }
+        /// <summary>
+        /// Obstará stáhnutí a zpracování hiearchie pracovišť celé univerzity ze služby GetHiearchiePracovist
+        /// </summary>
+        /// <param name="data">Objekt databáze kam se data zařadí</param>
+        /// <param name="serializer">NewtonSoft JSON serializer pro deserializaci staženého souboru</param>
         private static void Handle_Hiearchie(STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
             // Stahnuti souboru

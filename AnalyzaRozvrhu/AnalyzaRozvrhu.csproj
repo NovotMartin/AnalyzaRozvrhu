@@ -60,7 +60,7 @@
     <Compile Include="STAG Classes\STAG_SuperRozvrhovaAkce.cs" />
     <Compile Include="STAG Classes\STAG_Ucitel.cs" />
     <Compile Include="STAG_DataAnalyzator.cs" />
-    <Compile Include="STAG_DataCreator.cs" />
+    <Compile Include="STAG_DataCollector.cs" />
     <Compile Include="STAG_DataFixer.cs" />
     <Compile Include="STAG_DataPreprocessor.cs" />
     <Compile Include="STAG_Exception.cs" />
