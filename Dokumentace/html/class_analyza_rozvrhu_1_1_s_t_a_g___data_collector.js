@@ -1,0 +1,26 @@
+var class_analyza_rozvrhu_1_1_s_t_a_g___data_collector =
+[
+    [ "Download_HierarchiePracovist", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#ad5be7d09578c3218ba56cd8c727dbe05", null ],
+    [ "Download_PredmetyByFakultaFullInfo", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#aee9ca85ef686c24153d3933216316eae", null ],
+    [ "Download_PredmetyByZkratka", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#a84061c57d53f0e2a84140ae6c329f928", null ],
+    [ "Download_RozvrhByKatedra", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#adac66a1dcfb586b622b09ee5cb631629", null ],
+    [ "Download_RozvrhByStudent", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#adddab5dfd5406036f436d96bc2af0a6f", null ],
+    [ "Download_StudentsByFakulta", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#ac89ab50f68b81b09b3072a22537b5778", null ],
+    [ "Download_UcitelInfo", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#aa24d109d298f1a2f413e51048ce77ab1", null ],
+    [ "GetData", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#ad0936e0aab42d6a5335c1ebacdcc1526", null ],
+    [ "GetData", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#a450c532cb4e473e554ec9caf902f924b", null ],
+    [ "Handle_Hiearchie", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#a2bf37f4c552488c7236302d6ae05c4d4", null ],
+    [ "Handle_PredmetInfo", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#a6d658afa96ebcb64becb6aa5f6d6478a", null ],
+    [ "Handle_PredmetyByFakulta", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#a2eeac4fd18d28abd01d5c3cd9404543e", null ],
+    [ "Handle_Roak", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#ad74529155610e25bbb61f5ceafafacce", null ],
+    [ "Handle_StudentByFakulta", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#a84f89cadc9956293f7ff54f7019eecc3", null ],
+    [ "Handle_StudentsRoak", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#ab3a901158469efbe480b7a84ceb2c7a1", null ],
+    [ "Handle_UcitelByRoak", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#ad6aa180f33216427a7b22558b6118359", null ],
+    [ "PrepareFolders", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#a54dbf85a05fca4fb2bc70150b3414919", null ],
+    [ "auth", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#ad643086cf4755ca47df524a0e1592816", null ],
+    [ "FolderPath_PredmetCizi", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#ab2e28dba4c68a2caa9a344169b652989", null ],
+    [ "FolderPath_rootFolder", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#aa6486b8fd2a348ba515a8534725affc7", null ],
+    [ "FolderPath_rozvrhyByStudent", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#aa5591390b2bf6b5eb6f5c5a5502ece6b", null ],
+    [ "FolderPath_uciteleByID", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#aa64dfbcc78d4a3d7089ee49d75f4941f", null ],
+    [ "puller", "class_analyza_rozvrhu_1_1_s_t_a_g___data_collector.html#a8e492427b1f0956a9c7bfceadf8304c8", null ]
+];
