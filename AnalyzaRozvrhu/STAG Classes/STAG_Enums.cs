@@ -12,6 +12,11 @@ namespace AnalyzaRozvrhu.STAG_Classes
      * 
      */
 
+
+
+    /// <summary>
+    /// Výběrový typ pro zvolení fakulty. Chybí FŽP kvůli nejasnému zacházení s diakritikou
+    /// </summary>
     public enum Fakulta
     {
         PRF,
