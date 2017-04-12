@@ -264,3 +264,6 @@ __pycache__/
 
 # STAG files
 STAG_DATA/
+/SpousteciAdresar/hlavnivystup.xlsx
+/SpousteciAdresar/example.xlsx
+/SpousteciAdresar
