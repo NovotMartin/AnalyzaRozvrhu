@@ -115,7 +115,7 @@ namespace AnalyzaRozvrhu
 
                 
 
-                var validace = worksheet.DataValidations.AddIntegerValidation(string.Format("A2:A{0}", spolecnePredmety.Count + 2));
+                var validace = worksheet.DataValidations.AddIntegerValidation("A:A"/*string.Format("A2:A{0}", spolecnePredmety.Count + 2)*/);
                 
                 validace.ErrorStyle = ExcelDataValidationWarningStyle.stop;
                 validace.PromptTitle = "Sem napiš % podíl na výuce";
