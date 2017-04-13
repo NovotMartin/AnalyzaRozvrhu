@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.IO;
 using AnalyzaRozvrhu.STAG_Classes;
+using System.Drawing;
+using OfficeOpenXml.DataValidation;
 
 namespace AnalyzaRozvrhu
 {
@@ -107,11 +110,32 @@ namespace AnalyzaRozvrhu
 
                 worksheet.Cells["A1:F1"].AutoFilter = true;
 
+                // seznam vsech kateder na fakulte
+                var katedry = data.HiearchiePracovist[data.Fakulta];
+
+                
+
+                var validace = worksheet.DataValidations.AddIntegerValidation(string.Format("A2:A{0}", spolecnePredmety.Count + 2));
+                
+                validace.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+                validace.PromptTitle = "Sem napiš % podíl na výuce";
+                validace.Prompt = "Hodnota musí být od 0 do 100";
+                validace.ShowInputMessage = true;
+                validace.ErrorTitle = "Vložil/a si neplatnou hodnotu";
+                validace.Error = "Hodnota musí být od 0 do 100.\nPokud omylem píšeš do špatné buňky tak vyplň nějaký platný údaj pak klikni na buňku a zmáčkni klávesu delete  ";
+                validace.ShowErrorMessage = true;
+                validace.Operator = ExcelDataValidationOperator.between;
+                validace.Formula.Value = 0;
+                validace.Formula2.Value = 100;
+
+
                 StringBuilder sb;
                 for(int i = 2; i < spolecnePredmety.Count + 2; i++)
                 {
                     sb = new StringBuilder();
-                    // worksheet.Cells[i, 1].Value = "";
+                    if (!katedry.ContainsKey(spolecnePredmety[i-2].ucitele[0].Katedra) || (spolecnePredmety[i - 2].ucitele[0].Katedra == "UMC" && data.Fakulta == "PRF"))
+                        worksheet.Cells[i, 1].Value = 0;
+                    // worksheet.Cells[i, 1].Style.Numberformat.Format = "#0";
                     worksheet.Cells[i, 2].Value = spolecnePredmety[i - 2].ucitele[0].Katedra;
 
                     foreach(var ucitel in spolecnePredmety[i - 2].ucitele)
