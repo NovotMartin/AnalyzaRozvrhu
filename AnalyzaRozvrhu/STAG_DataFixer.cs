@@ -27,6 +27,12 @@ namespace AnalyzaRozvrhu
            public string typAkce; 
         } 
 
+
+        /// <summary>
+        /// Tato metoda souluží k vygenerování dotazníku s podílem katedry na vyučovaném predmetu
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="path">nazev souboru ktery vytvorime</param>
         public static void GenerovatDotaznikKatedramXLS(this STAG_Classes.STAG_Database data, string path)
         {
             Debug.WriteLine("Generovani dotazniku ......");
@@ -34,24 +40,49 @@ namespace AnalyzaRozvrhu
             List<PredmetVDotazniku> spolecnePredmety = new List<PredmetVDotazniku>();
             List<STAG_Classes.Ucitel> neco = new List<STAG_Classes.Ucitel>();          
             // TODO
+
+            // projdeme vsechny katedry
             foreach(var katedra in data.PredmetyPodleKateder)
             {
+                // u kazde katedry projdeme vsechny predmety
                 foreach(var predmet in katedra.Value)
                 {
+                    PredmetVDotazniku pr = null;
+                    PredmetVDotazniku cv = null;
+                    PredmetVDotazniku se = null;
+                    // u kazdeho predmetu projdeme vsechny rozvrhove akce
+                    // vyucujici zjistujeme z akci a ne z predmetu (zapocitavame pouze ucitele kteri predmet opravdu vyucuji)
                     foreach(var akce in predmet.Value.VsechnyAkce)
-                    {                      
+                    {          
+                        //seznam vsech ucitelu dane akce ktery vyhovuji podminkam ( nejsou zamestnanci katedry ktery predmet patri)
                         neco =  (from ucitel in akce.VsichniUcitele where !(ucitel.Katedra == predmet.Value.Katedra || (ucitel.PracovisteDalsi != null && ucitel.PracovisteDalsi.ToString().Split(',').Contains(predmet.Value.Katedra))) select ucitel).ToList();
+                        
                         if (neco.Count != 0)
                         {
-                            Debug.Write(string.Format("{0}/{1} => {2} \n", predmet.Value.Katedra, predmet.Value.Zkratka, akce.TypAkceZkr));
-                            spolecnePredmety.Add(new PredmetVDotazniku()
+                            //kontrolujeme duplicity
+                            switch (akce.TypAkceZkr)
                             {
-                                predmet = predmet.Value,
-                                ucitele = neco,
-                                typAkce = akce.TypAkceZkr
-                            });
+                                case "Př":
+                                    ZkontrolujAkci(neco, predmet,ref pr , akce);
+                                    break;
+                                case "Cv":
+                                    ZkontrolujAkci(neco, predmet,ref cv , akce);
+                                    break;
+                                case "Se":
+                                    ZkontrolujAkci(neco, predmet,ref se, akce);
+                                    break;
+                                default: throw new Exception("Nenalezen typ akce");                               
+                            }                         
+                            Debug.Write(string.Format("{0}/{1} => {2} \n", predmet.Value.Katedra, predmet.Value.Zkratka, akce.TypAkceZkr));                          
                         }                          
-                    }                 
+                    }
+                    //pridani problemovych predmetu do seznamu
+                    if (pr != null)
+                        spolecnePredmety.Add(pr);
+                    if (cv != null)
+                        spolecnePredmety.Add(cv);
+                    if (se != null)
+                        spolecnePredmety.Add(se);
                 }
             }
             Debug.WriteLine("Probiha vytvareni souboru");
@@ -72,6 +103,9 @@ namespace AnalyzaRozvrhu
                 worksheet.Cells[1, 4].Value = "kód";
                 worksheet.Cells[1, 5].Value = "název předmětu";
                 worksheet.Cells[1, 6].Value = "typ";
+
+                worksheet.Cells["A1:F1"].AutoFilter = true;
+
                 StringBuilder sb;
                 for(int i = 2; i < spolecnePredmety.Count + 2; i++)
                 {
@@ -94,8 +128,27 @@ namespace AnalyzaRozvrhu
             Debug.WriteLine("Dotaznik " + path + " vytvoren!");
 
         }
-     
-#region Nacitani dotazniku
+
+        private static void ZkontrolujAkci(List<STAG_Classes.Ucitel> neco,KeyValuePair<string, STAG_Classes.Predmet> predmet,ref PredmetVDotazniku predmetVDotazniku, STAG_Classes.RozvrhovaAkce akce)
+        {
+            if (predmetVDotazniku != null)
+            {
+                foreach (var ucitel in neco)
+                    if (!predmetVDotazniku.ucitele.Contains(ucitel))
+                        predmetVDotazniku.ucitele.Add(ucitel);
+            }
+            else
+            {
+                predmetVDotazniku = new PredmetVDotazniku()
+                {
+                    predmet = predmet.Value,
+                    ucitele = neco,
+                    typAkce = akce.TypAkceZkr
+                };
+            }
+        }
+
+        #region Nacitani dotazniku
         public static void NacistDotaznikKatedramXLS(this STAG_Classes.STAG_Database data, string path)
         {
             // TODO
