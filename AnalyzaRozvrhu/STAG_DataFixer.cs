@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OfficeOpenXml;
 using System.Diagnostics;
 using System.IO;
+using AnalyzaRozvrhu.STAG_Classes;
 
 namespace AnalyzaRozvrhu
 {
@@ -239,10 +240,40 @@ namespace AnalyzaRozvrhu
                     DoplnPodilKatedry(ref podil, predmet,ref podilKatedry);
                     predmet.Value.PodilKatedrySeminar = podilKatedry;
 
+                    //myslim ze nazev metody je dostatecny
+                    DoplnPocetHodinZaSemestr(predmet.Value);
                 }
             }
             Debug.WriteLine("Doplneni hotovo");
         }
+
+
+        /// <summary>
+        /// Tato metoda vypocita na zeklade jednotek za semestr/tyden pocet vyucovanych hodyn za semestr
+        /// </summary>
+        /// <param name="predmet">Predmet</param>
+        private static void DoplnPocetHodinZaSemestr(Predmet predmet)
+        {
+            if(predmet.JednotkaPrednasky == "HOD/SEM")           
+                predmet.HodinZaSemestrPr = predmet.JednotekPrednasek;
+            else           
+               if(predmet.JednotkaPrednasky == "HOD/TYD" && predmet.VsechnyAkce.Count != 0)
+                     predmet.HodinZaSemestrPr = (predmet.VsechnyAkce[0].TydenDo - predmet.VsechnyAkce[0].TydenOd)*predmet.JednotekPrednasek;
+                
+            if (predmet.JednotkaCviceni == "HOD/SEM")
+                predmet.HodinZaSemestrCv = predmet.JednotekCviceni;
+            else
+               if (predmet.JednotkaPrednasky == "HOD/TYD" && predmet.VsechnyAkce.Count != 0)                
+                     predmet.HodinZaSemestrCv = (predmet.VsechnyAkce[0].TydenDo - predmet.VsechnyAkce[0].TydenOd) * predmet.JednotekCviceni;
+            
+            if (predmet.JednotkaSeminare == "HOD/SEM")
+                predmet.HodinZaSemestrSe = predmet.JednotekSeminare;
+            else
+               if (predmet.JednotkaPrednasky == "HOD/TYD" && predmet.VsechnyAkce.Count != 0)
+                    predmet.HodinZaSemestrSe = (predmet.VsechnyAkce[0].TydenDo - predmet.VsechnyAkce[0].TydenOd) * predmet.JednotekSeminare;
+        }
+
+
 
         /// <summary>
         /// Spocita % podil vyuky predmetu pokud je podil na vyuce mensi nez 1 tak doplni
