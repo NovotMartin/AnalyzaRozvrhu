@@ -16,22 +16,19 @@ namespace AnalyzaRozvrhu
     
     public static class STAG_DataFixer
     {
-       /* Dictionary<string, int> podilKatedryPrednaska;
-        Dictionary<string, int> podilKatedryCviceni;
-        Dictionary<string, int> podilKatedrySeminar;
-        /*
-         * TODO
-         * Generovat dotazniky kvuli podilu katedry
-         * Generovat dotazniky kvuli skuktecne rozvrhovanosti
-         */
+       
+         /*
+          * TODO
+          * Generovat dotazniky kvuli podilu katedry
+          * Generovat dotazniky kvuli skuktecne rozvrhovanosti
+          */
+#region generovani dotazniku podilKateder
         class PredmetVDotazniku
         {
            public STAG_Classes.Predmet predmet;
            public List<STAG_Classes.Ucitel> ucitele;
-           public string typAkce; 
+           public string typAkce;
         } 
-
-
         /// <summary>
         /// Tato metoda souluží k vygenerování dotazníku s podílem katedry na vyučovaném predmetu
         /// </summary>
@@ -107,16 +104,14 @@ namespace AnalyzaRozvrhu
                 worksheet.Cells[1, 4].Value = "kód";
                 worksheet.Cells[1, 5].Value = "název předmětu";
                 worksheet.Cells[1, 6].Value = "typ";
-
-                worksheet.Cells["A1:F1"].AutoFilter = true;
+                worksheet.Cells[1, 7].Value = "Semestr";
+                worksheet.Cells["A1:G1"].AutoFilter = true;
 
                 // seznam vsech kateder na fakulte
                 var katedry = data.HiearchiePracovist[data.Fakulta];
-
-                
-
-                var validace = worksheet.DataValidations.AddIntegerValidation("A:A"/*string.Format("A2:A{0}", spolecnePredmety.Count + 2)*/);
-                
+              
+                // kontrola validace zadávaných dat 
+                var validace = worksheet.DataValidations.AddIntegerValidation("A:A"/*string.Format("A2:A{0}", spolecnePredmety.Count + 2)*/);               
                 validace.ErrorStyle = ExcelDataValidationWarningStyle.stop;
                 validace.PromptTitle = "Sem napiš % podíl na výuce";
                 validace.Prompt = "Hodnota musí být od 0 do 100";
@@ -146,6 +141,7 @@ namespace AnalyzaRozvrhu
                     worksheet.Cells[i, 4].Value = string.Format("{0}/{1}",spolecnePredmety[i-2].predmet.Katedra, spolecnePredmety[i - 2].predmet.Zkratka);
                     worksheet.Cells[i, 5].Value = spolecnePredmety[i - 2].predmet.Nazev;
                     worksheet.Cells[i, 6].Value = spolecnePredmety[i-2].typAkce;
+                    worksheet.Cells[i, 7].Value = spolecnePredmety[i - 2].predmet.VyukaZS && spolecnePredmety[i - 2].predmet.VyukaLS ? "ZS/LS" : spolecnePredmety[i - 2].predmet.VyukaZS ? "ZS" : "LS";
                 }
                 worksheet.Cells.AutoFitColumns(5);
                 package.Save();
@@ -172,8 +168,14 @@ namespace AnalyzaRozvrhu
                 };
             }
         }
+#endregion
+#region Nacitani dotazniku
 
-        #region Nacitani dotazniku
+        /// <summary>
+        /// Nacitani podilu kateder na vyucovanem predmetu z dotazniku
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="path"></param>
         public static void NacistDotaznikKatedramXLS(this STAG_Classes.STAG_Database data, string path)
         {
             // TODO
@@ -359,8 +361,14 @@ namespace AnalyzaRozvrhu
             else
                 ucitele.Add(new Tuple<string, string>(tmpUc[0], tmpUc[1]));
         }
-#endregion
+        #endregion
         // Dodelat metody pro generovani dotazniku kvuli ATYP předmětům
+#region nacitani dotazniku ATYP
+        /// <summary>
+        /// Nacitani dotazniku s ATYP predmety
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="path"></param>
         public static void  NacistDotazniAtypPredmety(this STAG_Classes.STAG_Database data, string path)
         {
             List<Tuple<string, string>> chybnePredmety = new List<Tuple<string, string>>();
@@ -464,5 +472,6 @@ namespace AnalyzaRozvrhu
             if (chybnePredmety.Count != 0)
                 throw new STAG_Exception_InvalidTypeOfCourses(chybnePredmety);
         }
+#endregion
     }
 }
