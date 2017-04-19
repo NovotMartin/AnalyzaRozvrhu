@@ -13,33 +13,51 @@ namespace AnalyzaRozvrhu.STAG_Classes
     /// </summary>
     public class Ucitel
     {
-
+        /// <summary>
+        /// Pocet referenci
+        /// </summary>
+        /// <remarks>Uz si nepamatuji k cemu to tu je. Ale zrejme jen na nejaký debug výpis nebo pro zajímavost</remarks>
         public int referenceCount = 0;
 
+        /// <summary>
+        /// ID učitele
+        /// </summary>
         [JsonProperty("ucitIdno")]
         public int UcitIdno { get; set; }
 
+        /// <summary>
+        /// Katedra, hlavní pracoviště učitele
+        /// </summary>
         [JsonProperty("katedra")]
         public string Katedra { get; set; }
 
         
         /// <summary>
-        /// Obsahuje NULL nebo další pracoviště oddělené , (oddělovačem si nejsem jistý)
+        /// Obsahuje NULL nebo další pracoviště oddělené čárkou (oddělovačem si nejsem jistý)
         /// </summary>
         [JsonProperty("pracovisteDalsi")]
         public object PracovisteDalsi { get; set; }
 
 
         // Informace pro Fandu
+        /// <summary>
+        /// Křestní jméno učitele
+        /// </summary>
         [JsonProperty("jmeno")]
         public string Jmeno { get; set; }
-
+        /// <summary>
+        /// Příjmení učitele
+        /// </summary>
         [JsonProperty("prijmeni")]
         public string Prijmeni { get; set; }
-
+        /// <summary>
+        /// Tituly uváděné před jménem
+        /// </summary>
         [JsonProperty("titulPred")]
         public string TitulPred { get; set; }
-
+        /// <summary>
+        /// Tituly uváděné za jménem
+        /// </summary>
         [JsonProperty("titulZa")]
         public string TitulZa { get; set; }
 

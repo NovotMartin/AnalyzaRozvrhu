@@ -13,38 +13,69 @@ namespace AnalyzaRozvrhu.STAG_Classes
     /// </summary>
     public class Student
     {
+        /// <summary>
+        /// Konstruktor sloužící k inicializaci proměnných
+        /// </summary>
         public Student()
         {
             Rozvrh = new List<RozvrhovaAkce>();
             
         }
 
+        /// <summary>
+        /// Osobní číslo studenta typu F15123 ze STAGu
+        /// </summary>
+        /// <remarks>Podle tohoto čísla se stahují rozvrhy studentů</remarks>
         [JsonProperty("osCislo")]
         public string OsCislo { get; set; }
 
-        
+        /// <summary>
+        /// Stav studenta (S,N,P)
+        /// </summary>
+        /// <remarks>Stav studenta znamená, jestli je student studující, nestudující nebo studiom přerušil. Pokud je například N - nestudující, pak to nutně neznamená, že ho nebudeme do analýzy počítat, protože třeba v minulém semestru mohl být ještě studujícím i když ho teď vidíme jako nestudujícího.</remarks>
         [JsonProperty("stav")]
         public string Stav { get; set; }
 
-
+        /// <summary>
+        /// Kód studujního programu studenta
+        /// </summary>
         [JsonProperty("kodSp")]
         public string KodSp { get; set; }
-
+        /// <summary>
+        /// Forma studijního programu zkratka (P(rezenční),K(ombinovaná))
+        /// </summary>
         [JsonProperty("formaSp")]
         public string FormaSp { get; set; }
         
+        /// <summary>
+        /// Ročník studia studenta
+        /// </summary>
         [JsonProperty("rocnik")]
         public int Rocnik { get; set; }
 
+        /// <summary>
+        /// Kombinovaný obor studia.
+        /// </summary>
+        /// <remarks>Obsahuje něco jako <c>xFY INF 4187</c> nebo třeba jen <c>IS</c></remarks>
         [JsonProperty("oborKomb")]
         public string OborKomb { get; set; }
 
+        /// <summary>
+        /// Obsahuje ID oborů oddělené čárkami
+        /// </summary>
+        /// <remarks>Příklad co může toto pole obsahovat: <c>761,791,797</c> nebo <c>881</c></remarks>
         [JsonProperty("oborIdnos")]
         public string OborIdnos { get; set; }
         
+        /// <summary>
+        /// Seznam odkazů na rozvrhové akce tohoto studenta
+        /// </summary>
         public List<RozvrhovaAkce> Rozvrh { get; set; }
 
-
+        /// <summary>
+        /// Testovací výpis
+        /// </summary>
+        /// <returns>Testovací výpis</returns>
         public override string ToString()
         {
             return string.Format("'{0}':Rcount({1}),Rocnik({2})",this.OsCislo,this.Rozvrh.Count,this.Rocnik);
@@ -53,17 +84,21 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
         /// <summary>
         /// TODO:
-        /// kolekce SRA studenta, bude se vyuzivat pri zaverecnem rozpoctu
+        /// kolekce SRA studenta.
         /// </summary>
+        /// <remarks>Kolekce všech Super Rozvrhových Akcí konkrétního studenta. Tyto akce se používají pří analýze a především při výpočtu</remarks>
         public IEnumerable<SRA> RozvrhSRA { get; set; }
 
         /// <summary>
         /// TODO!
-        /// Sen doplnit samotne podily kateder na vyuce, tohle se bude (mimo jine pouzivat pri exportu do Excel reportu)
-        /// Key = Katedra
-        /// Value = Procenta <0,100>
-        /// Sum(PodilKatedry.Values) = 100!
+        /// Podily kateder na vyuce
         /// </summary>
+        /// <remarks>
+        /// Tyto data se používají při výpisu a exportu celé analýzy. Musí obsahovat minimálně ty katedry, které se na výuce tohoto studenta podílí.
+        /// Key = Katedra,
+        /// Value = Procenta 0-100,
+        /// Sum(PodilKatedry.Values) = 100!,
+        /// </remarks>
         public Dictionary<string, double> PodilKatedry { get; set; }
     }
 

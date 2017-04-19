@@ -9,17 +9,25 @@ using System.Collections;
 
 namespace AnalyzaRozvrhu.STAG_Classes
 {    
-
+    /// <summary>
+    /// Třída obalující hodnotu času
+    /// </summary>
     public class HodinaSkutOd
     {
-
+        /// <summary>
+        /// Hodnota skutečného začátku rozvrhové akce
+        /// </summary>
         [JsonProperty("value")]
         public DateTime Value { get; set; }
     }
-
+    /// <summary>
+    /// Třída obalující hodnotu času
+    /// </summary>
     public class HodinaSkutDo
     {
-
+        /// <summary>
+        /// Skutečná hodina konce rozvrhové akce
+        /// </summary>
         [JsonProperty("value")]
         public DateTime Value { get; set; }
     }
@@ -31,91 +39,153 @@ namespace AnalyzaRozvrhu.STAG_Classes
     /// </summary>
     public class RozvrhovaAkce
     {
+        /// <summary>
+        /// Konstruktor inicializující všechny potřebné promněnné
+        /// </summary>
         public RozvrhovaAkce()
         {
             referenceCount = 0;
             VsichniUcitele = new List<Ucitel>(1);
         }
+        /// <summary>
+        /// Počet studentů ukazující na tuto akci.
+        /// </summary>
+        /// <remarks>Jen pro zajímavost a porovnání mezi obsazením ze STAGu a počtem studentů v naší databázi</remarks>
         public int referenceCount;
 
+        /// <summary>
+        /// ID rozvrhové akce
+        /// </summary>
+        /// <remarks>Pokud tato hodnota chybí v json souboru, je nastavena na jedničku.. Takže existuje více rozvrhových akcí se stejným ID. Zpravidla se jedná o státní závěrečné zkoušky a podobné podivné akce</remarks>
         [JsonProperty("roakIdno", NullValueHandling = NullValueHandling.Ignore)]
         public int RoakIdno { get; set; }
 
 
-
+        /// <summary>
+        /// Zkratka katedry pod kterou je rozvrhová akce
+        /// </summary>
         [JsonProperty("katedra")]
         public string Katedra { get; set; }
 
+        /// <summary>
+        /// Zkratka/kod předmětu ke kterému tato akce náleží
+        /// </summary>
         [JsonProperty("predmet")]
         public string Predmet { get; set; }
 
-        public Predmet PredmetRef;
+        /// <summary>
+        /// Odkaz na skutečný předmět této akce
+        /// </summary>
+        public Predmet PredmetRef { get; set; }
 
-
+        /// <summary>
+        /// Statut rozvrhové akce (A/B/C)
+        /// </summary>
+        /// <remarks>Nevím co přesně to znamená</remarks>
         [JsonProperty("statut")]
         public string Statut { get; set; }
 
 
 
 
-
+        /// <summary>
+        /// Budova ve které se akce vyučuje. Může být i prázdná.
+        /// </summary>
         [JsonProperty("budova")]
         public string Budova { get; set; }
 
+        /// <summary>
+        /// Místnost kde se akce vyučuje. Může být i prázdná.
+        /// </summary>
         [JsonProperty("mistnost")]
         public string Mistnost { get; set; }
 
 
 
 
-
+        /// <summary>
+        /// Počet zapsaných studentů podle STAGu
+        /// </summary>
         [JsonProperty("obsazeni")]
         public int Obsazeni { get; set; }
 
 
-
+        /// <summary>
+        /// Typ akce (Cv,Př,Se)
+        /// </summary>
         [JsonProperty("typAkceZkr")]
         public string TypAkceZkr { get; set; }
 
+        /// <summary>
+        /// Semestr kdy akce probíhá (LS,ZS)
+        /// </summary>
         [JsonProperty("semestr")]
         public string Semestr { get; set; }
 
 
 
-
+        /// <summary>
+        /// Den kdy se akce vyučuje (Po, Út, St, Čt, Pá, So, Ne)
+        /// </summary>
         [JsonProperty("denZkr")]
         public string DenZkr { get; set; }
 
+        /// <summary>
+        /// Vyučovací hodina začátku akce. Může být i null.
+        /// </summary>        
         [JsonProperty("hodinaOd")]
         public int? HodinaOd { get; set; }
-
+        /// <summary>
+        /// Vyučovací hodina konce akce. Může být i null.
+        /// </summary>
         [JsonProperty("hodinaDo")]
         public int? HodinaDo { get; set; }
 
 
-
+        /// <summary>
+        /// Zabalený skutečný čas začátku akce
+        /// </summary>
         [JsonProperty("hodinaSkutOd")]
         private HodinaSkutOd _HodinaSkutOd { get; set; }
+        /// <summary>
+        /// Skutečný čas začátku akce
+        /// </summary>
+        /// <remarks>Pokud akce nemá začátek - není rozvrhovaná, má začátek v 00:00 </remarks>
         public DateTime HodinaSkutOd { get { return _HodinaSkutOd.Value; } }
-
+        /// <summary>
+        /// Zabalený skutečný čas konce akce
+        /// </summary>
         [JsonProperty("hodinaSkutDo")]
         private HodinaSkutDo _HodinaSkutDo { get; set; }
+        /// <summary>
+        /// Skutečný čas konce akce
+        /// </summary>
+        /// <remarks>Pokud akce nemá začátek - není rozvrhovaná, má konec v 00:00 </remarks>
         public DateTime HodinaSkutDo { get { return _HodinaSkutDo.Value; } }
 
 
-
+        /// <summary>
+        /// Týden začátku výuky akce
+        /// </summary>
         [JsonProperty("tydenOd")]
         public int TydenOd { get; set; }
-
+        /// <summary>
+        /// Týden konce výuky akce
+        /// </summary>
         [JsonProperty("tydenDo")]
         public int TydenDo { get; set; }
 
 
 
-
+        /// <summary>
+        /// Zkratka označující periodu výuky (K(aždý),J(iný),S(udý)...)
+        /// </summary>
         [JsonProperty("tydenZkr")]
         public string TydenZkr { get; set; }
 
+        /// <summary>
+        /// ID Groupy
+        /// </summary>
         [JsonProperty("grupIdno")]
         public int? GrupIdno { get; set; }
 
@@ -124,14 +194,20 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
 
 
-
+        /// <summary>
+        /// Druh akce
+        /// </summary>
+        /// <remarks>Druh akce by měl být pro všechny akce v databázi "R", protože stahujeme jen rozvrhové akce (=druh R)</remarks>
         [JsonProperty("druhAkce")]
         public string DruhAkce { get; set; }
 
+        /// <summary>
+        /// String všech učitelů akce oddělěných čárkou
+        /// </summary>
         [JsonProperty("vsichniUciteleUcitIdno")]
         private string _VsichniUciteleUcitIdno { get; set; }
         /// <summary>
-        /// Vrati list vsech ucitelu na dane ra
+        /// Vrátí list všech ID učitelů na dané rozvrhové akci
         /// </summary>
         public List<int> VsichniUciteleUcitIdno { get {
                 List<int> r = new List<int>(1);
@@ -144,6 +220,9 @@ namespace AnalyzaRozvrhu.STAG_Classes
                     r.Add(Convert.ToInt32(id));
                 return r;
             } }
+        /// <summary>
+        /// Seznam odkazů na objekty Učitelů této rozvrhové akce
+        /// </summary>
         public List<Ucitel> VsichniUcitele { get; set; }
 
 

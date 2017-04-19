@@ -9,15 +9,11 @@ namespace AnalyzaRozvrhu.STAG_Classes
     /// <summary>
     /// Obal pro rozvrhové akce
     /// </summary>
+    /// <remarks>Tento objekt zapouzdřuje rozvrhové akce, buď tam budou samotné a nebo společně se společně rozvrhovanými</remarks>
     public class SRA
     {
-        // TODO!
-        /*
-         * Tento objekt zapouzdřuje rozvrhové akce, buď tam budou samotné a nebo společně se společně rozvrhovanými
-         */
-
         /// <summary>
-        /// Pocet studentu na teto SRA (soucet vsech vnorenzch akci)
+        /// Pocet studentu na teto SRA (soucet vsech vnorenych akci)
         /// </summary>
         public int PocetStudentuSRA { get; set; }
 

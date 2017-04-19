@@ -187,21 +187,21 @@ namespace AnalyzaRozvrhu.STAG_Classes
 
         /// <summary>
         /// TODO!
-        /// Podil katedry na výuce (Prednaska) key=katedra, value=podíl z intervalu <0,1>
+        /// Podil katedry na výuce (Prednaska) key=katedra, value=podíl z intervalu 0-1
         /// Soucet podilu = 1!
         /// </summary>
         /// <remarks>I v případě, že se jedná o jednuduchý předmět, vždy by se zde měla vyskytovat alespoň jedna katedra, kterou rozvrhová akce tohoto typu a tohoto předmětu zatěžuje.</remarks>
         public Dictionary<string,double> PodilKatedryPrednaska { get; set; }
         /// <summary>
         /// TODO!
-        /// Podil katedry na výuce (Cviceni) key=katedra, value=podíl z intervalu <0,1>
+        /// Podil katedry na výuce (Cviceni) key=katedra, value=podíl z intervalu 0-1
         /// Soucet podilu = 1!
         /// </summary>
         /// <remarks>I v případě, že se jedná o jednuduchý předmět, vždy by se zde měla vyskytovat alespoň jedna katedra, kterou rozvrhová akce tohoto typu a tohoto předmětu zatěžuje.</remarks>
         public Dictionary<string, double> PodilKatedryCviceni { get; set; }
         /// <summary>
         /// TODO!
-        /// Podil katedry na výuce (Seminar) key=katedra, value=podíl z intervalu <0,1>
+        /// Podil katedry na výuce (Seminar) key=katedra, value=podíl z intervalu 0-1
         /// Soucet podilu = 1!
         /// </summary>
         /// <remarks>I v případě, že se jedná o jednuduchý předmět, vždy by se zde měla vyskytovat alespoň jedna katedra, kterou rozvrhová akce tohoto typu a tohoto předmětu zatěžuje.</remarks>

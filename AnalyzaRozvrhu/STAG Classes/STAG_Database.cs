@@ -14,33 +14,64 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// <summary>
         /// Fakulta pro kterou stahujeme a načítáme všechny další informace. Obsahuje zkratku (např. PRF, PF ad.) 
         /// </summary>
+        /// <remarks>Může obsahovat například <c>PRF</c></remarks>
         public string Fakulta { get;  private set;}
         
         /// <summary>
         /// Seznam všech studujících studentů na fakultě.
         /// </summary>
         public List<Student> Students { get; set; }
-        
+
         /// <summary>
         /// HashTable všech rozvrhovaných akcí od studentů.
         /// </summary>
+        /// <remarks>Obsahuje všechny rozvrhové akce získáne a načtené z rozvrhů studentů. Klíčem je roakID. Používá se pro rychlejší přiřazování a vyhledávání akcí.</remarks>
+        /// <example>
+        /// Rozvrhovou akci podle id získáme následujícím způsobem
+        /// <code>
+        /// var roak = Database.Students[295151] // vrátí rozvrhovou akci cvičení z předmětu AVD
+        /// </code>
+        /// </example>
         public Dictionary<int,RozvrhovaAkce> Akce { get; set; }
-        
+
         /// <summary>
         /// HashTable všech učitelů, kteří se vyskytují v rozvrhových akcích
         /// </summary>
+        /// <remarks>Obsahuje všechny učitele, na které se během načítání dat narazí. Klíčem je ucitID.</remarks>
+        /// <example>
+        /// Učitele podle id získáme následujícím způsobem
+        /// <code>
+        /// var ucit = Database.Ucitele[2220] // vrátí objekt učitele Jiří Škvor
+        /// </code>
+        /// </example>
         public Dictionary<int, Ucitel> Ucitele { get; set; }
 
         /// <summary>
         /// Predmety z fakulty
         /// Katedra - Kod - Predmet
-        /// POZOR: Mezi ostatnimi predmety budou pravdepodobne i jine katedry nez z vybrane fakulty
         /// </summary>
+        /// <remarks>
+        /// Obsahuje všechny předměty které se vyskytly během načítání. Doporučují při přístupu kontrolovat, jestli v Dictionary existují klíče apod.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// // Takhle projdeme všechny předměty katedri KI
+        /// foreach(var katedra in Database.PredmetyPodleKateder["KI"])
+        ///     foreach (var predmet in katedra.Value)
+        ///     {
+        ///         //ted je v predmet ulozen odkaz na nejaky predmet z katedry
+        ///     }
+        ///     
+        /// // Takhle zase jednoduše zíkáme predmet AVD z tohoto slovníku
+        /// var avd = Database.PredmetyPodleKateder["KI"]["AVD"];
+        /// </code>
+        /// </example>
         public Dictionary<string, Dictionary<string, Predmet>> PredmetyPodleKateder { get; set; }
 
         /// <summary>
-        /// V prvni urovni je lvl 2(fakulty, knihovna, rektorat...) dal lvl 3 (katedry, oddeleni...)
+        /// Všechny pracoviště v hiearchii
         /// </summary>
+        /// <remarks>V prvni urovni je lvl 2(fakulty, knihovna, rektorat...) dal lvl 3 (katedry, oddeleni...)</remarks>
         public Dictionary<string, Dictionary<string, Pracoviste>> HiearchiePracovist { get; set; }
 
 
