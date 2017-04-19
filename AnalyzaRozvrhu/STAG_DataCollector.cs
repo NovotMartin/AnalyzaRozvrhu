@@ -174,7 +174,7 @@ namespace AnalyzaRozvrhu
         /// <param name="fakulta">Aktuálně analyzovaná fakulta</param>
         /// <param name="data">Objekt databáze kam se data zařadí</param>
         /// <param name="serializer">NewtonSoft JSON serializer pro deserializaci staženého souboru</param>
-        /// <remarks> Obstará stažený seznamu všech a vytvoří z nich seznam v databázi. Parametrem pro studenty je podmínka "S" ~ studuje.
+        /// <remarks> Obstará stažený seznamu všech a vytvoří z nich seznam v databázi. Stahuje všechny - studující, nestudující i přerušenné studenty.
         /// Soubor se bude jmenovat např. StudentyByFakltaPRF.json</remarks>
         private static void Handle_StudentByFakulta(string fakulta, STAG_Classes.STAG_Database data, JsonSerializer serializer)
         {
@@ -336,7 +336,7 @@ namespace AnalyzaRozvrhu
             {
                 var request = STAGRequests.GetStudentiByFakulta;
                 request.SetToken("fakulta", fakulta);
-                request.AddToken("stav", "S");
+                
                 request.AddToken("outputFormat", "json");
 
                 File.WriteAllText(path, puller.GetResponseContent(request));
