@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['fakulta',['Fakulta',['../class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database.html#a69eb11879c56770b1a5f7af80a84df48',1,'AnalyzaRozvrhu.STAG_Classes.STAG_Database.Fakulta()'],['../namespace_analyza_rozvrhu_1_1_s_t_a_g___classes.html#a2e3181499083134e3da66098b571fb83',1,'AnalyzaRozvrhu.STAG_Classes.Fakulta()']]]
+  ['denzkr',['DenZkr',['../class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#abe9d4832749b0d41f2430ba5b5cb0bde',1,'AnalyzaRozvrhu::STAG_Classes::RozvrhovaAkce']]],
+  ['druhakce',['DruhAkce',['../class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#aed07e69ac5a0bd9dd3dfab06f6c6ef96',1,'AnalyzaRozvrhu::STAG_Classes::RozvrhovaAkce']]]
 ];

@@ -2,7 +2,6 @@ var class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce =
 [
     [ "RozvrhovaAkce", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#a5191f6c3e7417b3f31a156b2202e1380", null ],
     [ "ToString", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#aa44761eaf04af4bc620ae106fb992488", null ],
-    [ "PredmetRef", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#ab5ed7ff39752877a21747105799c225c", null ],
     [ "referenceCount", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#acb9f8cef4acf7425c028b4da05f4717b", null ],
     [ "_HodinaSkutDo", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#a005b25cf9feb00cbd72bbee771c7c8c5", null ],
     [ "_HodinaSkutOd", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#a2d8fb6f5c76fafaad7d0dc8db0ac1726", null ],
@@ -19,6 +18,7 @@ var class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce =
     [ "Mistnost", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#a29049e57e8aa95240804e3395a538f3e", null ],
     [ "Obsazeni", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#ac3a97f7c09dd3108def81f7d854568c9", null ],
     [ "Predmet", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#ac7a97b16bd4e6e4d00a1876db05f2c49", null ],
+    [ "PredmetRef", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#ab5ed7ff39752877a21747105799c225c", null ],
     [ "RoakIdno", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#ace6a17c6ca5e27be63fe3827f2eed317", null ],
     [ "Semestr", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#a9c056171b79e82b47895d380631788a1", null ],
     [ "Statut", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html#ada5415c401ddca0def6a1364eda9bef8", null ],

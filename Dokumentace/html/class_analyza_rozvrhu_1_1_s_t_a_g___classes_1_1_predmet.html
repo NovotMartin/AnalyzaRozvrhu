@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Analýza Rozvru: AnalyzaRozvrhu.STAG_Classes.Predmet Class Reference</title>
+<title>Analýza rozvrhu: AnalyzaRozvrhu.STAG_Classes.Predmet Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,8 +28,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Analýza Rozvru
-   &#160;<span id="projectnumber">alpha</span>
+   <div id="projectname">Analýza rozvrhu
    </div>
    <div id="projectbrief">Zatím neúplná dokumentace</div>
   </td>
@@ -84,7 +83,6 @@ $(document).ready(function(){initNavTree('class_analyza_rozvrhu_1_1_s_t_a_g___cl
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">AnalyzaRozvrhu.STAG_Classes.Predmet Class Reference</div>  </div>
@@ -156,7 +154,7 @@ Properties</h2></td></tr>
 <tr class="memitem:a893040d3db5a777234b5a175efdaa61c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#a893040d3db5a777234b5a175efdaa61c">SeminariciUcitIdno</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a893040d3db5a777234b5a175efdaa61c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Řetězec se všemi ucitIdno seminářících (např. 449, 2240 )  <a href="#a893040d3db5a777234b5a175efdaa61c">More...</a><br /></td></tr>
 <tr class="separator:a893040d3db5a777234b5a175efdaa61c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ee96fae2d567cd70cd44b27d6a70ae5"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html">RozvrhovaAkce</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#a2ee96fae2d567cd70cd44b27d6a70ae5">VsechnyAkce</a><code> [get, private set]</code></td></tr>
+<tr class="memitem:a2ee96fae2d567cd70cd44b27d6a70ae5"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html">RozvrhovaAkce</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#a2ee96fae2d567cd70cd44b27d6a70ae5">VsechnyAkce</a><code> [get]</code></td></tr>
 <tr class="memdesc:a2ee96fae2d567cd70cd44b27d6a70ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Všechny rozvrhové akce které vyučují tento předmět ze studentských rozvrhů  <a href="#a2ee96fae2d567cd70cd44b27d6a70ae5">More...</a><br /></td></tr>
 <tr class="separator:a2ee96fae2d567cd70cd44b27d6a70ae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8cc821699c02f05249c64479777ac50"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#ad8cc821699c02f05249c64479777ac50">HodinZaSemestrPr</a><code> [get, set]</code></td></tr>
@@ -178,23 +176,14 @@ Properties</h2></td></tr>
 <tr class="memdesc:a10acbdb4f1e4ab2856651bf0d2f5066d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximální velikost skupiny na Se pokud null tak nebyla zadaná z tabulky  <a href="#a10acbdb4f1e4ab2856651bf0d2f5066d">More...</a><br /></td></tr>
 <tr class="separator:a10acbdb4f1e4ab2856651bf0d2f5066d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafe9679ab316375dfccb4aa06f81027d"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#aafe9679ab316375dfccb4aa06f81027d">PodilKatedryPrednaska</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:aafe9679ab316375dfccb4aa06f81027d"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO! Podil katedry na výuce (Prednaska) key=katedra, value=podíl z intervalu &lt;0,1&gt; Soucet podilu = 1!  <a href="#aafe9679ab316375dfccb4aa06f81027d">More...</a><br /></td></tr>
+<tr class="memdesc:aafe9679ab316375dfccb4aa06f81027d"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO! Podil katedry na výuce (Prednaska) key=katedra, value=podíl z intervalu 0-1 Soucet podilu = 1!  <a href="#aafe9679ab316375dfccb4aa06f81027d">More...</a><br /></td></tr>
 <tr class="separator:aafe9679ab316375dfccb4aa06f81027d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09f7881d278dfe8fceba719ce6e4caa1"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#a09f7881d278dfe8fceba719ce6e4caa1">PodilKatedryCviceni</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a09f7881d278dfe8fceba719ce6e4caa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO! Podil katedry na výuce (Cviceni) key=katedra, value=podíl z intervalu &lt;0,1&gt; Soucet podilu = 1!  <a href="#a09f7881d278dfe8fceba719ce6e4caa1">More...</a><br /></td></tr>
+<tr class="memdesc:a09f7881d278dfe8fceba719ce6e4caa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO! Podil katedry na výuce (Cviceni) key=katedra, value=podíl z intervalu 0-1 Soucet podilu = 1!  <a href="#a09f7881d278dfe8fceba719ce6e4caa1">More...</a><br /></td></tr>
 <tr class="separator:a09f7881d278dfe8fceba719ce6e4caa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03255074fb9e471f282305d05a742418"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#a03255074fb9e471f282305d05a742418">PodilKatedrySeminar</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a03255074fb9e471f282305d05a742418"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO! Podil katedry na výuce (Seminar) key=katedra, value=podíl z intervalu &lt;0,1&gt; Soucet podilu = 1!  <a href="#a03255074fb9e471f282305d05a742418">More...</a><br /></td></tr>
+<tr class="memdesc:a03255074fb9e471f282305d05a742418"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO! Podil katedry na výuce (Seminar) key=katedra, value=podíl z intervalu 0-1 Soucet podilu = 1!  <a href="#a03255074fb9e471f282305d05a742418">More...</a><br /></td></tr>
 <tr class="separator:a03255074fb9e471f282305d05a742418"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:ae64502840244e3fb30e1ebdb3567857a"><td class="memItemLeft" align="right" valign="top"><a id="ae64502840244e3fb30e1ebdb3567857a"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>_VyukaZS</b></td></tr>
-<tr class="separator:ae64502840244e3fb30e1ebdb3567857a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf190ea1c06c9c8a33dc62c0686a92ba"><td class="memItemLeft" align="right" valign="top"><a id="abf190ea1c06c9c8a33dc62c0686a92ba"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>_VyukaLS</b></td></tr>
-<tr class="separator:abf190ea1c06c9c8a33dc62c0686a92ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Objektová reprezentace pro predmět ze souboru získaného ze služby getPredmetInfo nebo predmetyByFakultaFullInfo </p>
@@ -608,7 +597,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>_VyukaLS</b></td></
 </table>
 </div><div class="memdoc">
 
-<p>TODO! Podil katedry na výuce (Cviceni) key=katedra, value=podíl z intervalu &lt;0,1&gt; Soucet podilu = 1! </p>
+<p>TODO! Podil katedry na výuce (Cviceni) key=katedra, value=podíl z intervalu 0-1 Soucet podilu = 1! </p>
 <p>I v případě, že se jedná o jednuduchý předmět, vždy by se zde měla vyskytovat alespoň jedna katedra, kterou rozvrhová akce tohoto typu a tohoto předmětu zatěžuje.</p>
 
 <p class="definition">Definition at line <a class="el" href="_s_t_a_g___predmety_8cs_source.html#l00201">201</a> of file <a class="el" href="_s_t_a_g___predmety_8cs_source.html">STAG_Predmety.cs</a>.</p>
@@ -635,7 +624,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>_VyukaLS</b></td></
 </table>
 </div><div class="memdoc">
 
-<p>TODO! Podil katedry na výuce (Prednaska) key=katedra, value=podíl z intervalu &lt;0,1&gt; Soucet podilu = 1! </p>
+<p>TODO! Podil katedry na výuce (Prednaska) key=katedra, value=podíl z intervalu 0-1 Soucet podilu = 1! </p>
 <p>I v případě, že se jedná o jednuduchý předmět, vždy by se zde měla vyskytovat alespoň jedna katedra, kterou rozvrhová akce tohoto typu a tohoto předmětu zatěžuje.</p>
 
 <p class="definition">Definition at line <a class="el" href="_s_t_a_g___predmety_8cs_source.html#l00194">194</a> of file <a class="el" href="_s_t_a_g___predmety_8cs_source.html">STAG_Predmety.cs</a>.</p>
@@ -662,7 +651,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>_VyukaLS</b></td></
 </table>
 </div><div class="memdoc">
 
-<p>TODO! Podil katedry na výuce (Seminar) key=katedra, value=podíl z intervalu &lt;0,1&gt; Soucet podilu = 1! </p>
+<p>TODO! Podil katedry na výuce (Seminar) key=katedra, value=podíl z intervalu 0-1 Soucet podilu = 1! </p>
 <p>I v případě, že se jedná o jednuduchý předmět, vždy by se zde měla vyskytovat alespoň jedna katedra, kterou rozvrhová akce tohoto typu a tohoto předmětu zatěžuje.</p>
 
 <p class="definition">Definition at line <a class="el" href="_s_t_a_g___predmety_8cs_source.html#l00208">208</a> of file <a class="el" href="_s_t_a_g___predmety_8cs_source.html">STAG_Predmety.cs</a>.</p>
@@ -869,7 +858,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>_VyukaLS</b></td></
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">private set</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -960,7 +949,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>_VyukaLS</b></td></
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>Q:/Dokumenty/Škola/UJEP/AVD/AnalyzaRozvrhu/AnalyzaRozvrhu/STAG Classes/<a class="el" href="_s_t_a_g___predmety_8cs_source.html">STAG_Predmety.cs</a></li>
+<li>AnalyzaRozvrhu/STAG Classes/<a class="el" href="_s_t_a_g___predmety_8cs_source.html">STAG_Predmety.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

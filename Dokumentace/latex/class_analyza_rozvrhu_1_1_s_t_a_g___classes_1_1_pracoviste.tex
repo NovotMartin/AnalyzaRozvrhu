@@ -1,0 +1,155 @@
+\hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste}{}\section{Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste Class Reference}
+\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste}\index{Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste@{Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste}}
+
+
+Objektová reprezentace souboru pro pracoviště získané ze služby get\+Hierarchie\+Pracovist  
+
+
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_ad32d0a82adad6f2a215ebb0010750075}{Level}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Úroveň pracoviště (1 -\/ 3). \end{DoxyCompactList}\item 
+int \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_ade32248db7e2c1e7a7a97c57cad95f75}{Cislo\+Pracoviste}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Zřejmě ID pracoviště. \end{DoxyCompactList}\item 
+string \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a76e26d6a2ae6a79c368e43822cfef762}{Zkratka}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Zkratka pracoviště (např. P\+RF, KI, K\+CH ....). \end{DoxyCompactList}\item 
+string \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a49fda1e125661a498fa5072e6b1ff41a}{Nazev}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Celý dlouhý název pracoviště (např. Přírodovědecká fakulta). \end{DoxyCompactList}\item 
+string \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a64ec801fcc8696ba32a348bed7b8be04}{Typ\+Pracoviste}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Typ pracoviště K(atedra) nebo F(akulta). \end{DoxyCompactList}\item 
+string \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a2c340cbe9d8d0fa7dcbde393381ddfcb}{Typ\+Vedouciho}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Typ vedoucího \end{DoxyCompactList}\item 
+string \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_ab40ca9c3c73dd030b152448273b18060}{Nadrazene\+Pracoviste}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Zkratka nadřazeného pracoviště \end{DoxyCompactList}\item 
+\hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_platnost_do}{Platnost\+Do} \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a4ff0921a25c916a94e23a62a4ee103b2}{Platnost\+Do}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Pokud je null nebo prazdna, je to platne, pokud je tam nejake starsi datum, pracoviste je jiz zrusenne \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Objektová reprezentace souboru pro pracoviště získané ze služby get\+Hierarchie\+Pracovist 
+
+Určeno pro návrat z této služby \href{https://ws.ujep.cz/ws/service-help/rest/ciselniky/getHierarchiePracovist}{\tt https\+://ws.\+ujep.\+cz/ws/service-\/help/rest/ciselniky/get\+Hierarchie\+Pracovist} . Pro deserializaci je nutný json. Pro lepší pochopení dat v této třídě doporučuji nahlédnout do staženého souboru. Skutečné názvy soupců (nebo json atributů chceteli) jsou vždy obsaženy v tagu \mbox{[}Json\+Property(\char`\"{}nazev\char`\"{})\mbox{]} 
+
+Definition at line 25 of file S\+T\+A\+G\+\_\+\+Pracoviste.\+cs.
+
+
+
+\subsection{Property Documentation}
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_ade32248db7e2c1e7a7a97c57cad95f75}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_ade32248db7e2c1e7a7a97c57cad95f75}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}!Cislo\+Pracoviste@{Cislo\+Pracoviste}}
+\index{Cislo\+Pracoviste@{Cislo\+Pracoviste}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}}
+\subsubsection{\texorpdfstring{Cislo\+Pracoviste}{CisloPracoviste}}
+{\footnotesize\ttfamily int Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste.\+Cislo\+Pracoviste\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Zřejmě ID pracoviště. 
+
+
+
+Definition at line 42 of file S\+T\+A\+G\+\_\+\+Pracoviste.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_ad32d0a82adad6f2a215ebb0010750075}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_ad32d0a82adad6f2a215ebb0010750075}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}!Level@{Level}}
+\index{Level@{Level}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}}
+\subsubsection{\texorpdfstring{Level}{Level}}
+{\footnotesize\ttfamily int Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste.\+Level\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Úroveň pracoviště (1 -\/ 3). 
+
+lvl 1 = univerzit, rektorat lvl 2 = fakulta, knihovna... lvl 3 = katedra, oddeleni, studijni... 
+
+Definition at line 36 of file S\+T\+A\+G\+\_\+\+Pracoviste.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_ab40ca9c3c73dd030b152448273b18060}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_ab40ca9c3c73dd030b152448273b18060}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}!Nadrazene\+Pracoviste@{Nadrazene\+Pracoviste}}
+\index{Nadrazene\+Pracoviste@{Nadrazene\+Pracoviste}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}}
+\subsubsection{\texorpdfstring{Nadrazene\+Pracoviste}{NadrazenePracoviste}}
+{\footnotesize\ttfamily string Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste.\+Nadrazene\+Pracoviste\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Zkratka nadřazeného pracoviště 
+
+
+
+Definition at line 75 of file S\+T\+A\+G\+\_\+\+Pracoviste.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a49fda1e125661a498fa5072e6b1ff41a}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a49fda1e125661a498fa5072e6b1ff41a}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}!Nazev@{Nazev}}
+\index{Nazev@{Nazev}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}}
+\subsubsection{\texorpdfstring{Nazev}{Nazev}}
+{\footnotesize\ttfamily string Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste.\+Nazev\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Celý dlouhý název pracoviště (např. Přírodovědecká fakulta). 
+
+
+
+Definition at line 55 of file S\+T\+A\+G\+\_\+\+Pracoviste.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a4ff0921a25c916a94e23a62a4ee103b2}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a4ff0921a25c916a94e23a62a4ee103b2}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}!Platnost\+Do@{Platnost\+Do}}
+\index{Platnost\+Do@{Platnost\+Do}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}}
+\subsubsection{\texorpdfstring{Platnost\+Do}{PlatnostDo}}
+{\footnotesize\ttfamily \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_platnost_do}{Platnost\+Do} Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste.\+Platnost\+Do\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Pokud je null nebo prazdna, je to platne, pokud je tam nejake starsi datum, pracoviste je jiz zrusenne 
+
+
+
+Definition at line 81 of file S\+T\+A\+G\+\_\+\+Pracoviste.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a64ec801fcc8696ba32a348bed7b8be04}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a64ec801fcc8696ba32a348bed7b8be04}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}!Typ\+Pracoviste@{Typ\+Pracoviste}}
+\index{Typ\+Pracoviste@{Typ\+Pracoviste}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}}
+\subsubsection{\texorpdfstring{Typ\+Pracoviste}{TypPracoviste}}
+{\footnotesize\ttfamily string Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste.\+Typ\+Pracoviste\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Typ pracoviště K(atedra) nebo F(akulta). 
+
+Pozor, to že je něco typu K neznamená, že je to katedra. Furt to může být třeba oddělení nebo knihovna... \+:D
+
+Definition at line 62 of file S\+T\+A\+G\+\_\+\+Pracoviste.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a2c340cbe9d8d0fa7dcbde393381ddfcb}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a2c340cbe9d8d0fa7dcbde393381ddfcb}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}!Typ\+Vedouciho@{Typ\+Vedouciho}}
+\index{Typ\+Vedouciho@{Typ\+Vedouciho}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}}
+\subsubsection{\texorpdfstring{Typ\+Vedouciho}{TypVedouciho}}
+{\footnotesize\ttfamily string Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste.\+Typ\+Vedouciho\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Typ vedoucího 
+
+Podle tohohle se dá zjistit jakého typu je pracoviště
+
+Definition at line 69 of file S\+T\+A\+G\+\_\+\+Pracoviste.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a76e26d6a2ae6a79c368e43822cfef762}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste_a76e26d6a2ae6a79c368e43822cfef762}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}!Zkratka@{Zkratka}}
+\index{Zkratka@{Zkratka}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+Pracoviste}}
+\subsubsection{\texorpdfstring{Zkratka}{Zkratka}}
+{\footnotesize\ttfamily string Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+Pracoviste.\+Zkratka\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Zkratka pracoviště (např. P\+RF, KI, K\+CH ....). 
+
+Zkratka může obsahovat i znaky z diakritikou, ale není pak úplně jasné co se stane když to použijeme jako parametr do webové služby S\+T\+A\+Gu
+
+Definition at line 49 of file S\+T\+A\+G\+\_\+\+Pracoviste.\+cs.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Analyza\+Rozvrhu/\+S\+T\+A\+G Classes/S\+T\+A\+G\+\_\+\+Pracoviste.\+cs\end{DoxyCompactItemize}

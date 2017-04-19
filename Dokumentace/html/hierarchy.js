@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "StagRestLib.Auth", "class_stag_rest_lib_1_1_auth.html", null ],
     [ "Exception", null, [
       [ "AnalyzaRozvrhu.STAG_Exception_InvalidTypeOfCourses", "class_analyza_rozvrhu_1_1_s_t_a_g___exception___invalid_type_of_courses.html", null ]
     ] ],
@@ -10,8 +11,8 @@ var hierarchy =
     [ "AnalyzaRozvrhu.STAG_Classes.Pracoviste", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste.html", null ],
     [ "AnalyzaRozvrhu.STAG_Classes.Predmet", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html", null ],
     [ "AnalyzaRozvrhu.STAG_Classes.PredmetResponse", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet_response.html", null ],
-    [ "AnalyzaRozvrhu.STAG_DataFixer.PredmetVDotazniku", "class_analyza_rozvrhu_1_1_s_t_a_g___data_fixer_1_1_predmet_v_dotazniku.html", null ],
     [ "AnalyzaRozvrhu.Program", "class_analyza_rozvrhu_1_1_program.html", null ],
+    [ "StagRestLib.RestPuller", "class_stag_rest_lib_1_1_rest_puller.html", null ],
     [ "AnalyzaRozvrhu.STAG_Classes.RozvrhByStudentResponse", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrh_by_student_response.html", null ],
     [ "AnalyzaRozvrhu.STAG_Classes.RozvrhovaAkce", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce.html", null ],
     [ "AnalyzaRozvrhu.STAG_Classes.SRA", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_r_a.html", null ],
@@ -21,6 +22,9 @@ var hierarchy =
     [ "AnalyzaRozvrhu.STAG_DataFixer", "class_analyza_rozvrhu_1_1_s_t_a_g___data_fixer.html", null ],
     [ "AnalyzaRozvrhu.STAG_DataPreprocessor", "class_analyza_rozvrhu_1_1_s_t_a_g___data_preprocessor.html", null ],
     [ "AnalyzaRozvrhu.STAG_ReportGenerator", "class_analyza_rozvrhu_1_1_s_t_a_g___report_generator.html", null ],
+    [ "StagRestLib.STAGRequest", "class_stag_rest_lib_1_1_s_t_a_g_request.html", null ],
+    [ "StagRestLib.STAGRequests", "class_stag_rest_lib_1_1_s_t_a_g_requests.html", null ],
+    [ "StagRestLib.STAGRequestToken", "class_stag_rest_lib_1_1_s_t_a_g_request_token.html", null ],
     [ "AnalyzaRozvrhu.STAG_Classes.Student", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_student.html", null ],
     [ "AnalyzaRozvrhu.STAG_Classes.StudentiResponse", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_studenti_response.html", null ],
     [ "AnalyzaRozvrhu.STAG_Classes.Ucitel", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_ucitel.html", null ]

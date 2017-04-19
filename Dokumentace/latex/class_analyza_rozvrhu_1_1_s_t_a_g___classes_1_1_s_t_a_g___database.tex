@@ -1,0 +1,176 @@
+\hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database}{}\section{Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database Class Reference}
+\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database}\index{Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database}}
+
+
+Hlavni datovy zdroj pro analyzu  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a72bb593ee581a9ffa547441e30ad4fb5}{S\+T\+A\+G\+\_\+\+Database} (string \hyperlink{namespace_analyza_rozvrhu_1_1_s_t_a_g___classes_a2e3181499083134e3da66098b571fb83}{Fakulta})
+\begin{DoxyCompactList}\small\item\em Konstruktor \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a69eb11879c56770b1a5f7af80a84df48}{Fakulta}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Fakulta pro kterou stahujeme a načítáme všechny další informace. Obsahuje zkratku (např. P\+RF, PF ad.) \end{DoxyCompactList}\item 
+List$<$ \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_student}{Student} $>$ \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_af0935621edfcdd25d04e25722381e5db}{Students}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Seznam všech studujících studentů na fakultě. \end{DoxyCompactList}\item 
+Dictionary$<$ int, \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce}{Rozvrhova\+Akce} $>$ \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a8f2345d702674f097b30b96a2b5bed3e}{Akce}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Hash\+Table všech rozvrhovaných akcí od studentů. \end{DoxyCompactList}\item 
+Dictionary$<$ int, \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_ucitel}{Ucitel} $>$ \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a9f94adc2f13f6777b24187ad66b8a59b}{Ucitele}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Hash\+Table všech učitelů, kteří se vyskytují v rozvrhových akcích \end{DoxyCompactList}\item 
+Dictionary$<$ string, Dictionary$<$ string, \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet}{Predmet} $>$ $>$ \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_ad3a541091f338a9ed628cc889ddc01f0}{Predmety\+Podle\+Kateder}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Predmety z fakulty Katedra -\/ Kod -\/ \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet}{Predmet} \end{DoxyCompactList}\item 
+Dictionary$<$ string, Dictionary$<$ string, \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste}{Pracoviste} $>$ $>$ \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a86c85c4d262d6ce81e7da2e8abc3a531}{Hiearchie\+Pracovist}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Všechny pracoviště v hiearchii \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Hlavni datovy zdroj pro analyzu 
+
+
+
+Definition at line 12 of file S\+T\+A\+G\+\_\+\+Database.\+cs.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a72bb593ee581a9ffa547441e30ad4fb5}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a72bb593ee581a9ffa547441e30ad4fb5}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}!S\+T\+A\+G\+\_\+\+Database@{S\+T\+A\+G\+\_\+\+Database}}
+\index{S\+T\+A\+G\+\_\+\+Database@{S\+T\+A\+G\+\_\+\+Database}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}}
+\subsubsection{\texorpdfstring{S\+T\+A\+G\+\_\+\+Database()}{STAG\_Database()}}
+{\footnotesize\ttfamily Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database.\+S\+T\+A\+G\+\_\+\+Database (\begin{DoxyParamCaption}\item[{string}]{Fakulta }\end{DoxyParamCaption})}
+
+
+
+Konstruktor 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Fakulta} & Zkratka fakulty pro ktereho analyzujeme\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 87 of file S\+T\+A\+G\+\_\+\+Database.\+cs.
+
+
+
+\subsection{Property Documentation}
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a8f2345d702674f097b30b96a2b5bed3e}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a8f2345d702674f097b30b96a2b5bed3e}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}!Akce@{Akce}}
+\index{Akce@{Akce}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}}
+\subsubsection{\texorpdfstring{Akce}{Akce}}
+{\footnotesize\ttfamily Dictionary$<$int,\hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_rozvrhova_akce}{Rozvrhova\+Akce}$>$ Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database.\+Akce\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Hash\+Table všech rozvrhovaných akcí od studentů. 
+
+Obsahuje všechny rozvrhové akce získáne a načtené z rozvrhů studentů. Klíčem je roak\+ID. Používá se pro rychlejší přiřazování a vyhledávání akcí.
+
+Rozvrhovou akci podle id získáme následujícím způsobem 
+\begin{DoxyCode}
+var roak = Database.Students[295151] \textcolor{comment}{// vrátí rozvrhovou akci cvičení z předmětu AVD}
+\end{DoxyCode}
+ 
+
+Definition at line 35 of file S\+T\+A\+G\+\_\+\+Database.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a69eb11879c56770b1a5f7af80a84df48}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a69eb11879c56770b1a5f7af80a84df48}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}!Fakulta@{Fakulta}}
+\index{Fakulta@{Fakulta}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}}
+\subsubsection{\texorpdfstring{Fakulta}{Fakulta}}
+{\footnotesize\ttfamily string Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database.\+Fakulta\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Fakulta pro kterou stahujeme a načítáme všechny další informace. Obsahuje zkratku (např. P\+RF, PF ad.) 
+
+Může obsahovat například {\ttfamily P\+RF}
+
+Definition at line 18 of file S\+T\+A\+G\+\_\+\+Database.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a86c85c4d262d6ce81e7da2e8abc3a531}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a86c85c4d262d6ce81e7da2e8abc3a531}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}!Hiearchie\+Pracovist@{Hiearchie\+Pracovist}}
+\index{Hiearchie\+Pracovist@{Hiearchie\+Pracovist}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}}
+\subsubsection{\texorpdfstring{Hiearchie\+Pracovist}{HiearchiePracovist}}
+{\footnotesize\ttfamily Dictionary$<$string, Dictionary$<$string, \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_pracoviste}{Pracoviste}$>$ $>$ Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database.\+Hiearchie\+Pracovist\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Všechny pracoviště v hiearchii 
+
+V prvni urovni je lvl 2(fakulty, knihovna, rektorat...) dal lvl 3 (katedry, oddeleni...)
+
+Definition at line 75 of file S\+T\+A\+G\+\_\+\+Database.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_ad3a541091f338a9ed628cc889ddc01f0}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_ad3a541091f338a9ed628cc889ddc01f0}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}!Predmety\+Podle\+Kateder@{Predmety\+Podle\+Kateder}}
+\index{Predmety\+Podle\+Kateder@{Predmety\+Podle\+Kateder}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}}
+\subsubsection{\texorpdfstring{Predmety\+Podle\+Kateder}{PredmetyPodleKateder}}
+{\footnotesize\ttfamily Dictionary$<$string, Dictionary$<$string, \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet}{Predmet}$>$ $>$ Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database.\+Predmety\+Podle\+Kateder\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Predmety z fakulty Katedra -\/ Kod -\/ \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet}{Predmet} 
+
+Obsahuje všechny předměty které se vyskytly během načítání. Doporučují při přístupu kontrolovat, jestli v Dictionary existují klíče apod. 
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// Takhle projdeme všechny předměty katedri KI}
+\textcolor{keywordflow}{foreach}(var katedra \textcolor{keywordflow}{in} Database.PredmetyPodleKateder[\textcolor{stringliteral}{"KI"}])
+    \textcolor{keywordflow}{foreach} (var predmet \textcolor{keywordflow}{in} katedra.Value)
+    \{
+        \textcolor{comment}{//ted je v predmet ulozen odkaz na nejaky predmet z katedry}
+    \}
+
+\textcolor{comment}{// Takhle zase jednoduše zíkáme predmet AVD z tohoto slovníku}
+var avd = Database.PredmetyPodleKateder[\textcolor{stringliteral}{"KI"}][\textcolor{stringliteral}{"AVD"}];
+\end{DoxyCode}
+ 
+
+Definition at line 69 of file S\+T\+A\+G\+\_\+\+Database.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_af0935621edfcdd25d04e25722381e5db}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_af0935621edfcdd25d04e25722381e5db}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}!Students@{Students}}
+\index{Students@{Students}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}}
+\subsubsection{\texorpdfstring{Students}{Students}}
+{\footnotesize\ttfamily List$<$\hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_student}{Student}$>$ Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database.\+Students\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Seznam všech studujících studentů na fakultě. 
+
+
+
+Definition at line 23 of file S\+T\+A\+G\+\_\+\+Database.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a9f94adc2f13f6777b24187ad66b8a59b}\label{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database_a9f94adc2f13f6777b24187ad66b8a59b}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}!Ucitele@{Ucitele}}
+\index{Ucitele@{Ucitele}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Classes\+::\+S\+T\+A\+G\+\_\+\+Database}}
+\subsubsection{\texorpdfstring{Ucitele}{Ucitele}}
+{\footnotesize\ttfamily Dictionary$<$int, \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_ucitel}{Ucitel}$>$ Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database.\+Ucitele\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Hash\+Table všech učitelů, kteří se vyskytují v rozvrhových akcích 
+
+Obsahuje všechny učitele, na které se během načítání dat narazí. Klíčem je ucit\+ID.
+
+Učitele podle id získáme následujícím způsobem 
+\begin{DoxyCode}
+var ucit = Database.Ucitele[2220] \textcolor{comment}{// vrátí objekt učitele Jiří Škvor}
+\end{DoxyCode}
+ 
+
+Definition at line 47 of file S\+T\+A\+G\+\_\+\+Database.\+cs.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Analyza\+Rozvrhu/\+S\+T\+A\+G Classes/S\+T\+A\+G\+\_\+\+Database.\+cs\end{DoxyCompactItemize}

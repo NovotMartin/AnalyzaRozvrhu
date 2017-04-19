@@ -1,0 +1,83 @@
+\hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___data_collector}{}\section{Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Data\+Collector Class Reference}
+\label{class_analyza_rozvrhu_1_1_s_t_a_g___data_collector}\index{Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Data\+Collector@{Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Data\+Collector}}
+
+
+Třída určená ke stahování S\+T\+AG dat a vytvoření \char`\"{}databáze\char`\"{}  
+
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database}{S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database} \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___data_collector_ad0936e0aab42d6a5335c1ebacdcc1526}{Get\+Data} (\hyperlink{namespace_analyza_rozvrhu_1_1_s_t_a_g___classes_a2e3181499083134e3da66098b571fb83}{S\+T\+A\+G\+\_\+\+Classes.\+Fakulta} fakulta, string staguser, string stagpass)
+\begin{DoxyCompactList}\small\item\em Vytvorid objekt se S\+T\+AG Daty \end{DoxyCompactList}\item 
+static \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database}{S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database} \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___data_collector_a450c532cb4e473e554ec9caf902f924b}{Get\+Data} (string fakulta, string staguser, string stagpass)
+\begin{DoxyCompactList}\small\item\em Vytvorid objekt se S\+T\+AG Daty \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Třída určená ke stahování S\+T\+AG dat a vytvoření \char`\"{}databáze\char`\"{} 
+
+Tato třída slouží k vytvoření datové struktury ze S\+T\+AG dat. Pro stahování se využívá Http\+Client. Soubory se ukládají do složky {\ttfamily Folder\+Path\+\_\+root\+Folder}. Pokud jsou zde potřebné soubory obsažené, nestahují se nové. Při podivném chování doporučuji celou tuto složku smazat aby se stáhli nové. 
+
+Definition at line 20 of file S\+T\+A\+G\+\_\+\+Data\+Collector.\+cs.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___data_collector_ad0936e0aab42d6a5335c1ebacdcc1526}\label{class_analyza_rozvrhu_1_1_s_t_a_g___data_collector_ad0936e0aab42d6a5335c1ebacdcc1526}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Data\+Collector@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Data\+Collector}!Get\+Data@{Get\+Data}}
+\index{Get\+Data@{Get\+Data}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Data\+Collector@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Data\+Collector}}
+\subsubsection{\texorpdfstring{Get\+Data()}{GetData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily static \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database}{S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database} Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Data\+Collector.\+Get\+Data (\begin{DoxyParamCaption}\item[{\hyperlink{namespace_analyza_rozvrhu_1_1_s_t_a_g___classes_a2e3181499083134e3da66098b571fb83}{S\+T\+A\+G\+\_\+\+Classes.\+Fakulta}}]{fakulta,  }\item[{string}]{staguser,  }\item[{string}]{stagpass }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Vytvorid objekt se S\+T\+AG Daty 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fakulta} & Fakulta pro kterou delame analyzu.\\
+\hline
+{\em staguser} & Stag přihlášení uživatele pro přístup k webovým službám\\
+\hline
+{\em stagpass} & Stag heslo uzivatele\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Objekt s nactenymi daty ze S\+T\+AG
+\end{DoxyReturn}
+
+
+Definition at line 39 of file S\+T\+A\+G\+\_\+\+Data\+Collector.\+cs.
+
+\mbox{\Hypertarget{class_analyza_rozvrhu_1_1_s_t_a_g___data_collector_a450c532cb4e473e554ec9caf902f924b}\label{class_analyza_rozvrhu_1_1_s_t_a_g___data_collector_a450c532cb4e473e554ec9caf902f924b}} 
+\index{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Data\+Collector@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Data\+Collector}!Get\+Data@{Get\+Data}}
+\index{Get\+Data@{Get\+Data}!Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Data\+Collector@{Analyza\+Rozvrhu\+::\+S\+T\+A\+G\+\_\+\+Data\+Collector}}
+\subsubsection{\texorpdfstring{Get\+Data()}{GetData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static \hyperlink{class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_s_t_a_g___database}{S\+T\+A\+G\+\_\+\+Classes.\+S\+T\+A\+G\+\_\+\+Database} Analyza\+Rozvrhu.\+S\+T\+A\+G\+\_\+\+Data\+Collector.\+Get\+Data (\begin{DoxyParamCaption}\item[{string}]{fakulta,  }\item[{string}]{staguser,  }\item[{string}]{stagpass }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Vytvorid objekt se S\+T\+AG Daty 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fakulta} & Fakulta pro kterou delame analyzu\\
+\hline
+{\em staguser} & Stag přihlášení uživatele pro přístup k webovým službám\\
+\hline
+{\em stagpass} & Stag heslo uzivatele\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Objek t s nactenymi daty ze S\+T\+AG
+\end{DoxyReturn}
+
+
+Definition at line 50 of file S\+T\+A\+G\+\_\+\+Data\+Collector.\+cs.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Analyza\+Rozvrhu/S\+T\+A\+G\+\_\+\+Data\+Collector.\+cs\end{DoxyCompactItemize}

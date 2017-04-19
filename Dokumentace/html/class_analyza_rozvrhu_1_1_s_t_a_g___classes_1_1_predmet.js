@@ -1,8 +1,6 @@
 var class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet =
 [
     [ "Predmet", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#a8802c22749dcf87a678ed3e45bf16690", null ],
-    [ "_VyukaLS", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#abf190ea1c06c9c8a33dc62c0686a92ba", null ],
-    [ "_VyukaZS", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#ae64502840244e3fb30e1ebdb3567857a", null ],
     [ "Cvicici", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#a6be1ecc5bee8228b90b61801f64a0d67", null ],
     [ "CviciciUcitIdno", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#ae59dc22b90a947f8674b9e108d16bac6", null ],
     [ "HodinZaSemestrCv", "class_analyza_rozvrhu_1_1_s_t_a_g___classes_1_1_predmet.html#ad21f2e3b9dc5b9ad65d18bebbf81220e", null ],

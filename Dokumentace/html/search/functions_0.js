@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['doplnpodilkatedry',['DoplnPodilKatedry',['../class_analyza_rozvrhu_1_1_s_t_a_g___data_fixer.html#aff9591c7c33f02c762d751a4c899c122',1,'AnalyzaRozvrhu::STAG_DataFixer']]]
+  ['auth',['Auth',['../class_stag_rest_lib_1_1_auth.html#a0f259ec6ee35c07ebd181136775dec90',1,'StagRestLib::Auth']]]
 ];
