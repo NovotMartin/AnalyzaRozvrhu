@@ -27,7 +27,8 @@ namespace AnalyzaRozvrhu
             // pouzivejte soubor PodilUciteleKatedry.xlsx z http://physics.ujep.cz/~jskvor/AVD/AktualizovanaPodobaPodkladuZKateder/
             data.NacistDotaznikKatedramXLS(@"STAG_DATA\PodilUciteleKatedry.xlsx");
             // Atyp předměty
-
+            //generovani dotazniku pro ATYP predmety
+            //data.GenerovatDotaznikAtypXLS("exampleAtyp.xlsx");
             //Nacteni dotazniku s Atyp predmety
             try
             {
