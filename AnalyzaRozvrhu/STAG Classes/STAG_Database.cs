@@ -74,6 +74,11 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// <remarks>V prvni urovni je lvl 2(fakulty, knihovna, rektorat...) dal lvl 3 (katedry, oddeleni...)</remarks>
         public Dictionary<string, Dictionary<string, Pracoviste>> HiearchiePracovist { get; set; }
 
+        /// <summary>
+        /// Všechny SRA vygenerované v rámci preprocessingu
+        /// </summary>
+        public List<STAG_Classes.SRA> SuperRozvrhoveAkce { get; set; }
+
 
 
 
@@ -91,6 +96,7 @@ namespace AnalyzaRozvrhu.STAG_Classes
             this.Ucitele = new Dictionary<int, Ucitel>(600);
             this.PredmetyPodleKateder = new Dictionary<string, Dictionary<string, Predmet>>();
             this.HiearchiePracovist = new Dictionary<string, Dictionary<string, Pracoviste>>();
+            this.SuperRozvrhoveAkce = new List<SRA>();
         }
 
 
