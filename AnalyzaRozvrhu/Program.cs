@@ -46,7 +46,7 @@ namespace AnalyzaRozvrhu
             data.Preprocess();
 
             // Vypocet zateze
-            data.Analyzuj();
+            data.Analyzuj(Method.Hloupa_metoda);
 
             // Vygenerovani vystupu
             data.GenerovatPrehledXLS("hlavnivystup.xlsx");

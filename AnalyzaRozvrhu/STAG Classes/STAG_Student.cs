@@ -19,7 +19,9 @@ namespace AnalyzaRozvrhu.STAG_Classes
         public Student()
         {
             Rozvrh = new List<RozvrhovaAkce>();
-            
+            PodilKatedry = new Dictionary<string, double>();
+            PodilKatedryZS = new Dictionary<string, double>();
+            PodilKatedryLS = new Dictionary<string, double>();
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// Seznam odkazů na rozvrhové akce tohoto studenta
         /// </summary>
         public List<RozvrhovaAkce> Rozvrh { get; set; }
-
+    
         /// <summary>
         /// Testovací výpis
         /// </summary>
@@ -100,6 +102,9 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// Sum(PodilKatedry.Values) = 100!,
         /// </remarks>
         public Dictionary<string, double> PodilKatedry { get; set; }
+
+        public Dictionary<string, double> PodilKatedryZS { get; set; }
+        public Dictionary<string, double> PodilKatedryLS { get; set; }
     }
 
     public class StudentiResponse
