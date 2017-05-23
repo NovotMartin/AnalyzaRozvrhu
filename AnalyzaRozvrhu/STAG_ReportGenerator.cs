@@ -23,12 +23,16 @@ namespace AnalyzaRozvrhu
             using (var excel = new ExcelPackage(file))
             {
                 ExcelWorksheet sheet;
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < 3; j++)
                 {
-                    if( j == 0)
-                         sheet = excel.Workbook.Worksheets.Add("ZS");
+                    if (j == 0)
+                        sheet = excel.Workbook.Worksheets.Add("ZS");
                     else
-                         sheet = excel.Workbook.Worksheets.Add("LS");
+                        if (j == 1)
+                        sheet = excel.Workbook.Worksheets.Add("LS");
+                    else
+                        sheet = excel.Workbook.Worksheets.Add("ZS+LS");
+
                     sheet.Cells[1, 1].Value = "Osobni cislo";
                     sheet.Cells[1, 2].Value = "Rocnik";
                     sheet.Cells[1, 3].Value = "St. program";
@@ -57,7 +61,10 @@ namespace AnalyzaRozvrhu
                         if (j == 0)
                             podiKatedry = student.PodilKatedryZS;
                         else
-                            podiKatedry = student.PodilKatedryLS;
+                            if (j == 1)
+                                     podiKatedry = student.PodilKatedryLS;
+                            else
+                                     podiKatedry = student.PodilKatedry;
 
                         for (int i = 0; i < katedry.Count; i++)
                         {
@@ -66,7 +73,7 @@ namespace AnalyzaRozvrhu
                             else
                                 sheet.Cells[row, i + 5].Value = 0;
                         }
-
+                        sheet.Cells[row, katedry.Count + 5].Value = (from x in podiKatedry where !katedry.Keys.Contains(x.Key) select x.Value).Sum();
                         row++;
                     }
                     for (int i = 1; i <= 4; i++)

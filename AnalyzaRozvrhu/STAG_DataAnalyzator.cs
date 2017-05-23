@@ -50,15 +50,20 @@ namespace AnalyzaRozvrhu
                             kredityZS.Add(akce.PredmetRef);
                     }
                 }
+                int a;
+                if (student.OsCislo == "F14113")
+                     a = 5;
                 maxKredituZS = (from predmet in kredityZS select predmet.Kreditu).Sum();
                 maxKredituLS = (from predmet in kredityLS select predmet.Kreditu).Sum();
                 if (maxKredituZS == 0)
                     continue;
                 SpoctiPodil(student.PodilKatedryZS, kredityZS, maxKredituZS);
+                SpoctiPodil(student.PodilKatedry, kredityZS, maxKredituZS+maxKredituLS); // podil za oba semestry
                 if (maxKredituLS == 0)
                     continue;
-               SpoctiPodil(student.PodilKatedryLS, kredityLS, maxKredituLS);                        
-                Debug.WriteLine("Hloupá analýza hotavá");
+               SpoctiPodil(student.PodilKatedryLS, kredityLS, maxKredituLS);
+               SpoctiPodil(student.PodilKatedry, kredityLS, maxKredituZS + maxKredituLS); // podil za oba semestry
+               Debug.WriteLine("Hloupá analýza hotavá");
             }
         }
 
