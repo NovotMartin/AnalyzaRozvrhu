@@ -39,17 +39,7 @@ namespace AnalyzaRozvrhu
                 int maxKredituLS = 0;
                 foreach (var akce in student.Rozvrh)
                 {
-                    var predmet = akce.PredmetRef;
-                    int n = 0;
-                    if (predmet.JednotekCviceni != 0)
-                        n++;
-                    if (predmet.JednotekPrednasek != 0)
-                        n++;
-                    if (predmet.JednotekSeminare != 0)
-                        n++;
-                    if (n == 0)
-                        continue;
-
+                   
                     if (akce.Semestr == "LS")
                     {
                         if (!kredityLS.Contains(akce.PredmetRef))
@@ -61,9 +51,11 @@ namespace AnalyzaRozvrhu
                             kredityZS.Add(akce.PredmetRef);
                     }
                 }
+
                 int a;
                 if (student.OsCislo == "F13104")
                      a = 5;
+
                 maxKredituZS = (from predmet in kredityZS select predmet.Kreditu).Sum();
                 maxKredituLS = (from predmet in kredityLS select predmet.Kreditu).Sum();
                 if (maxKredituZS == 0)
@@ -90,7 +82,14 @@ namespace AnalyzaRozvrhu
                     n++;
                 if (predmet.JednotekSeminare != 0)
                     n++;
-
+                if (n == 0)
+                {
+                    if (!podilKatedry.ContainsKey(predmet.Katedra))
+                        podilKatedry.Add(predmet.Katedra, 0);
+                    podilKatedry[predmet.Katedra] += podilPredmetu;
+                    continue;
+                }
+                   
                 if (predmet.JednotekCviceni != 0)
                     foreach (var katedra in predmet.PodilKatedryCviceni)
                     {
