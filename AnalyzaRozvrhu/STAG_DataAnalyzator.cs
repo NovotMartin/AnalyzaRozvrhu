@@ -37,6 +37,7 @@ namespace AnalyzaRozvrhu
                 List<Predmet> kredityZS = new List<Predmet>();
                 int maxKredituZS = 0;
                 int maxKredituLS = 0;
+                // projdu vsechny akce na ktere student chodi a ulozim nazev predmetu
                 foreach (var akce in student.Rozvrh)
                 {
                    
@@ -55,15 +56,17 @@ namespace AnalyzaRozvrhu
                 int a;
                 if (student.OsCislo == "F13104")
                      a = 5;
-
+                // spocteni kreditu ze vsech predmetu v ZS a LS
                 maxKredituZS = (from predmet in kredityZS select predmet.Kreditu).Sum();
                 maxKredituLS = (from predmet in kredityLS select predmet.Kreditu).Sum();
                 if (maxKredituZS == 0)
                     continue;
+                // spocteni zatizeni kateder v zimnim semestru
                 SpoctiPodil(student.PodilKatedryZS, kredityZS, maxKredituZS);
                 SpoctiPodil(student.PodilKatedry, kredityZS, maxKredituZS+maxKredituLS); // podil za oba semestry
                 if (maxKredituLS == 0)
                     continue;
+                // spocteni zatizeni kateder v letnim semestru
                SpoctiPodil(student.PodilKatedryLS, kredityLS, maxKredituLS);
                SpoctiPodil(student.PodilKatedry, kredityLS, maxKredituZS + maxKredituLS); // podil za oba semestry
                Debug.WriteLine("Hloupá analýza hotavá");
@@ -75,6 +78,7 @@ namespace AnalyzaRozvrhu
             foreach (var predmet in kredity)
             {                                
                 double podilPredmetu = (predmet.Kreditu / (double)maxKreditu * 100);
+
                 int n = 0;
                 if (predmet.JednotekCviceni != 0)
                     n++;
@@ -83,7 +87,7 @@ namespace AnalyzaRozvrhu
                 if (predmet.JednotekSeminare != 0)
                     n++;
                 if (n == 0)
-                {
+                { // pokud je pocet typu akci 0 tak se jedná o bp
                     if (!podilKatedry.ContainsKey(predmet.Katedra))
                         podilKatedry.Add(predmet.Katedra, 0);
                     podilKatedry[predmet.Katedra] += podilPredmetu;

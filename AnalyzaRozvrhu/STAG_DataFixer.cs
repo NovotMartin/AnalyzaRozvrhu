@@ -225,13 +225,19 @@ namespace AnalyzaRozvrhu
                         }
                          // sloupec ve kterem je typ predmetu pr/cv/se
                         string typ = worksheet.Cells[row, 6].Value.ToString().ToLower();
+
+                        var katedraVyucujiciho = worksheet.Cells[row, 2].Value.ToString();
                         if (typ == "př")
                         {
                             // pokud slovnik neexistuje tak ho vytvorim
                             if (predmet.PodilKatedryPrednaska == null)
                                 predmet.PodilKatedryPrednaska = new Dictionary<string, double>();
                             // pridani podilu katedry do slovniku
-                            predmet.PodilKatedryPrednaska.Add(worksheet.Cells[row, 2].Value.ToString(), Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0);
+                            
+                            if (predmet.PodilKatedryPrednaska.ContainsKey(katedraVyucujiciho))
+                                predmet.PodilKatedryPrednaska[katedraVyucujiciho] += Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0;
+                            else
+                            predmet.PodilKatedryPrednaska.Add(katedraVyucujiciho, Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0);
                         }
                         else
                         {
@@ -239,7 +245,10 @@ namespace AnalyzaRozvrhu
                             {
                                 if (predmet.PodilKatedryCviceni == null)
                                     predmet.PodilKatedryCviceni = new Dictionary<string, double>();
-                                predmet.PodilKatedryCviceni.Add(worksheet.Cells[row, 2].Value.ToString(), Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0);
+                                if (predmet.PodilKatedryCviceni.ContainsKey(katedraVyucujiciho))
+                                    predmet.PodilKatedryCviceni[katedraVyucujiciho] += Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0;
+                                else
+                                    predmet.PodilKatedryCviceni.Add(katedraVyucujiciho, Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0);
                             }
                             else
                             {
@@ -247,7 +256,10 @@ namespace AnalyzaRozvrhu
                                 {
                                     if (predmet.PodilKatedrySeminar == null)
                                         predmet.PodilKatedrySeminar = new Dictionary<string, double>();
-                                    predmet.PodilKatedrySeminar.Add(worksheet.Cells[row, 2].Value.ToString(), Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0);
+                                    if (predmet.PodilKatedrySeminar.ContainsKey(katedraVyucujiciho))
+                                        predmet.PodilKatedrySeminar[katedraVyucujiciho] += Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0;
+                                    else
+                                        predmet.PodilKatedrySeminar.Add(katedraVyucujiciho, Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0);
                                 }
                                 else
                                     throw new Exception("Neni uvedena informace zda jde o Př/Se/Cv");
