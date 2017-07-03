@@ -18,7 +18,7 @@ namespace AnalyzaRozvrhu
             var pass = GetPass();
 
             // Vytvoreni databaze
-            var data = STAG_DataCollector.GetData(STAG_Classes.Fakulta.PRF,log,pass);
+            var data = STAG_DataCollector.GetData(STAG_Classes.Fakulta.PRF, log, pass);
 
             // Zjisteni chybějících informací od kateder
 
@@ -34,19 +34,17 @@ namespace AnalyzaRozvrhu
             {
                 data.NacistDotazniAtypPredmety(@"STAG_DATA\PredmetyATYP.xlsx");
             }
-            catch(STAG_Exception_InvalidTypeOfCourses e)
+            catch (STAG_Exception_InvalidTypeOfCourses e)
             {
                 //TODO
                 // tady bude reakce na vyvolanou vyjimku
             }
-            
-                //todo
 
             // Spojeni společně vyučovaných předmětů apod.
             data.Preprocess();
 
             // Vypocet zateze
-            data.Analyzuj(Method.Hloupa_metoda);
+            data.Analyzuj(Method.Normalni_metoda);
 
             // Vygenerovani vystupu
             data.GenerovatPrehledXLS("hlavnivystup.xlsx");
@@ -74,7 +72,7 @@ namespace AnalyzaRozvrhu
                             Console.Write(" ");
                             Console.CursorLeft--;
                             sb.Remove(sb.Length - 1, 1);
-                        }                        
+                        }
                         break;
                     case ConsoleKey.Escape:
                         // nuthing

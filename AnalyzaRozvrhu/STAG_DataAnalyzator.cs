@@ -8,30 +8,46 @@ using System.Diagnostics;
 
 namespace AnalyzaRozvrhu
 {
-
     public enum Method
     {
         Hloupa_metoda,
-        Normalni_metoda       
+        Normalni_metoda
     }
+
     public static class STAG_DataAnalyzator
     {
-        public static void Analyzuj(this STAG_Classes.STAG_Database data,Method method)
+        public static void Analyzuj(this STAG_Classes.STAG_Database data, Method method)
         {
-            // TODO
             // analyzuje, upravi objektz studenta a pod...
             switch (method)
             {
-                case Method.Hloupa_metoda: Fandova_hloupa_metoda(data);break;
-                case Method.Normalni_metoda: throw new NotImplementedException();break; // TODO!!!!!!!!!!!!!!!
+                case Method.Hloupa_metoda:
+                    Fandova_hloupa_metoda(data);
+                    break;
+                case Method.Normalni_metoda:
+                    Normalni_metoda(data);
+                    break;
             }
-            
-           
         }
+
+        #region Normalni metoda
+
+        /// <summary>
+        /// Analyza zateze pomoci SRA.
+        /// </summary>
+        /// <param name="data"></param>
+        private static void Normalni_metoda(STAG_Database data)
+        {
+            Console.WriteLine("Nepoustej me! Ja nic neumim... :(");
+        }
+
+        #endregion
+
+        #region Fandova metoda 
 
         private static void Fandova_hloupa_metoda(STAG_Database data)
         {
-           foreach(var student in data.Students)
+            foreach (var student in data.Students)
             {
                 List<Predmet> kredityLS = new List<Predmet>();
                 List<Predmet> kredityZS = new List<Predmet>();
@@ -40,7 +56,7 @@ namespace AnalyzaRozvrhu
                 // projdu vsechny akce na ktere student chodi a ulozim nazev predmetu
                 foreach (var akce in student.Rozvrh)
                 {
-                   
+
                     if (akce.Semestr == "LS")
                     {
                         if (!kredityLS.Contains(akce.PredmetRef))
@@ -55,7 +71,7 @@ namespace AnalyzaRozvrhu
 
                 int a;
                 if (student.OsCislo == "F13104")
-                     a = 5;
+                    a = 5;
                 // spocteni kreditu ze vsech predmetu v ZS a LS
                 maxKredituZS = (from predmet in kredityZS select predmet.Kreditu).Sum();
                 maxKredituLS = (from predmet in kredityLS select predmet.Kreditu).Sum();
@@ -63,20 +79,20 @@ namespace AnalyzaRozvrhu
                     continue;
                 // spocteni zatizeni kateder v zimnim semestru
                 SpoctiPodil(student.PodilKatedryZS, kredityZS, maxKredituZS);
-                SpoctiPodil(student.PodilKatedry, kredityZS, maxKredituZS+maxKredituLS); // podil za oba semestry
+                SpoctiPodil(student.PodilKatedry, kredityZS, maxKredituZS + maxKredituLS); // podil za oba semestry
                 if (maxKredituLS == 0)
                     continue;
                 // spocteni zatizeni kateder v letnim semestru
-               SpoctiPodil(student.PodilKatedryLS, kredityLS, maxKredituLS);
-               SpoctiPodil(student.PodilKatedry, kredityLS, maxKredituZS + maxKredituLS); // podil za oba semestry
-               Debug.WriteLine("Hloupá analýza hotavá");
+                SpoctiPodil(student.PodilKatedryLS, kredityLS, maxKredituLS);
+                SpoctiPodil(student.PodilKatedry, kredityLS, maxKredituZS + maxKredituLS); // podil za oba semestry
+                Debug.WriteLine("Hloupá analýza hotavá");
             }
         }
 
-        private static void SpoctiPodil(Dictionary<string,double> podilKatedry, List<Predmet> kredity, int maxKreditu)
+        private static void SpoctiPodil(Dictionary<string, double> podilKatedry, List<Predmet> kredity, int maxKreditu)
         {
             foreach (var predmet in kredity)
-            {                                
+            {
                 double podilPredmetu = (predmet.Kreditu / (double)maxKreditu * 100);
 
                 int n = 0;
@@ -93,15 +109,15 @@ namespace AnalyzaRozvrhu
                     podilKatedry[predmet.Katedra] += podilPredmetu;
                     continue;
                 }
-                   
+
                 if (predmet.JednotekCviceni != 0)
                     foreach (var katedra in predmet.PodilKatedryCviceni)
                     {
-                        if(!podilKatedry.ContainsKey(katedra.Key))
+                        if (!podilKatedry.ContainsKey(katedra.Key))
                             podilKatedry.Add(katedra.Key, 0);
-                        podilKatedry[katedra.Key] += podilPredmetu * (katedra.Value/n);
+                        podilKatedry[katedra.Key] += podilPredmetu * (katedra.Value / n);
                     }
-                       
+
                 if (predmet.JednotekPrednasek != 0)
                     foreach (var katedra in predmet.PodilKatedryPrednaska)
                     {
@@ -109,7 +125,7 @@ namespace AnalyzaRozvrhu
                             podilKatedry.Add(katedra.Key, 0);
                         podilKatedry[katedra.Key] += podilPredmetu * (katedra.Value / n);
                     }
-                        
+
                 if (predmet.JednotekSeminare != 0)
                     foreach (var katedra in predmet.PodilKatedrySeminar)
                     {
@@ -117,8 +133,10 @@ namespace AnalyzaRozvrhu
                             podilKatedry.Add(katedra.Key, 0);
                         podilKatedry[katedra.Key] += podilPredmetu * (katedra.Value / n);
                     }
-                                   
+
             }
         }
+
+        #endregion
     }
 }

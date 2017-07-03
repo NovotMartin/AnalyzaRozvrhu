@@ -15,8 +15,8 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// Fakulta pro kterou stahujeme a načítáme všechny další informace. Obsahuje zkratku (např. PRF, PF ad.) 
         /// </summary>
         /// <remarks>Může obsahovat například <c>PRF</c></remarks>
-        public string Fakulta { get;  private set;}
-        
+        public string Fakulta { get; private set; }
+
         /// <summary>
         /// Seznam všech studujících studentů na fakultě.
         /// </summary>
@@ -32,7 +32,7 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// var roak = Database.Students[295151] // vrátí rozvrhovou akci cvičení z předmětu AVD
         /// </code>
         /// </example>
-        public Dictionary<int,RozvrhovaAkce> Akce { get; set; }
+        public Dictionary<int, RozvrhovaAkce> Akce { get; set; }
 
         /// <summary>
         /// HashTable všech učitelů, kteří se vyskytují v rozvrhových akcích
@@ -79,9 +79,13 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// </summary>
         public List<STAG_Classes.SRA> SuperRozvrhoveAkce { get; set; }
 
-
-
-
+        /// <summary>
+        /// Seznam hodinovych zatezi na studenta
+        /// Klicem slovniku je osobni cislo studenta fxxxxx.
+        /// Hodnotou slovniku je slovnik obsahujici zateze na katedry.
+        /// Klicem je zkratka katedry a hodnota je double zateze na katedru.
+        /// </summary>
+        public Dictionary<string, Dictionary<string, double>> ZatezNaStudenta { get; set; }
 
 
 
@@ -97,11 +101,12 @@ namespace AnalyzaRozvrhu.STAG_Classes
             this.PredmetyPodleKateder = new Dictionary<string, Dictionary<string, Predmet>>();
             this.HiearchiePracovist = new Dictionary<string, Dictionary<string, Pracoviste>>();
             this.SuperRozvrhoveAkce = new List<SRA>();
+            this.ZatezNaStudenta = new Dictionary<string, Dictionary<string, double>>();
         }
 
 
 
     }
 
-    
+
 }
