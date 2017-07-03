@@ -80,14 +80,21 @@ namespace AnalyzaRozvrhu.STAG_Classes
         public List<STAG_Classes.SRA> SuperRozvrhoveAkce { get; set; }
 
         /// <summary>
-        /// Seznam hodinovych zatezi na studenta
-        /// Klicem slovniku je osobni cislo studenta fxxxxx.
-        /// Hodnotou slovniku je slovnik obsahujici zateze na katedry.
-        /// Klicem je zkratka katedry a hodnota je double zateze na katedru.
+        /// Zatez kateder na vyuku studentu.
+        /// Pozn.: Zatez neni normalizovana.
         /// </summary>
-        public Dictionary<string, Dictionary<string, double>> ZatezNaStudenta { get; set; }
+        public ZatezNaStudenta zatezNaStudenta;
 
+        /// <summary>
+        /// Studenti navstevujici zadanou rozvrhovou akci.
+        /// </summary>
+        public Dictionary<int, List<Student>> studentsOnRoakIdno;
 
+        /// <summary>
+        /// Seznam studentu obsahujici vsechny akce, na ktere jsou zapsani
+        /// Konkretne dvojici (RoakIdno, SRA)
+        /// </summary>
+        public Dictionary<Student, List<Tuple<int, SRAOverlay>>> studentsSRA;
 
         /// <summary>
         /// Konstruktor
@@ -101,7 +108,9 @@ namespace AnalyzaRozvrhu.STAG_Classes
             this.PredmetyPodleKateder = new Dictionary<string, Dictionary<string, Predmet>>();
             this.HiearchiePracovist = new Dictionary<string, Dictionary<string, Pracoviste>>();
             this.SuperRozvrhoveAkce = new List<SRA>();
-            this.ZatezNaStudenta = new Dictionary<string, Dictionary<string, double>>();
+            this.zatezNaStudenta = new ZatezNaStudenta();
+            this.studentsOnRoakIdno = new Dictionary<int, List<Student>>();
+            this.studentsSRA = new Dictionary<Student, List<Tuple<int, SRAOverlay>>>();
         }
 
 
