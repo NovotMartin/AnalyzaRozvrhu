@@ -46,7 +46,7 @@ namespace AnalyzaRozvrhu
             // Zjistime si, kdo chodi na predmety
             FillStudentsOnRoakIdno(data);
 
-            SRAAnalyzer analyzer = new SRAAnalyzer(data.zatezNaStudenta);
+            SRAAnalyzer analyzer = new SRAAnalyzer(data.zatezNaStudenta, data.StudentsOnRoakIdno);
 
             foreach (SRA sra in data.SuperRozvrhoveAkce)
                 analyzer.AnalyzeSRA(sra);

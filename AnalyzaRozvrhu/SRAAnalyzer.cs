@@ -1,6 +1,7 @@
 ﻿using AnalyzaRozvrhu.STAG_Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace AnalyzaRozvrhu
     /// </summary>
     public class SRAAnalyzer
     {
+        #region Privatni globalni promenne
+
         /// <summary>
         /// trida, kde kumuluje zatez na vyuku vsech studentu
         /// </summary>
@@ -36,16 +39,31 @@ namespace AnalyzaRozvrhu
         /// <summary>
         /// Pocet opakovani SRA
         /// </summary>
-        private Dictionary<int, int> repetition;
+        private Dictionary<int, int> roakIdnoRepetition;
+
+        /// <summary>
+        /// SRA, kterou prave Analyzujeme
+        /// </summary>
+        private SRA sra;
+
+        /// <summary>
+        /// Studeti navstevujici konkretni rozvrhovou akci s roakIdno.
+        /// </summary>
+        private Dictionary<int, List<Student>> studentsOnRoakIdno;
+
+        #endregion
+
+        #region Verejne metody
 
         /// <summary>
         /// Konstruktor vnitrne nastavi tridu, do ktere budeme akumulovat vypocty 
         /// zateze pro vyuku vsech studentu.
         /// </summary>
         /// <param name="onusDistribution">Trida pro akumulaci.</param>
-        public SRAAnalyzer(ZatezNaStudenta onusDistribution)
+        public SRAAnalyzer(ZatezNaStudenta onusDistribution, Dictionary<int, List<Student>> studentsOnRoakIdno)
         {
             this.onusDistribution = onusDistribution;
+            this.studentsOnRoakIdno = studentsOnRoakIdno;
         }
 
         /// <summary>
@@ -55,30 +73,161 @@ namespace AnalyzaRozvrhu
         /// <param name="sra">SRA, kterou chceme analyzovat.</param>
         public void AnalyzeSRA(SRA sra)
         {
+            CleanInit(sra);    // Pro analyzu kazde SRA je treba si vycistit promenne
+
             //TODO: Je treba poresit zachazeni s atypickymi predmety (napr. rozliseni pomoci priznaku)
+
+            SetRoakIdnoToStartTimes();
+            SetNoStudentsOnSRAHour();
+            SetRoakIdnoRepetition();
+            SetRoakIdnoSharedUtility();
+
+            ComputeOnusDistribution();
         }
 
-        ///////////////////// Private metody //////////////////
+        #endregion
 
+        #region Privatni metody
 
-        private static Dictionary<int, List<int>> getRoakIdnoToStartTimes(SRA sra)
+        /// <summary>
+        /// Vypocte a ulozi do vystupni tridy zatez na vyuku analyzovane SRA. 
+        /// </summary>
+        private void ComputeOnusDistribution()
         {
-            return null;
+            // Budeme si prochazet vsechny rozvrhove akce v dane SRA
+            foreach(RozvrhovaAkce ra in sra.VnoreneAkce)
+            {
+                // Pro kazdou zapocatou hodinu vyuky
+                foreach (int hour in roakIdnoToStartTimes[ra.RoakIdno])
+                {
+                    // se budeme divat, ktera katedra ma na vyuce podil
+                    foreach (string dept in roakIdnoSharedUtility[ra.RoakIdno].Keys)
+                    {
+                        // a kazdemu studentovi zapiseme do zateze katedry na jeho vyuku tuto zatez
+                        foreach (Student student in studentsOnRoakIdno[ra.RoakIdno])
+                        {
+                            int repetition = roakIdnoRepetition[ra.RoakIdno];   // kolikrat se behem semestru dana RA opakuje
+
+                            double onus = 1 / (double) noStudentsOnSRAHour[hour];    // spocteme zatez na hodinu bez jakychkoli koeficientu
+                            onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];  // vynasobime podilem katedry (proto foreach pres vsechny katedry)
+                            onus *= repetition;  // vynasobime poctem opakovani RA
+
+                            onusDistribution.Pridat(student, dept, onus);   // a ulozime zateze
+                        }
+                    }
+                }
+            }
         }
 
-        private static Dictionary<int, int> getNoStudentsOnSRAHour(SRA sra)
+        /// <summary>
+        /// Provede novou inicializaci vsech globalnich promennych v teto tride, ktere slouzi pro vypocet zateze 
+        /// na vyuku konkretni SRA a to vcetne "zameny" samotne SRA, kterou budeme analyzovat.
+        /// Netyka se tridy pro vypocet celkove zateze!
+        /// </summary>
+        /// <param name="sra">SRA, kterou chceme analyzovat.</param>
+        private void CleanInit(SRA sra)
         {
-            return null;
+            roakIdnoToStartTimes = new Dictionary<int, List<int>>();
+            noStudentsOnSRAHour = new Dictionary<int, int>();
+            roakIdnoSharedUtility = new Dictionary<int, Dictionary<string, double>>();
+            roakIdnoRepetition = new Dictionary<int, int>();
+            this.sra = sra;
         }
 
-        private static Dictionary<int, Dictionary<string, double>> getRoakIdnoSharedUtility(SRA sra)
+        /// <summary>
+        /// Nastavi do globalni promenne pro kazde roakIdno seznam vyucovanych hodin.
+        /// Pouziva se pritom poradove oznaceni hodiny, ktere je ve STAGu v zahlavi rozvrhu,
+        /// tj. 1,2,3,...,15
+        /// </summary>
+        private void SetRoakIdnoToStartTimes()
         {
-            return null;
+            //TODO: Muze se ve VnorenychAkcich objevit vicekrat RA se stejnym roakIdno?
+
+            // Budu pouzivat hodnoty z VnoreneAkce
+            foreach (RozvrhovaAkce ra in sra.VnoreneAkce)
+            {
+                List<int> startTimes = new List<int>(); // seznam zacatku hodinove vyuky
+                roakIdnoToStartTimes.Add(ra.RoakIdno, startTimes);  // priradime prazdny seznam k roakIdno
+
+                // Naplnime seznam zacatku hodinove vyuky
+                // Pokud neni rozvrhova akce definovana hodinami od a do, zaradim do slovniku pouze prazdny seznam pocatecnich hodin vyuky
+                // Pozn.: Melo by se dit jen u ATYP akci
+                if (ra.HodinaOd == null || ra.HodinaDo == null)
+                {
+                    Debug.WriteLine(string.Format("Rozvrhova akce s roakIdno={0} (predmet {1}/{2}) ma hodinuOd nebo hodinuDo null", ra.RoakIdno, ra.Katedra, ra.Predmet));
+                    continue;   //TODO: Je takovato reakce dostatecna?
+                }
+                else
+                {
+                    for (int i = ra.HodinaOd.GetValueOrDefault(); i <= ra.HodinaDo.GetValueOrDefault(); i++)
+                        startTimes.Add(i);
+                }
+            }
         }
 
-        private static Dictionary<int, int> getRepetition(SRA sra)
+        /// <summary>
+        /// Nastavi do globalni promenne pro kazdou hodinu vyuky SRA, tj. i pro prekryvajici se vyuku,
+        /// pocet studentu, kteri na ni chodi. Pouziva poradove hodiny ze zahlavi rozvrhu ze STAGu (1,2,..,15).
+        /// </summary>
+        private void SetNoStudentsOnSRAHour()
         {
-            return null;
+            foreach (RozvrhovaAkce ra in sra.VnoreneAkce)
+            {
+                List<int> startTimes = roakIdnoToStartTimes[ra.RoakIdno];
+                foreach (int hour in startTimes)
+                {
+                    if (!noStudentsOnSRAHour.ContainsKey(hour)) // pokud jsme danou hodinu jeste nezapisovali, zapisem ji jako novy prvek
+                    {
+                        noStudentsOnSRAHour.Add(hour, ra.Obsazeni);
+                    }
+                    else
+                    {
+                        noStudentsOnSRAHour[hour] = noStudentsOnSRAHour[hour] + ra.Obsazeni; // jinak jen pricteme k puvodni hodnote
+                    }
+                }
+            }
         }
+
+        /// <summary>
+        /// Nastavi do globalni promenne pro kazdou rozvrhovou akci v SRA rozdeleni zateze na vyuku mezi jednotlive katedry
+        /// </summary>
+        private void SetRoakIdnoSharedUtility()
+        {
+            // Pro kazdou rozvrhovou akci si vytahnu jeji typ (Pr, Cv, Se) a podle toho zjistim
+            // z predmetu, ke kteremu patri, jaky maji na vyuce podil jednotlive katedry (staci jen prekopirovat).
+            foreach (RozvrhovaAkce ra in sra.VnoreneAkce)
+            {
+                switch (ra.TypAkceZkr)
+                {
+                    case "Př":
+                        roakIdnoSharedUtility.Add(ra.RoakIdno, ra.PredmetRef.PodilKatedryPrednaska);
+                        break;
+                    case "Cv":
+                        roakIdnoSharedUtility.Add(ra.RoakIdno, ra.PredmetRef.PodilKatedryCviceni);
+                        break;
+                    case "Se":
+                        roakIdnoSharedUtility.Add(ra.RoakIdno, ra.PredmetRef.PodilKatedrySeminar);
+                        break;
+                    default:
+                        //TODO: Predmety typu SZZ maji toto pole prazdne! Jak osetrit?
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Nastavi do globalni promenne pro kazdou rozvrhovou akci v SRA pocet opakovani vyuky.
+        /// </summary>
+        private void SetRoakIdnoRepetition()
+        {
+            foreach (RozvrhovaAkce ra in sra.VnoreneAkce)
+            {
+                // spoctu pocet opakovani a vlozi do slovniku pod odpovidajici roakIdno
+                int repetition = ra.TydenDo - ra.TydenOd + 1;   //TODO: Co delat v pripade, ze jsou obe hodnoty v RA nastaveny na 0?
+                roakIdnoRepetition.Add(ra.RoakIdno, repetition);
+            }
+        }
+
+        #endregion
     }
 }
