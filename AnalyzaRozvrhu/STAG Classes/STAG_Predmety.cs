@@ -24,7 +24,8 @@ namespace AnalyzaRozvrhu.STAG_Classes
             // Inicializace promennych
             VsechnyAkce = new List<RozvrhovaAkce>();
 
-            // Sem přidejte inicializaci nějakých list, Dictionary když to bude potřeba. 
+            // Sem přidejte inicializaci nějakých list, Dictionary když to bude potřeba.
+            IsAtypical = false;
         }
 
         /// <summary>
@@ -206,7 +207,11 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// </summary>
         /// <remarks>I v případě, že se jedná o jednuduchý předmět, vždy by se zde měla vyskytovat alespoň jedna katedra, kterou rozvrhová akce tohoto typu a tohoto předmětu zatěžuje.</remarks>
         public Dictionary<string, double> PodilKatedrySeminar { get; set; }
-                
+        
+        /// <summary>
+        /// Prizna, jestli je predmet veden jako atypicky (to, co je ve STAGu neodpovida realite).
+        /// </summary>
+        public bool IsAtypical { get; set; }
     }
 
     public class PredmetResponse

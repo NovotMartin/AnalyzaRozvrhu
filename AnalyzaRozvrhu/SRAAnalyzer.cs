@@ -75,14 +75,30 @@ namespace AnalyzaRozvrhu
         {
             CleanInit(sra);    // Pro analyzu kazde SRA je treba si vycistit promenne
 
-            //TODO: Je treba poresit zachazeni s atypickymi predmety (napr. rozliseni pomoci priznaku)
+            if (sra.Predmety.Any(predmet => predmet.IsAtypical))
+            {
+                if (sra.Predmety.Count > 1)
+                {
+                    //TODO: Situace, kdy je ATYP predmet vyucovat spolecne s dalsimi predmety
+                    // celkem nastava u 3 SRA    
+                }
+                else
+                {
+                    // Pocitam zatez pro atypicky predmet, ktery je v SRA sam
+                    ComputeSimpleATYPOnusDistribution();
+                }
+            }
+            else
+            {
+                // Pocitam zatez pro radny predmet
 
-            SetRoakIdnoToStartTimes();
-            SetNoStudentsOnSRAHour();
-            SetRoakIdnoRepetition();
-            SetRoakIdnoSharedUtility();
+                SetRoakIdnoToStartTimes();
+                SetNoStudentsOnSRAHour();
+                SetRoakIdnoRepetition();
+                SetRoakIdnoSharedUtility();
 
-            ComputeOnusDistribution();
+                ComputeOnusDistribution();
+            }
         }
 
         #endregion
@@ -90,12 +106,58 @@ namespace AnalyzaRozvrhu
         #region Privatni metody
 
         /// <summary>
+        /// Vypocte a ulozi do vystupni tridy zatez na vyuku analyzovane SRA, ktera obsahuje jeden atypicky predmet. 
+        /// </summary>
+        private void ComputeSimpleATYPOnusDistribution()
+        {
+            SetRoakIdnoSharedUtility(); // Stejne jako u radnych predmetu
+
+            RozvrhovaAkce ra = sra.VnoreneAkce[0];  // pro jednoduchos si zavedu "zkratku"
+
+            // Kvuli sdilene zatezi na vyuku predmetu budu pridavat zatez pro kazdou katedru 
+            foreach (string dept in roakIdnoSharedUtility[ra.RoakIdno].Keys)
+            {
+                // ke kazdemu studentovi
+                foreach (Student student in studentsOnRoakIdno[ra.RoakIdno])
+                {
+                    double onus = 1 / (double)ra.Obsazeni;  // zatez na vyuku jedne hodiny vsech zapsanych studentu
+                    onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];   // sdilena zatez
+                    onus *= GetNoOfHoursForATYP(ra);    // pocet skutecne oducenych hodin (nesedi se STAGem)
+
+                    onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
+                }
+            }
+        }
+
+        /// <summary>
+        /// Vrati pocet skutecnych hodin vyucovanych na danem predmetu a tedy i rozvrhove akci, ktera pod nej spada. 
+        /// Vhodne pouze pro ATYPicke predmety!
+        /// </summary>
+        /// <param name="ra">Rozvrhova akce jejiz pocet hodin chceme zjistit.</param>
+        /// <returns>Pocet hodin.</returns>
+        private int GetNoOfHoursForATYP(RozvrhovaAkce ra)
+        {
+            switch (ra.TypAkceZkr)
+            {
+                case "Př":
+                    return ra.PredmetRef.HodinZaSemestrPr;
+                case "Cv":
+                    return ra.PredmetRef.HodinZaSemestrCv;
+                case "Se":
+                    return ra.PredmetRef.HodinZaSemestrSe;
+                default:
+                    Debug.WriteLine(string.Format("Nepodarilo se ziskat pocet hodin ATYPu {0}/{1}", ra.Katedra, ra.Predmet));
+                    return 0;
+            }
+        }
+
+        /// <summary>
         /// Vypocte a ulozi do vystupni tridy zatez na vyuku analyzovane SRA. 
         /// </summary>
         private void ComputeOnusDistribution()
         {
             // Budeme si prochazet vsechny rozvrhove akce v dane SRA
-            foreach(RozvrhovaAkce ra in sra.VnoreneAkce)
+            foreach (RozvrhovaAkce ra in sra.VnoreneAkce)
             {
                 // Pro kazdou zapocatou hodinu vyuky
                 foreach (int hour in roakIdnoToStartTimes[ra.RoakIdno])
@@ -108,7 +170,7 @@ namespace AnalyzaRozvrhu
                         {
                             int repetition = roakIdnoRepetition[ra.RoakIdno];   // kolikrat se behem semestru dana RA opakuje
 
-                            double onus = 1 / (double) noStudentsOnSRAHour[hour];    // spocteme zatez na hodinu bez jakychkoli koeficientu
+                            double onus = 1 / (double)noStudentsOnSRAHour[hour];    // spocteme zatez na hodinu bez jakychkoli koeficientu
                             onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];  // vynasobime podilem katedry (proto foreach pres vsechny katedry)
                             onus *= repetition;  // vynasobime poctem opakovani RA
 

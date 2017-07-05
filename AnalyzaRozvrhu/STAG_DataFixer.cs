@@ -13,30 +13,30 @@ using OfficeOpenXml.DataValidation;
 
 namespace AnalyzaRozvrhu
 {
-    
+
     public static class STAG_DataFixer
     {
-       
-         /*
-          * TODO
-          * Generovat dotazniky kvuli podilu katedry
-          * Generovat dotazniky kvuli skuktecne rozvrhovanosti
-          */
-#region generovani dotazniku podilKateder
+
+        /*
+         * TODO
+         * Generovat dotazniky kvuli podilu katedry
+         * Generovat dotazniky kvuli skuktecne rozvrhovanosti
+         */
+        #region generovani dotazniku podilKateder
         class PredmetVDotazniku
         {
-           public STAG_Classes.Predmet predmet;
+            public STAG_Classes.Predmet predmet;
             //public List<STAG_Classes.Ucitel> ucitele;
-           public Dictionary<string, List<STAG_Classes.Ucitel>> ucitele = new Dictionary<string, List<Ucitel>>();
-           public string typAkce;
-           public void AddUcitel(STAG_Classes.Ucitel ucitel)
-           {
+            public Dictionary<string, List<STAG_Classes.Ucitel>> ucitele = new Dictionary<string, List<Ucitel>>();
+            public string typAkce;
+            public void AddUcitel(STAG_Classes.Ucitel ucitel)
+            {
                 if (ucitele.ContainsKey(ucitel.Katedra))
                     ucitele[ucitel.Katedra].Add(ucitel);
                 else
                     ucitele.Add(ucitel.Katedra, new List<Ucitel>() { ucitel });
-           }
-        } 
+            }
+        }
         /// <summary>
         /// Tato metoda souluží k vygenerování dotazníku s podílem katedry na vyučovaném predmetu
         /// </summary>
@@ -47,46 +47,46 @@ namespace AnalyzaRozvrhu
             Debug.WriteLine("Generovani dotazniku ......");
             Debug.WriteLine("Probiha hledani predmetu");
             List<PredmetVDotazniku> spolecnePredmety = new List<PredmetVDotazniku>();
-            List<STAG_Classes.Ucitel> neco = new List<STAG_Classes.Ucitel>();          
+            List<STAG_Classes.Ucitel> neco = new List<STAG_Classes.Ucitel>();
             // TODO
 
             // projdeme vsechny katedry
-            foreach(var katedra in data.PredmetyPodleKateder)
+            foreach (var katedra in data.PredmetyPodleKateder)
             {
                 // u kazde katedry projdeme vsechny predmety
-                foreach(var predmet in katedra.Value)
+                foreach (var predmet in katedra.Value)
                 {
-                   
+
                     PredmetVDotazniku pr = null;
                     PredmetVDotazniku cv = null;
                     PredmetVDotazniku se = null;
                     // u kazdeho predmetu projdeme vsechny rozvrhove akce
                     // vyucujici zjistujeme z akci a ne z predmetu (zapocitavame pouze ucitele kteri predmet opravdu vyucuji)
-                    foreach(var akce in predmet.Value.VsechnyAkce)
+                    foreach (var akce in predmet.Value.VsechnyAkce)
                     {
-                       
+
 
                         //seznam vsech ucitelu dane akce ktery vyhovuji podminkam ( nejsou zamestnanci katedry ktery predmet patri)
-                        neco =  (from ucitel in akce.VsichniUcitele where !(ucitel.Katedra == predmet.Value.Katedra || (ucitel.PracovisteDalsi != null && ucitel.PracovisteDalsi.ToString().Split(',').Contains(predmet.Value.Katedra))) select ucitel).ToList();
-                        
+                        neco = (from ucitel in akce.VsichniUcitele where !(ucitel.Katedra == predmet.Value.Katedra || (ucitel.PracovisteDalsi != null && ucitel.PracovisteDalsi.ToString().Split(',').Contains(predmet.Value.Katedra))) select ucitel).ToList();
+
                         if (neco.Count != 0)
                         {
                             //kontrolujeme duplicity
                             switch (akce.TypAkceZkr)
                             {
                                 case "Př":
-                                    ZkontrolujAkci(neco, predmet,ref pr , akce);
+                                    ZkontrolujAkci(neco, predmet, ref pr, akce);
                                     break;
                                 case "Cv":
-                                    ZkontrolujAkci(neco, predmet,ref cv , akce);
+                                    ZkontrolujAkci(neco, predmet, ref cv, akce);
                                     break;
                                 case "Se":
-                                    ZkontrolujAkci(neco, predmet,ref se, akce);
+                                    ZkontrolujAkci(neco, predmet, ref se, akce);
                                     break;
-                                default: throw new Exception("Nenalezen typ akce");                               
-                            }                         
-                            Debug.Write(string.Format("{0}/{1} => {2} \n", predmet.Value.Katedra, predmet.Value.Zkratka, akce.TypAkceZkr));                          
-                        }                          
+                                default: throw new Exception("Nenalezen typ akce");
+                            }
+                            Debug.Write(string.Format("{0}/{1} => {2} \n", predmet.Value.Katedra, predmet.Value.Zkratka, akce.TypAkceZkr));
+                        }
                     }
                     //pridani problemovych predmetu do seznamu
                     if (pr != null)
@@ -105,7 +105,7 @@ namespace AnalyzaRozvrhu
                 file.Delete();
                 file = new FileInfo(path);
             }
-            using(ExcelPackage package = new ExcelPackage(file))
+            using (ExcelPackage package = new ExcelPackage(file))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Predmety");
 
@@ -120,9 +120,9 @@ namespace AnalyzaRozvrhu
 
                 // seznam vsech kateder na fakulte
                 var katedry = data.HiearchiePracovist[data.Fakulta];
-              
+
                 // kontrola validace zadávaných dat 
-                var validace = worksheet.DataValidations.AddIntegerValidation("A:A"/*string.Format("A2:A{0}", spolecnePredmety.Count + 2)*/);               
+                var validace = worksheet.DataValidations.AddIntegerValidation("A:A"/*string.Format("A2:A{0}", spolecnePredmety.Count + 2)*/);
                 validace.ErrorStyle = ExcelDataValidationWarningStyle.stop;
                 validace.PromptTitle = "Sem napiš % podíl na výuce";
                 validace.Prompt = "Hodnota musí být od 0 do 100";
@@ -137,9 +137,9 @@ namespace AnalyzaRozvrhu
 
                 StringBuilder sb;
                 int j = 2;
-                for(int i = 2; i < spolecnePredmety.Count + 2; i++)
+                for (int i = 2; i < spolecnePredmety.Count + 2; i++)
                 {
-                    foreach(var ucitele in spolecnePredmety[i - 2].ucitele)
+                    foreach (var ucitele in spolecnePredmety[i - 2].ucitele)
                     {
                         sb = new StringBuilder();
                         // vypsani 0 tam kde katedra ucitele nepatri mezi katedry PRF nebo je to UMC
@@ -157,7 +157,7 @@ namespace AnalyzaRozvrhu
                         worksheet.Cells[j, 6].Value = spolecnePredmety[i - 2].typAkce;
                         worksheet.Cells[j, 7].Value = spolecnePredmety[i - 2].predmet.VyukaZS && spolecnePredmety[i - 2].predmet.VyukaLS ? "ZS/LS" : spolecnePredmety[i - 2].predmet.VyukaZS ? "ZS" : "LS";
                         j++;
-                    }                                                                                                                                   
+                    }
                 }
                 worksheet.Cells.AutoFitColumns(5);
                 package.Save();
@@ -166,23 +166,24 @@ namespace AnalyzaRozvrhu
 
         }
 
-        private static void ZkontrolujAkci(List<STAG_Classes.Ucitel> neco,KeyValuePair<string, STAG_Classes.Predmet> predmet,ref PredmetVDotazniku predmetVDotazniku, STAG_Classes.RozvrhovaAkce akce)
+        private static void ZkontrolujAkci(List<STAG_Classes.Ucitel> neco, KeyValuePair<string, STAG_Classes.Predmet> predmet, ref PredmetVDotazniku predmetVDotazniku, STAG_Classes.RozvrhovaAkce akce)
         {
-            if(predmetVDotazniku == null)
+            if (predmetVDotazniku == null)
             {
                 predmetVDotazniku = new PredmetVDotazniku()
                 {
                     predmet = predmet.Value,
                     typAkce = akce.TypAkceZkr,
                     ucitele = new Dictionary<string, List<Ucitel>>()
-                };        
+                };
             }
             foreach (var ucitel in neco)
                 if (!(predmetVDotazniku.ucitele.ContainsKey(ucitel.Katedra) && predmetVDotazniku.ucitele[ucitel.Katedra].Contains(ucitel)))
                     predmetVDotazniku.AddUcitel(ucitel);
         }
-#endregion
-#region Nacitani dotazniku
+        #endregion
+        
+        #region Nacitani dotazniku
 
         /// <summary>
         /// Nacitani podilu kateder na vyucovanem predmetu z dotazniku
@@ -194,16 +195,16 @@ namespace AnalyzaRozvrhu
             // TODO
             // Nacte dotaznik, zkontroluje, upravi data         
             Debug.WriteLine("otevírám soubor " + path);
-            FileInfo file = new FileInfo(path);          
+            FileInfo file = new FileInfo(path);
             using (ExcelPackage package = new ExcelPackage(file))
             {
                 STAG_Classes.Predmet predmet;
-                ExcelWorksheets worksheets = package.Workbook.Worksheets; 
+                ExcelWorksheets worksheets = package.Workbook.Worksheets;
                 int row = 2; // Soubor zacneme cist od druheho radku. Na prvnim radku jsou popisky sloupců
                 object cellData;
                 List<Tuple<string, string>> ucitele;
                 // projede vsechny listy v  xlsx souboru
-                foreach(var worksheet in worksheets)
+                foreach (var worksheet in worksheets)
                 {
                     // projde vsechny radky kde hodnota bunky v prvnim sloupci != null
                     while ((cellData = worksheet.Cells[row, 1].Value) != null)
@@ -223,7 +224,7 @@ namespace AnalyzaRozvrhu
                         {
                             throw new Exception(String.Format("Predmet {0}/{1} neexistuje", kodPredmetu[0], kodPredmetu[1]));
                         }
-                         // sloupec ve kterem je typ predmetu pr/cv/se
+                        // sloupec ve kterem je typ predmetu pr/cv/se
                         string typ = worksheet.Cells[row, 6].Value.ToString().ToLower();
 
                         var katedraVyucujiciho = worksheet.Cells[row, 2].Value.ToString();
@@ -233,11 +234,11 @@ namespace AnalyzaRozvrhu
                             if (predmet.PodilKatedryPrednaska == null)
                                 predmet.PodilKatedryPrednaska = new Dictionary<string, double>();
                             // pridani podilu katedry do slovniku
-                            
+
                             if (predmet.PodilKatedryPrednaska.ContainsKey(katedraVyucujiciho))
                                 predmet.PodilKatedryPrednaska[katedraVyucujiciho] += Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0;
                             else
-                            predmet.PodilKatedryPrednaska.Add(katedraVyucujiciho, Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0);
+                                predmet.PodilKatedryPrednaska.Add(katedraVyucujiciho, Convert.ToInt32(worksheet.Cells[row, 1].Value) / 100.0);
                         }
                         else
                         {
@@ -268,7 +269,7 @@ namespace AnalyzaRozvrhu
                         row++;
                     }
                 }
-                Debug.WriteLine("Nacteni dotazniku hotovo");              
+                Debug.WriteLine("Nacteni dotazniku hotovo");
             }
             Debug.WriteLine("Doplneni podilu kateder");
             double podil = 0;
@@ -279,16 +280,16 @@ namespace AnalyzaRozvrhu
                     podil = 0;
                     // podil katedry na prednasce
                     var podilKatedry = predmet.Value.PodilKatedryPrednaska;
-                    DoplnPodilKatedry(ref podil, predmet,ref podilKatedry);
+                    DoplnPodilKatedry(ref podil, predmet, ref podilKatedry);
                     predmet.Value.PodilKatedryPrednaska = podilKatedry;
 
                     // podil katedry na cviceni
                     podilKatedry = predmet.Value.PodilKatedryCviceni;
-                    DoplnPodilKatedry(ref podil, predmet,ref podilKatedry);
+                    DoplnPodilKatedry(ref podil, predmet, ref podilKatedry);
                     predmet.Value.PodilKatedryCviceni = podilKatedry;
                     // podil katedry na cviceni
                     podilKatedry = predmet.Value.PodilKatedrySeminar;
-                    DoplnPodilKatedry(ref podil, predmet,ref podilKatedry);
+                    DoplnPodilKatedry(ref podil, predmet, ref podilKatedry);
                     predmet.Value.PodilKatedrySeminar = podilKatedry;
 
                     //myslim ze nazev metody je dostatecny
@@ -305,23 +306,23 @@ namespace AnalyzaRozvrhu
         /// <param name="predmet">Predmet</param>
         private static void DoplnPocetHodinZaSemestr(Predmet predmet)
         {
-            if(predmet.JednotkaPrednasky == "HOD/SEM")           
+            if (predmet.JednotkaPrednasky == "HOD/SEM")
                 predmet.HodinZaSemestrPr = predmet.JednotekPrednasek;
-            else           
-               if(predmet.JednotkaPrednasky == "HOD/TYD" && predmet.VsechnyAkce.Count != 0)
-                     predmet.HodinZaSemestrPr = (predmet.VsechnyAkce[0].TydenDo - predmet.VsechnyAkce[0].TydenOd)*predmet.JednotekPrednasek;
-                
+            else
+               if (predmet.JednotkaPrednasky == "HOD/TYD" && predmet.VsechnyAkce.Count != 0)
+                predmet.HodinZaSemestrPr = (predmet.VsechnyAkce[0].TydenDo - predmet.VsechnyAkce[0].TydenOd) * predmet.JednotekPrednasek;
+
             if (predmet.JednotkaCviceni == "HOD/SEM")
                 predmet.HodinZaSemestrCv = predmet.JednotekCviceni;
             else
-               if (predmet.JednotkaPrednasky == "HOD/TYD" && predmet.VsechnyAkce.Count != 0)                
-                     predmet.HodinZaSemestrCv = (predmet.VsechnyAkce[0].TydenDo - predmet.VsechnyAkce[0].TydenOd) * predmet.JednotekCviceni;
-            
+               if (predmet.JednotkaPrednasky == "HOD/TYD" && predmet.VsechnyAkce.Count != 0)
+                predmet.HodinZaSemestrCv = (predmet.VsechnyAkce[0].TydenDo - predmet.VsechnyAkce[0].TydenOd) * predmet.JednotekCviceni;
+
             if (predmet.JednotkaSeminare == "HOD/SEM")
                 predmet.HodinZaSemestrSe = predmet.JednotekSeminare;
             else
                if (predmet.JednotkaPrednasky == "HOD/TYD" && predmet.VsechnyAkce.Count != 0)
-                    predmet.HodinZaSemestrSe = (predmet.VsechnyAkce[0].TydenDo - predmet.VsechnyAkce[0].TydenOd) * predmet.JednotekSeminare;
+                predmet.HodinZaSemestrSe = (predmet.VsechnyAkce[0].TydenDo - predmet.VsechnyAkce[0].TydenOd) * predmet.JednotekSeminare;
         }
 
 
@@ -332,15 +333,15 @@ namespace AnalyzaRozvrhu
         /// <param name="podil"> asi zbitecna promena v pozdejsi verzi ji odstranim :) </param>
         /// <param name="predmet">predmet </param>
         /// <param name="podilKatedry"> odkaz na slovnik s podily kateder na vyuce predmetu</param>
-        private static void DoplnPodilKatedry(ref double podil, KeyValuePair<string, STAG_Classes.Predmet> predmet,ref Dictionary<string, double> podilKatedry)
+        private static void DoplnPodilKatedry(ref double podil, KeyValuePair<string, STAG_Classes.Predmet> predmet, ref Dictionary<string, double> podilKatedry)
         {
             if (podilKatedry == null)
             {
-                podilKatedry = new Dictionary<string, double>() { { predmet.Value.Katedra, 1 } };               
+                podilKatedry = new Dictionary<string, double>() { { predmet.Value.Katedra, 1 } };
             }
             else
             {
-                podil = podilKatedry.Values.Sum();               
+                podil = podilKatedry.Values.Sum();
                 if (podil < 1)
                     podilKatedry.Add(predmet.Value.Katedra, 1 - podil);
                 if (podil > 1)
@@ -386,21 +387,22 @@ namespace AnalyzaRozvrhu
                 // a zase ta KBI
                 ucitele.Add(new Tuple<string, string>(tmpUc[0], ""));
                 return;
-            }              
-            if(tmpUc.Count() == 3) // pokud je mezi carkou a jmenem mezera tak count == 3
+            }
+            if (tmpUc.Count() == 3) // pokud je mezi carkou a jmenem mezera tak count == 3
                 ucitele.Add(new Tuple<string, string>(tmpUc[1], tmpUc[2]));
             else
                 ucitele.Add(new Tuple<string, string>(tmpUc[0], tmpUc[1]));
         }
         #endregion
+        
         // Dodelat metody pro generovani dotazniku kvuli ATYP předmětům
-#region vytvareni dotazniku ATYP
+        #region vytvareni dotazniku ATYP
         public static void GenerovatDotaznikAtypXLS(this STAG_Classes.STAG_Database data, string path)
         {
             List<STAG_Classes.Predmet> podezrelePredmety = new List<Predmet>();
-            foreach(var katedra in data.PredmetyPodleKateder)
+            foreach (var katedra in data.PredmetyPodleKateder)
             {
-                foreach(var predmet in katedra.Value)
+                foreach (var predmet in katedra.Value)
                 {
 
                     if (predmet.Value.VsechnyAkce.Count > 0)
@@ -423,7 +425,7 @@ namespace AnalyzaRozvrhu
                         }
 
                     }
-                }               
+                }
             }
             Debug.WriteLine("neco");
             FileInfo file = new FileInfo(path);
@@ -445,28 +447,28 @@ namespace AnalyzaRozvrhu
                 worksheet.Cells[1, 7].Value = "maximální velikost skupiny";
                 worksheet.Cells["A1:G1"].AutoFilter = true;
 
-             
-                for(int i = 2; i < podezrelePredmety.Count+2;i++)
+
+                for (int i = 2; i < podezrelePredmety.Count + 2; i++)
                 {
                     worksheet.Cells[i, 1].Value = string.Format("{0}/{1}", podezrelePredmety[i - 2].Katedra, podezrelePredmety[i - 2].Zkratka);
                     worksheet.Cells[i, 2].Value = podezrelePredmety[i - 2].Nazev;
 
-                    
+
                 }
                 package.Save();
             }
 
-            }
-#endregion
+        }
+        #endregion
 
 
-#region nacitani dotazniku ATYP
+        #region nacitani dotazniku ATYP
         /// <summary>
         /// Nacitani dotazniku s ATYP predmety
         /// </summary>
         /// <param name="data"></param>
         /// <param name="path"></param>
-        public static void  NacistDotazniAtypPredmety(this STAG_Classes.STAG_Database data, string path)
+        public static void NacistDotazniAtypPredmety(this STAG_Classes.STAG_Database data, string path)
         {
             List<Tuple<string, string>> chybnePredmety = new List<Tuple<string, string>>();
             Debug.WriteLine("otevírám soubor " + path);
@@ -479,13 +481,13 @@ namespace AnalyzaRozvrhu
                 object kodPredmetu;
                 foreach (var worksheet in worksheets)
                 {
-                    while((kodPredmetu = worksheet.Cells[row, 1].Value) != null)
+                    while ((kodPredmetu = worksheet.Cells[row, 1].Value) != null)
                     {
                         //nacteni kodu predmetu
                         var kp = kodPredmetu.ToString().Split('/');
                         // typ akce pr/cv/se/null  ..... null je jenom v případě expertů z KBI 
                         var typ = worksheet.Cells[row, 3].Value as string;
-                        
+
                         try
                         {
                             // pokus o nalezeni predmetu
@@ -495,22 +497,28 @@ namespace AnalyzaRozvrhu
                         {
                             throw new Exception(String.Format("Predmet {0}/{1} neexistuje", kp[0], kp[1]));
                         }
-                       
+
                         switch (typ)
-                        {                            
-                            case "Př": predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                        {
+                            case "Př":
+                                predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value);
                                 if (worksheet.Cells[row, 6].Value != null)
                                     predmet.VelikostSkupinyPr = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                predmet.IsAtypical = true;
                                 break;
-                            case "Cv": predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                            case "Cv":
+                                predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value);
                                 if (worksheet.Cells[row, 6].Value != null)
                                     predmet.VelikostSkupinyCv = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                predmet.IsAtypical = true;
                                 break;
-                            case "Se": predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                            case "Se":
+                                predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value);
                                 if (worksheet.Cells[row, 6].Value != null)
                                     predmet.VelikostSkupinySe = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                predmet.IsAtypical = true;
                                 break;
-                            default:                               
+                            default:
                                 /*
                                 
                                 // následující řádky kódu tu jsou hlavně proto, že KBI neumí vyplnit dotazník!!! 
@@ -518,14 +526,14 @@ namespace AnalyzaRozvrhu
 
                                 */
                                 var neco = (from akce in predmet.VsechnyAkce select akce.TypAkceZkr).ToList(); // vytvoreni seznamu vsech typu rozvrhovych akci predmetu
-                                bool stejneAkce = true; 
-                                
+                                bool stejneAkce = true;
+
                                 if (neco.Count > 1)
                                 {   // kontrola jestli jsou vsechny akce stejneho typu
                                     for (int i = 1; i < neco.Count; i++)
                                     {
                                         if (neco[i - 1] != neco[i] /*&& neco[i] != "" && neco[i-1] != ""*/)
-                                        {                                            
+                                        {
                                             stejneAkce = false;
                                             break;
                                         }
@@ -538,17 +546,23 @@ namespace AnalyzaRozvrhu
                                     Debug.WriteLine("  Povedlo se opravit");
                                     switch (neco[0])
                                     {
-                                        case "Př": predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                                        case "Př":
+                                            predmet.HodinZaSemestrPr = Convert.ToInt32(worksheet.Cells[row, 5].Value);
                                             if (worksheet.Cells[row, 6].Value != null)
                                                 predmet.VelikostSkupinyPr = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                            predmet.IsAtypical = true;
                                             break;
-                                        case "Cv": predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                                        case "Cv":
+                                            predmet.HodinZaSemestrCv = Convert.ToInt32(worksheet.Cells[row, 5].Value);
                                             if (worksheet.Cells[row, 6].Value != null)
                                                 predmet.VelikostSkupinyCv = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                            predmet.IsAtypical = true;
                                             break;
-                                        case "Se": predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value);
+                                        case "Se":
+                                            predmet.HodinZaSemestrSe = Convert.ToInt32(worksheet.Cells[row, 5].Value);
                                             if (worksheet.Cells[row, 6].Value != null)
                                                 predmet.VelikostSkupinySe = Convert.ToInt32(worksheet.Cells[row, 6].Value);
+                                            predmet.IsAtypical = true;
                                             break;
                                         default: throw new Exception("WTF!");
                                     }
@@ -563,12 +577,12 @@ namespace AnalyzaRozvrhu
                                 break;
                         }
                         row++;
-                    }                                                     
+                    }
                 }
             }
             if (chybnePredmety.Count != 0)
                 throw new STAG_Exception_InvalidTypeOfCourses(chybnePredmety);
         }
-#endregion
+        #endregion
     }
 }
