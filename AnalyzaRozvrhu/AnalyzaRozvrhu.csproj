@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SRAOverlay.cs" />
+    <Compile Include="SRAAnalyzer.cs" />
     <Compile Include="STAG Classes\STAG_Database.cs" />
     <Compile Include="STAG Classes\STAG_Enums.cs" />
     <Compile Include="STAG Classes\STAG_Pracoviste.cs" />

@@ -87,6 +87,12 @@ namespace AnalyzaRozvrhu
             }
         }
 
+        /// <summary>
+        /// Vygenerovani prehledu zateze ziskane analyzou SRA.
+        /// Vystupem je xlsx soubor.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="name">Nazev souboru bez pripony!</param>
         public static void GenerovatSRAPrehledXLS(this STAG_Classes.STAG_Database data, string name)
         {
             FileInfo file;

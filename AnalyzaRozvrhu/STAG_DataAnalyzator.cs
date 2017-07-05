@@ -16,9 +16,14 @@ namespace AnalyzaRozvrhu
 
     public static class STAG_DataAnalyzator
     {
+        /// <summary>
+        /// Provede analyzu zateze na vyuku.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="method"></param>
         public static void Analyzuj(this STAG_Classes.STAG_Database data, Method method)
         {
-            // analyzuje, upravi objektz studenta a pod...
+            // volba metody
             switch (method)
             {
                 case Method.Hloupa_metoda:
@@ -38,7 +43,41 @@ namespace AnalyzaRozvrhu
         /// <param name="data"></param>
         private static void Normalni_metoda(STAG_Database data)
         {
-            Console.WriteLine("Nepoustej me! Ja nic neumim... :(");
+            // Zjistime si, kdo chodi na predmety
+            FillStudentsOnRoakIdno(data);
+
+            SRAAnalyzer analyzer = new SRAAnalyzer(data.zatezNaStudenta);
+
+            foreach (SRA sra in data.SuperRozvrhoveAkce)
+                analyzer.AnalyzeSRA(sra);
+        }
+
+        /// <summary>
+        /// V databazi vzplni slovnik, ktery slouzi pro ziskani odkazu na vsechny studenty,
+        /// kteri navstevuji danou rozvrhovou akci, tj. preklar RoakIdno na seznam studentu.
+        /// </summary>
+        /// <param name="data"></param>
+        private static void FillStudentsOnRoakIdno(STAG_Database data)
+        {
+            foreach(Student student in data.Students)
+                foreach(RozvrhovaAkce ra in student.Rozvrh)
+                    if (!data.StudentsOnRoakIdno.ContainsKey(ra.RoakIdno))
+                    {
+                        // Na zkoumanou akci jsme narazili poprve => pridame do slovniku
+
+                        // "Zapiseme" na ni studenta, u ktereho jsme ji objevili 
+                        List<Student> studentList = new List<Student>();
+                        studentList.Add(student);
+
+                        // Pridame zaznam do slovniku
+                        data.StudentsOnRoakIdno.Add(ra.RoakIdno, studentList);
+                    }
+                    else
+                    {
+                        // Zkoumanou akci jsme uz nekdy zavedli => staci jen pridat studenta
+                        // Student bude v kazdem listu zaveden jen jednou, protoze informace zpracovavam po jednotlivych studentech
+                        data.StudentsOnRoakIdno[ra.RoakIdno].Add(student);
+                    }
         }
 
         #endregion

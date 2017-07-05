@@ -88,13 +88,7 @@ namespace AnalyzaRozvrhu.STAG_Classes
         /// <summary>
         /// Studenti navstevujici zadanou rozvrhovou akci.
         /// </summary>
-        public Dictionary<int, List<Student>> studentsOnRoakIdno;
-
-        /// <summary>
-        /// Seznam studentu obsahujici vsechny akce, na ktere jsou zapsani
-        /// Konkretne dvojici (RoakIdno, SRA)
-        /// </summary>
-        public Dictionary<Student, List<Tuple<int, SRAOverlay>>> studentsSRA;
+        public Dictionary<int, List<Student>> StudentsOnRoakIdno { get; set; }
 
         /// <summary>
         /// Konstruktor
@@ -109,13 +103,7 @@ namespace AnalyzaRozvrhu.STAG_Classes
             this.HiearchiePracovist = new Dictionary<string, Dictionary<string, Pracoviste>>();
             this.SuperRozvrhoveAkce = new List<SRA>();
             this.zatezNaStudenta = new ZatezNaStudenta();
-            this.studentsOnRoakIdno = new Dictionary<int, List<Student>>();
-            this.studentsSRA = new Dictionary<Student, List<Tuple<int, SRAOverlay>>>();
+            this.StudentsOnRoakIdno = new Dictionary<int, List<Student>>();
         }
-
-
-
     }
-
-
 }

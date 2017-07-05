@@ -47,7 +47,7 @@ namespace AnalyzaRozvrhu
             data.Analyzuj(Method.Normalni_metoda);
 
             // Vygenerovani vystupu
-            data.GenerovatPrehledXLS("hlavnivystup.xlsx");
+            data.GenerovatSRAPrehledXLS("hlavnivystup");
 
         }
 
