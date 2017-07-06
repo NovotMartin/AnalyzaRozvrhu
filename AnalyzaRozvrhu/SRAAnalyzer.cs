@@ -79,13 +79,38 @@ namespace AnalyzaRozvrhu
             {
                 if (sra.Predmety.Count > 1)
                 {
-                    //TODO: Situace, kdy je ATYP predmet vyucovat spolecne s dalsimi predmety
-                    // celkem nastava u 3 SRA    
+                    // Pocitame zatez pro atypipicke i radne predmety, ktere jsou sdruzene do jedne SRA
+                    // Budeme resit tak, ze si vsechny RA v SRA projedeme a zpracujeme jako samostatne rozvrhove akce,
+                    // tj. bez sdileni zateze.
+                    // TODO: Tady muze vzniknout chyba, ktera ovlivni vypocet zateze!
+
+                    if (sra.Predmety.Any(predmet => !predmet.IsAtypical))
+                    {
+                        // Pocitame zatez v pripade, ze v SRA jsou alespon dva predmety, 
+                        // kde alespon jeden je atypicky a alespon jeden je radny
+                        // TODO: Jak resit vypocet zateze v tomto pripade? Zatim zatez nezapocitavam!
+
+                        // Zatim si jen vypisu, ktere to jsou
+                        foreach (Predmet p in sra.Predmety)
+                            if (!p.IsAtypical)
+                                Debug.WriteLine(string.Format("Predmet {0}/{1} je radny predmet a je v SRA uveden s atypickymi predmety.", p.Katedra, p.Zkratka));
+                    }
+                    else
+                    {
+                        // Pocitame zatez v pripade, ze v SRA jsou alespon dva predmety a vsechny jsou atypicke
+                        foreach (RozvrhovaAkce ra in sra.VnoreneAkce)
+                        {
+                            // musim si vycistit globalni promene
+                            // ComputeSimpleATYPOnusDistribution do nich totiz opakovane zapisuje a potrebuje je "prazdne"
+                            CleanInit(sra); 
+                            ComputeSimpleATYPOnusDistribution(ra);  // Spoctu zatez na vyuku kazde akce zvlast
+                        }
+                    }
                 }
                 else
                 {
                     // Pocitam zatez pro atypicky predmet, ktery je v SRA sam
-                    ComputeSimpleATYPOnusDistribution();
+                    ComputeSimpleATYPOnusDistribution(sra.VnoreneAkce[0]);
                 }
             }
             else
@@ -108,11 +133,9 @@ namespace AnalyzaRozvrhu
         /// <summary>
         /// Vypocte a ulozi do vystupni tridy zatez na vyuku analyzovane SRA, ktera obsahuje jeden atypicky predmet. 
         /// </summary>
-        private void ComputeSimpleATYPOnusDistribution()
+        private void ComputeSimpleATYPOnusDistribution(RozvrhovaAkce ra)
         {
-            SetRoakIdnoSharedUtility(); // Stejne jako u radnych predmetu
-
-            RozvrhovaAkce ra = sra.VnoreneAkce[0];  // pro jednoduchos si zavedu "zkratku"
+            SetRoakIdnoSharedUtility(ra); // Podobne, jako u radnych predmetu, si nastavim rozdeleni zateze mezi katedry
 
             // Kvuli sdilene zatezi na vyuku predmetu budu pridavat zatez pro kazdou katedru 
             foreach (string dept in roakIdnoSharedUtility[ra.RoakIdno].Keys)
@@ -327,27 +350,38 @@ namespace AnalyzaRozvrhu
         /// </summary>
         private void SetRoakIdnoSharedUtility()
         {
-            // Pro kazdou rozvrhovou akci si vytahnu jeji typ (Pr, Cv, Se) a podle toho zjistim
-            // z predmetu, ke kteremu patri, jaky maji na vyuce podil jednotlive katedry (staci jen prekopirovat).
+            // Pro kazdou rozvrhovou akci si zjistim jaky maji na vyuce podil jednotlive katedry (staci jen prekopirovat).
             foreach (RozvrhovaAkce ra in sra.VnoreneAkce)
             {
-                switch (ra.TypAkceZkr)
-                {
-                    case "Př":
-                        roakIdnoSharedUtility.Add(ra.RoakIdno, ra.PredmetRef.PodilKatedryPrednaska);
-                        break;
-                    case "Cv":
-                        roakIdnoSharedUtility.Add(ra.RoakIdno, ra.PredmetRef.PodilKatedryCviceni);
-                        break;
-                    case "Se":
-                        roakIdnoSharedUtility.Add(ra.RoakIdno, ra.PredmetRef.PodilKatedrySeminar);
-                        break;
-                    default:
-                        //TODO: Predmety typu SZZ maji toto pole prazdne! Jak osetrit?
-                        break;
-                }
+                SetRoakIdnoSharedUtility(ra);
             }
         }
+
+        /// <summary>
+        /// Nastavi do globalni promenne pro zadanou rozvrhovou akci rozdeleni zateze na vyuku mezi jednotlive katedry.
+        /// </summary>
+        private void SetRoakIdnoSharedUtility(RozvrhovaAkce ra)
+        {
+            // Pro rozvrhovou akci si vytahnu jeji typ (Pr, Cv, Se) a podle toho zjistim
+            // z predmetu, ke kteremu patri, jaky maji na vyuce podil jednotlive katedry (staci jen prekopirovat).
+            switch (ra.TypAkceZkr)
+            {
+                case "Př":
+                    roakIdnoSharedUtility.Add(ra.RoakIdno, ra.PredmetRef.PodilKatedryPrednaska);
+                    break;
+                case "Cv":
+                    roakIdnoSharedUtility.Add(ra.RoakIdno, ra.PredmetRef.PodilKatedryCviceni);
+                    break;
+                case "Se":
+                    roakIdnoSharedUtility.Add(ra.RoakIdno, ra.PredmetRef.PodilKatedrySeminar);
+                    break;
+                default:
+                    //TODO: Predmety typu SZZ maji toto pole prazdne! Jak osetrit?
+                    break;
+            }
+
+        }
+
 
         /// <summary>
         /// Nastavi do globalni promenne pro kazdou rozvrhovou akci v SRA pocet opakovani vyuky.
