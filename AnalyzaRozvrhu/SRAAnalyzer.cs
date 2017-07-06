@@ -126,9 +126,8 @@ namespace AnalyzaRozvrhu
                     {
                         // Pokud je groupMaxSize, potom pocitame s daty pro cely predmet
 
-                        double onus = 1 / (double)ra.Obsazeni;  // zatez na vyuku jedne hodiny vsech zapsanych studentu
-                        onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];   // sdilena zatez
-                        onus *= GetNoOfHoursForATYP(ra);    // pocet skutecne oducenych hodin (nesedi se STAGem)
+                        // Spocteme zatez na vyuku jednoho studenta, kde vsichni zapsani studenti jsou v jedne skupine
+                        double onus = ComputeATYPOnus(ra.Obsazeni, roakIdnoSharedUtility[ra.RoakIdno][dept], GetNoOfHoursForATYP(ra));
 
                         onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
                     }
@@ -141,9 +140,8 @@ namespace AnalyzaRozvrhu
                         // budeme pocitat zatez pro skupiny maximalni velikosti
                         while (studentCount + groupMaxSize < ra.Obsazeni)
                         {
-                            double onus = 1 / (double)groupMaxSize;  // zatez na vyuku jedne hodiny pro skupinu max. velikosti
-                            onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];   // sdilena zatez
-                            onus *= GetNoOfHoursForATYP(ra);    // pocet skutecne oducenych hodin (nesedi se STAGem)
+                            // Spocteme zatez na vyuku jednoho studenta ve skupine max. velikosti
+                            double onus = ComputeATYPOnus(groupMaxSize, roakIdnoSharedUtility[ra.RoakIdno][dept], GetNoOfHoursForATYP(ra));
 
                             onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
 
@@ -151,17 +149,34 @@ namespace AnalyzaRozvrhu
                         }
 
                         // posledni skupina muze byt neuplna => treba doplnit
-                        if(ra.Obsazeni - studentCount > 0)
+                        if (ra.Obsazeni - studentCount > 0)
                         {
-                            double onus = 1 / (double)(ra.Obsazeni - studentCount);  // zatez na vyuku jedne hodiny neuplne skupiny
-                            onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];   // sdilena zatez
-                            onus *= GetNoOfHoursForATYP(ra);    // pocet skutecne oducenych hodin (nesedi se STAGem)
+                            // Spocteme si zatez na vyuku jednoho studenta v neuplne skupine
+                            double onus = ComputeATYPOnus(ra.Obsazeni - studentCount, roakIdnoSharedUtility[ra.RoakIdno][dept], GetNoOfHoursForATYP(ra));
 
                             onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
                         }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Spocte zatez na vyuku jednoho studenta ve skupine o zadane velikosti se zadanym sdilenim vyukove zateze mezi katedry
+        /// a s poctem zadanych oducenych hodin.
+        /// Pouze pro ATYP predmety, ktere se neopakuji! Tj. Pocet oducenych hodin uz je konecny!
+        /// </summary>
+        /// <param name="noStudents"></param>
+        /// <param name="sharedUtility"></param>
+        /// <param name="noHours"></param>
+        /// <returns></returns>
+        private double ComputeATYPOnus(int noStudents, double sharedUtility, int noHours)
+        {
+            double onus = 1 / (double)noStudents;  // zatez na vyuku jedne hodiny vsech zapsanych studentu
+            onus *= sharedUtility;   // sdilena zatez
+            onus *= noHours;    // pocet skutecne oducenych hodin (nesedi se STAGem)
+
+            return onus;
         }
 
         /// <summary>
