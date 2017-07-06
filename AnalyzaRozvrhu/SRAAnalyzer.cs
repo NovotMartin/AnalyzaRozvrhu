@@ -120,12 +120,69 @@ namespace AnalyzaRozvrhu
                 // ke kazdemu studentovi
                 foreach (Student student in studentsOnRoakIdno[ra.RoakIdno])
                 {
-                    double onus = 1 / (double)ra.Obsazeni;  // zatez na vyuku jedne hodiny vsech zapsanych studentu
-                    onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];   // sdilena zatez
-                    onus *= GetNoOfHoursForATYP(ra);    // pocet skutecne oducenych hodin (nesedi se STAGem)
+                    int groupMaxSize = GetGroupMaxSizeForATYP(ra).GetValueOrDefault();
 
-                    onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
+                    if (groupMaxSize == 0)
+                    {
+                        // Pokud je groupMaxSize, potom pocitame s daty pro cely predmet
+
+                        double onus = 1 / (double)ra.Obsazeni;  // zatez na vyuku jedne hodiny vsech zapsanych studentu
+                        onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];   // sdilena zatez
+                        onus *= GetNoOfHoursForATYP(ra);    // pocet skutecne oducenych hodin (nesedi se STAGem)
+
+                        onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
+                    }
+                    else
+                    {
+                        // Pokud groupMaxSize neni 0, musime spocitat zatez na vyuku KAZDE skupiny
+
+                        int studentCount = 0;   // pocet "zpracovanych" studentu
+
+                        // budeme pocitat zatez pro skupiny maximalni velikosti
+                        while (studentCount + groupMaxSize < ra.Obsazeni)
+                        {
+                            double onus = 1 / (double)groupMaxSize;  // zatez na vyuku jedne hodiny pro skupinu max. velikosti
+                            onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];   // sdilena zatez
+                            onus *= GetNoOfHoursForATYP(ra);    // pocet skutecne oducenych hodin (nesedi se STAGem)
+
+                            onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
+
+                            studentCount += groupMaxSize;   // Zracovali jsme skupinu
+                        }
+
+                        // posledni skupina muze byt neuplna => treba doplnit
+                        if(ra.Obsazeni - studentCount > 0)
+                        {
+                            double onus = 1 / (double)(ra.Obsazeni - studentCount);  // zatez na vyuku jedne hodiny neuplne skupiny
+                            onus *= roakIdnoSharedUtility[ra.RoakIdno][dept];   // sdilena zatez
+                            onus *= GetNoOfHoursForATYP(ra);    // pocet skutecne oducenych hodin (nesedi se STAGem)
+
+                            onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
+                        }
+                    }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Vrati maximalni velikost skupiny ATYP predmetu. 
+        /// Vhodne pouze pro ATYPicke predmety!
+        /// </summary>
+        /// <param name="ra">Rozvrhova akce, ktera spada pod ATYP predmet.</param>
+        /// <returns>Maximalni velikost skupiny dane akce. Muze byt i null!</returns>
+        private int? GetGroupMaxSizeForATYP(RozvrhovaAkce ra)
+        {
+            switch (ra.TypAkceZkr)
+            {
+                case "Př":
+                    return ra.PredmetRef.VelikostSkupinyPr;
+                case "Cv":
+                    return ra.PredmetRef.VelikostSkupinyCv;
+                case "Se":
+                    return ra.PredmetRef.VelikostSkupinySe;
+                default:
+                    Debug.WriteLine(string.Format("Nepodarilo se ziskat maximalni velikost skupiny ATYPu {0}/{1}", ra.Katedra, ra.Predmet));
+                    return null;
             }
         }
 
