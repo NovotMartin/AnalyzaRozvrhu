@@ -48,7 +48,6 @@ namespace AnalyzaRozvrhu
 
             // Vygenerovani vystupu
             data.GenerovatSRAPrehledXLS("hlavnivystup");
-
         }
 
         /// <summary>

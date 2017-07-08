@@ -102,7 +102,7 @@ namespace AnalyzaRozvrhu
                         {
                             // musim si vycistit globalni promene
                             // ComputeSimpleATYPOnusDistribution do nich totiz opakovane zapisuje a potrebuje je "prazdne"
-                            CleanInit(sra); 
+                            CleanInit(sra);
                             ComputeSimpleATYPOnusDistribution(ra);  // Spoctu zatez na vyuku kazde akce zvlast
                         }
                     }
@@ -136,49 +136,38 @@ namespace AnalyzaRozvrhu
         private void ComputeSimpleATYPOnusDistribution(RozvrhovaAkce ra)
         {
             SetRoakIdnoSharedUtility(ra); // Podobne, jako u radnych predmetu, si nastavim rozdeleni zateze mezi katedry
-
+            
             // Kvuli sdilene zatezi na vyuku predmetu budu pridavat zatez pro kazdou katedru 
             foreach (string dept in roakIdnoSharedUtility[ra.RoakIdno].Keys)
             {
-                // ke kazdemu studentovi
-                foreach (Student student in studentsOnRoakIdno[ra.RoakIdno])
+                int groupMaxSize = GetGroupMaxSizeForATYP(ra).GetValueOrDefault();
+
+                if (groupMaxSize == 0)
                 {
-                    int groupMaxSize = GetGroupMaxSizeForATYP(ra).GetValueOrDefault();
+                    // Pokud je groupMaxSize, potom pocitame s daty pro cely predmet - Pouze pro jistotu, nemolo by byt pouzito
 
-                    if (groupMaxSize == 0)
+                    // ke kazdemu studentovi
+                    foreach (Student student in studentsOnRoakIdno[ra.RoakIdno])
                     {
-                        // Pokud je groupMaxSize, potom pocitame s daty pro cely predmet
-
                         // Spocteme zatez na vyuku jednoho studenta, kde vsichni zapsani studenti jsou v jedne skupine
                         double onus = ComputeATYPOnus(ra.Obsazeni, roakIdnoSharedUtility[ra.RoakIdno][dept], GetNoOfHoursForATYP(ra));
 
                         onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
                     }
-                    else
+                }
+                else
+                {
+                    // Pokud groupMaxSize neni 0, musime spocitat zatez na vyuku KAZDE skupiny
+
+                    // ke kazdemu studentovi
+                    foreach (Student student in studentsOnRoakIdno[ra.RoakIdno])
                     {
-                        // Pokud groupMaxSize neni 0, musime spocitat zatez na vyuku KAZDE skupiny
+                        //TODO: Pri vypoctu zanedbavam, ze posledni skupina nemusi mit maximalni pocet studentu
 
-                        int studentCount = 0;   // pocet "zpracovanych" studentu
+                        // Spocteme si zatez na vyuku jednoho studenta ve skupine maximalni velikosti
+                        double onus = ComputeATYPOnus(groupMaxSize, roakIdnoSharedUtility[ra.RoakIdno][dept], GetNoOfHoursForATYP(ra));
 
-                        // budeme pocitat zatez pro skupiny maximalni velikosti
-                        while (studentCount + groupMaxSize < ra.Obsazeni)
-                        {
-                            // Spocteme zatez na vyuku jednoho studenta ve skupine max. velikosti
-                            double onus = ComputeATYPOnus(groupMaxSize, roakIdnoSharedUtility[ra.RoakIdno][dept], GetNoOfHoursForATYP(ra));
-
-                            onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
-
-                            studentCount += groupMaxSize;   // Zracovali jsme skupinu
-                        }
-
-                        // posledni skupina muze byt neuplna => treba doplnit
-                        if (ra.Obsazeni - studentCount > 0)
-                        {
-                            // Spocteme si zatez na vyuku jednoho studenta v neuplne skupine
-                            double onus = ComputeATYPOnus(ra.Obsazeni - studentCount, roakIdnoSharedUtility[ra.RoakIdno][dept], GetNoOfHoursForATYP(ra));
-
-                            onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
-                        }
+                        onusDistribution.Pridat(student, dept, onus);   // zapis do vystupni tridy
                     }
                 }
             }
@@ -275,7 +264,7 @@ namespace AnalyzaRozvrhu
                 }
             }
         }
-
+        
         /// <summary>
         /// Provede novou inicializaci vsech globalnich promennych v teto tride, ktere slouzi pro vypocet zateze 
         /// na vyuku konkretni SRA a to vcetne "zameny" samotne SRA, kterou budeme analyzovat.
