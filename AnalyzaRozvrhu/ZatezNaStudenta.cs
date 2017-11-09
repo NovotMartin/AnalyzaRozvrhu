@@ -13,6 +13,8 @@ namespace AnalyzaRozvrhu
     {
         private Dictionary<STAG_Classes.Student, Dictionary<string, double>> students;
 
+        private int TestInt = 9;
+
         /// <summary>
         /// Inicializace.
         /// </summary>
